@@ -5,13 +5,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <style>
-      body {
-        font-family: Monospace;
-        background-color: #000;
-        color: #fff;
-        margin: 0px;
-        overflow: hidden;
-      }
       #info {
         color: #fff;
         position: absolute;
@@ -24,9 +17,26 @@
         color: #046;
         font-weight: bold;
       }
+      #side {
+        width: 18rem;
+        background-color: rgba(255, 255, 255, 0.75);
+        border: 3px solid #000, 1px solid #FFF;
+        border-radius: 3px;
+        position: absolute;
+        top: 1vh;
+        right: 1vw;
+        height: auto; /*96vh;*/
+        padding-bottom: 1.33rem;
+        float: right;
+      }
+      .hide { display: none; }
     </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   </head>
   <body>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
     <script src="./js/three.js"></script>
     <script src="./js/controls/OrbitControls.js"></script>
@@ -72,7 +82,7 @@
                 console.log((xhr.loaded / xhr.total * 100) + '% loaded');
               },
               function (err) {
-                console.error('An error happened.', err);
+                console.error('An error happened while loading MTL object.', err);
               }
             )
           }
@@ -90,15 +100,25 @@
           raycaster.setFromCamera(mouse, camera)
 
           var intersects = raycaster.intersectObjects(scene.children)
+          /*
           for (var i = 0; i < intersects.length; i++) {
-            // intersects[i].object.material.color.set(0xff0000)
-            // if (noClickObjects.indexOf(intersects[i].object.name) === -1) {
-            //   console.log('C-OBJ', i, intersects[i].object.geometry.name)
-            // }
+            intersects[i].object.material.color.set(0xff0000)
           }
+          */
           if (intersects.length >= 1) {
             if (noClickObjects.indexOf(intersects[0].object.name) === -1) {
-              console.log('Clicked object type: ' + intersects[0].object.geometry.name)
+              console.log('Clicked object type: ' + intersects[0].object.geometry.name, intersects[0])
+              $('#side').removeClass('hide')
+              $('#side .obj-dist').text(intersects[0].distance)
+              $('#side .obj-type').text(intersects[0].object.geometry.name)
+              $('#side .obj-uuid').text(intersects[0].object.uuid)
+              $('#side .obj-scale').text(intersects[0].object.scale.y)
+              $('#side .geo-type').text(intersects[0].object.geometry.type)
+              $('#side .geo-params').text(JSON.stringify(intersects[0].object.geometry.parameters))
+              $('#side .mat-type').text(intersects[0].object.material.type)
+              $('#side .mat-params').text(JSON.stringify(intersects[0].object.material.color))
+            } else {
+              $('#side').addClass('hide')
             }
           }
         }
@@ -431,6 +451,38 @@
         renderer.render(scene, camera);
       }
     </script>
+
+    <div id="side" class="holder hide">
+      <div class="container">
+        <h2 class="display-5">DAVIS</h2>
+        <div class="card" style="width: 100%;">
+          <div class="card-body">
+            <dl class="card-text">
+              <dt>Type</dt>
+              <dd class="obj-type">?</dd>
+              <dt>UUID</dt>
+              <dd class="obj-uuid">?</dd>
+              <dt>Distance</dt>
+              <dd class="obj-dist">?</dd>
+              <dt>Scale</dt>
+              <dd class="obj-scale">?</dd>
+              <dt>Geometry type</dt>
+              <dd class="geo-type">?</dd>
+              <dt>Geometry params</dt>
+              <dd class="geo-params">?</dd>
+              <dt>Material type</dt>
+              <dd class="mat-type">?</dd>
+              <dt>Material params</dt>
+              <dd class="mat-params">?</dd>
+            </dl>
+            <!--
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+            -->
+          </div>
+        </div>
+      </div>
+    </div>
 
   </body>
 </html>
