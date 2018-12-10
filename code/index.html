@@ -34,6 +34,7 @@
     <script src="./js/loaders/MTLLoader.js"></script>
     <script src="./js/loaders/OBJLoader.js"></script>
     <script src="./js/WebGL.js"></script>
+    <script src="./js/stats.js"></script>
 
     <script>
       if (WEBGL.isWebGLAvailable() === false) {
@@ -43,6 +44,14 @@
       var scene, camera, renderer, exporter, mesh;
       var sqSize = 100
       var globalObjects = []
+      var noClickObjects = ['Ground', 'Grid', 'FadeoutMrr', 'GndMirror', 'GndMrr']
+
+      var raycaster = new THREE.Raycaster();
+      var mouse = new THREE.Vector2();
+
+      var stats = new Stats()
+      stats.showPanel(0)
+      document.body.appendChild(stats.dom)
 
       function createObjectItem(scene) {
         var loader = new THREE.MTLLoader()
@@ -73,6 +82,29 @@
       init();
       animate();
 
+      function onDocumentMouseDown(event) {
+        // event.preventDefault()
+        if (event.button === 0) {
+          mouse.x = (event.clientX / renderer.domElement.clientWidth) * 2 - 1
+          mouse.y = -(event.clientY / renderer.domElement.clientHeight) * 2 + 1
+          raycaster.setFromCamera(mouse, camera)
+
+          var intersects = raycaster.intersectObjects(scene.children)
+          for (var i = 0; i < intersects.length; i++) {
+            // intersects[i].object.material.color.set(0xff0000)
+            // if (noClickObjects.indexOf(intersects[i].object.name) === -1) {
+            //   console.log('C-OBJ', i, intersects[i].object.geometry.name)
+            // }
+          }
+          if (intersects.length >= 1) {
+            if (noClickObjects.indexOf(intersects[0].object.name) === -1) {
+              console.log('Clicked object type: ' + intersects[0].object.geometry.name)
+            }
+          }
+        }
+      }
+      document.addEventListener('mousedown', onDocumentMouseDown, false)
+
       function rnd(min, max) {
         return Math.floor(Math.random() * max) + min
       }
@@ -98,8 +130,9 @@
           var wsHeight = blHeight - 10 + rnd
           var wsGeo = new THREE.BoxBufferGeometry(15, wsHeight, 15)
           wsGeo.translate(0, wsHeight / 2, 0)
+          wsGeo.name = 'WebSvr'
           var wsMesh = new THREE.Mesh(wsGeo, material)
-          wsMesh.castShadow = true
+          wsMesh.castShadow = false
           var heightDiff = wsHeight - blHeight
 
           var offset = i === 0 ? 0 : Math.floor(Math.abs(i - 1) / 2) + 1
@@ -146,8 +179,9 @@
             sdbGeo = new THREE.CylinderBufferGeometry(10, 10, sdbHeight, 17)
           }
           sdbGeo.translate(0, sdbHeight / 2, 0)
+          sdbGeo.name = 'SqlDB'
           var sdbMesh = new THREE.Mesh(sdbGeo, material)
-          sdbMesh.castShadow = true
+          sdbMesh.castShadow = false
           var heightDiff = sdbHeight - blHeight
 
           var offset = i === 0 ? 0 : Math.floor(Math.abs(i - 1) / 2) + 1
@@ -187,8 +221,9 @@
           var ndbHeight = blHeight - 35 + rnd
           var ndbGeo = new THREE.CylinderBufferGeometry(3, 5, ndbHeight, 9)
           ndbGeo.translate(0, ndbHeight / 2, 0)
+          ndbGeo.name = 'NosqlDB'
           var ndbMesh = new THREE.Mesh(ndbGeo, material)
-          ndbMesh.castShadow = true
+          ndbMesh.castShadow = false
           var heightDiff = ndbHeight - blHeight
 
           var offset = i === 0 ? 0 : Math.floor(Math.abs(i - 1) / 2) + 1
@@ -237,14 +272,17 @@
 
         // ground
         var ground = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshPhongMaterial({ color: 0x333333, depthWrite: true }));
+        ground.name = 'Ground'
         ground.rotation.x = -Math.PI / 2;
-        ground.receiveShadow = true;
+        ground.receiveShadow = false;
         ground.opacity = 0.8
         ground.translateX(500)
         ground.translateY(-500)
         scene.add(ground);
+        // console.log('GND', ground.uuid)
 
         var geometry = new THREE.PlaneBufferGeometry(2000, 2000);
+        geometry.name = 'GndMirror'
         var groundMirror = new THREE.Reflector(geometry, {
           clipBias: 0.8,
           textureWidth: window.innerWidth * window.devicePixelRatio,
@@ -252,25 +290,31 @@
           color: 0x70857d,
           recursion: 1
         });
+        groundMirror.name = 'GndMrr'
         groundMirror.position.y = 0.5;
         groundMirror.rotateX(-Math.PI / 2);
         groundMirror.translateX(500)
         groundMirror.translateY(-500)
         scene.add(groundMirror);
+        // console.log('MIRROR', geometry.uuid, groundMirror.uuid)
 
         var fadeout = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshLambertMaterial({ color: 0x000802, opacity : 0.8 , transparent: true }))
+        fadeout.name = 'FadeoutMrr'
         fadeout.position.y = 0.75
         fadeout.rotateX(-Math.PI / 2)
         fadeout.translateX(500)
         fadeout.translateY(-500)
         scene.add(fadeout)
+        // console.log('FadeoutMRR', fadeout.uuid)
 
         var grid = new THREE.GridHelper(2000, 20, 0x08cc4c, 0x08cc4c);
+        grid.name = 'Grid'
         grid.material.opacity = 1;
         grid.material.transparent = true;
         grid.translateX(500)
         grid.translateZ(500)
         scene.add(grid);
+        // console.log('GRID', grid.uuid)
 
         var max = rnd(5, 30)
         console.log('Max', max)
@@ -289,7 +333,7 @@
 
         var directionalLight = new THREE.DirectionalLight(0xffffff);
         directionalLight.position.set(0, 200, 100);
-        directionalLight.castShadow = true;
+        directionalLight.castShadow = false;
         directionalLight.shadow.camera.top = 180;
         directionalLight.shadow.camera.bottom = -100;
         directionalLight.shadow.camera.left = -120;
@@ -299,7 +343,7 @@
         renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.enabled = false;
         document.body.appendChild(renderer.domElement);
 
         var controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -318,7 +362,7 @@
 
       var prev = 0
       function animate() {
-        requestAnimationFrame(animate);
+        stats.begin()
 
         var timer = Date.now() * 0.01;
         var sec = Math.round((timer / 10 % 1) * 10)
@@ -381,6 +425,8 @@
             })
           })
         }
+        stats.end()
+        requestAnimationFrame(animate);
 
         renderer.render(scene, camera);
       }
