@@ -32,6 +32,7 @@
       .hide { display: none; }
     </style>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="./res/css/epoch.min.css">
   </head>
   <body>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -45,6 +46,10 @@
     <script src="./js/loaders/OBJLoader.js"></script>
     <script src="./js/WebGL.js"></script>
     <script src="./js/stats.js"></script>
+
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="./js/epoch.min.js"></script>
+
 
     <script>
       if (WEBGL.isWebGLAvailable() === false) {
@@ -64,7 +69,7 @@
       document.body.appendChild(stats.dom)
 
       function createObjectItem(scene) {
-        var loader = new THREE.MTLLoader()
+       var loader = new THREE.MTLLoader()
 
         loader.load(
           './res/obj/1stbuilding.mtl',
@@ -117,6 +122,23 @@
               $('#side .geo-params').text(JSON.stringify(intersects[0].object.geometry.parameters))
               $('#side .mat-type').text(intersects[0].object.material.type)
               $('#side .mat-params').text(JSON.stringify(intersects[0].object.material.color))
+
+              /*
+              var areaChartData = new RealTimeData(3);
+              var chart = $('#real-time-bar').epoch({
+                  type: 'time.bar',
+                  data: data.history(),
+                  axes: ['left', 'bottom', 'right']
+              });
+
+              setInterval(function() { chart.push(data.next()); }, 330);
+              chart.push(data.next());
+
+              $('#areaChart').epoch({
+                type: 'time.area',
+                data: areaChartData
+              })
+              */
             } else {
               $('#side').addClass('hide')
             }
@@ -475,6 +497,7 @@
               <dt>Material params</dt>
               <dd class="mat-params">?</dd>
             </dl>
+            <div id="areaChart" class="epoch category10" style="height: 2rem;"></div>
             <!--
             <a href="#" class="card-link">Card link</a>
             <a href="#" class="card-link">Another link</a>
