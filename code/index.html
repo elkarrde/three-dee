@@ -53,9 +53,10 @@
     <script src="./js/WebGL.js"></script>
     <script src="./js/stats.js"></script>
 
+    <!--
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="./js/epoch.min.js"></script>
-
+    -->
 
     <script>
       if (WEBGL.isWebGLAvailable() === false) {
@@ -74,23 +75,20 @@
       stats.showPanel(0)
       document.body.appendChild(stats.dom)
 
-      function createObjectItem(scene) {
-       var loader = new THREE.MTLLoader()
+      function createObject(scene, objName, callback) {
+        var loader = new THREE.MTLLoader()
 
+        var objPath = './res/obj/'
         loader.load(
-          './res/obj/1stbuilding.mtl',
+          objPath + objName + '.mtl',
           function (materials) {
             materials.preload();
             new THREE.OBJLoader()
-              .setMaterials(materials).load('./res/obj/1stbuilding.obj', function (object) {
-                var scale = 50
-                object.scale.set(scale, scale, scale)
-                object.position.x = 1300
-                object.position.z = 375
-                scene.add(object);
+              .setMaterials(materials).load(objPath + objName + '.obj', function (object) {
+                callback(object)
               },
               function (xhr) {
-                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                console.log('Object %s', objName, (xhr.loaded / xhr.total * 100) + '% loaded');
               },
               function (err) {
                 console.error('An error happened while loading MTL object.', err);
@@ -111,11 +109,7 @@
           raycaster.setFromCamera(mouse, camera)
 
           var intersects = raycaster.intersectObjects(scene.children)
-          /*
-          for (var i = 0; i < intersects.length; i++) {
-            intersects[i].object.material.color.set(0xff0000)
-          }
-          */
+          console.log('IXR', intersects)
           if (intersects.length >= 1) {
             if (noClickObjects.indexOf(intersects[0].object.name) === -1) {
               console.log('Clicked object type: ' + intersects[0].object.geometry.name, intersects[0])
@@ -128,23 +122,6 @@
               $('#side .geo-params').text(JSON.stringify(intersects[0].object.geometry.parameters))
               $('#side .mat-type').text(intersects[0].object.material.type)
               $('#side .mat-params').text(JSON.stringify(intersects[0].object.material.color))
-
-              /*
-              var areaChartData = new RealTimeData(3);
-              var chart = $('#real-time-bar').epoch({
-                  type: 'time.bar',
-                  data: data.history(),
-                  axes: ['left', 'bottom', 'right']
-              });
-
-              setInterval(function() { chart.push(data.next()); }, 330);
-              chart.push(data.next());
-
-              $('#areaChart').epoch({
-                type: 'time.area',
-                data: areaChartData
-              })
-              */
             } else {
               $('#side').addClass('hide')
             }
@@ -364,23 +341,41 @@
         scene.add(grid);
         // console.log('GRID', grid.uuid)
 
-        var max = rnd(5, 30)
+        var max = rnd(15, 45)
         console.log('Max', max)
         for(var i = 1; i < max; i++) {
           var offset = {x: rnd(0, 10), z: rnd(0, 10)}
-          console.log('OFFs', offset)
-          globalObjects.push(createServer(offset))
+          //console.log('OFFs', offset)
+          //globalObjects.push(createServer(offset))
         }
 
-        createObjectItem(scene)
+        var objMap = ['1stbuilding', '2squerbuild', 'simlebuilding', '3base', 'bmw']
+        for (var xi = 1; xi < max; xi++) {
+          createObject(scene, objMap[rnd(0, 5)], function(obj) {
+            var scale = 15
+            obj.scale.set(scale, scale, scale)
+            obj.position.x = rnd(-4, 14) * 100
+            obj.position.z = rnd(-4, 14) * 100
+            scene.add(obj);
+          })
+        }
 
         // hemiLight
         var hemiLight = new THREE.HemisphereLight(0xffffff, 0xaaaaaa);
         hemiLight.position.set(0, 1000, 0);
         scene.add(hemiLight);
 
-        var directionalLight = new THREE.DirectionalLight(0xffffff);
-        directionalLight.position.set(0, 200, 100);
+        var directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+        directionalLight.position.set(-200, 500, 200);
+        directionalLight.castShadow = false;
+        directionalLight.shadow.camera.top = 180;
+        directionalLight.shadow.camera.bottom = -100;
+        directionalLight.shadow.camera.left = -120;
+        directionalLight.shadow.camera.right = 120;
+        scene.add(directionalLight);
+
+        var directionalLight = new THREE.DirectionalLight(0xffffff, 3);
+        directionalLight.position.set(800, 500, 600);
         directionalLight.castShadow = false;
         directionalLight.shadow.camera.top = 180;
         directionalLight.shadow.camera.bottom = -100;
@@ -412,6 +407,7 @@
       function animate() {
         stats.begin()
 
+        /*
         var timer = Date.now() * 0.01;
         var sec = Math.round((timer / 10 % 1) * 10)
         if (sec !== prev) {
@@ -473,6 +469,7 @@
             })
           })
         }
+        */
         stats.end()
         requestAnimationFrame(animate);
 
