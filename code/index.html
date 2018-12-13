@@ -67,6 +67,7 @@
       var sqSize = 100
       var globalObjects = []
       var noClickObjects = ['Ground', 'Grid', 'FadeoutMrr', 'GndMirror', 'GndMrr']
+      var posMap = []
 
       var raycaster = new THREE.Raycaster();
       var mouse = new THREE.Vector2();
@@ -75,7 +76,7 @@
       stats.showPanel(0)
       document.body.appendChild(stats.dom)
 
-      function createObject(scene, objName, callback) {
+      function createObject(scene, objName, params, callback) {
         var loader = new THREE.MTLLoader()
 
         var objPath = './res/obj/'
@@ -85,10 +86,10 @@
             materials.preload();
             new THREE.OBJLoader()
               .setMaterials(materials).load(objPath + objName + '.obj', function (object) {
-                callback(object)
+                callback(object, params)
               },
               function (xhr) {
-                console.log('Object %s', objName, (xhr.loaded / xhr.total * 100) + '% loaded');
+                //console.log('Object %s', objName, (xhr.loaded / xhr.total * 100) + '% loaded');
               },
               function (err) {
                 console.error('An error happened while loading MTL object.', err);
@@ -108,20 +109,21 @@
           mouse.y = -(event.clientY / renderer.domElement.clientHeight) * 2 + 1
           raycaster.setFromCamera(mouse, camera)
 
-          var intersects = raycaster.intersectObjects(scene.children)
-          console.log('IXR', intersects)
+          var intersects = raycaster.intersectObjects(scene.children, true)
           if (intersects.length >= 1) {
             if (noClickObjects.indexOf(intersects[0].object.name) === -1) {
               console.log('Clicked object type: ' + intersects[0].object.geometry.name, intersects[0])
               $('#side').removeClass('hide')
               $('#side .obj-dist').text(intersects[0].distance)
-              $('#side .obj-type').text(intersects[0].object.geometry.name)
+              $('#side .obj-type').text(intersects[0].object.parent.userData.type)
               $('#side .obj-uuid').text(intersects[0].object.uuid)
+              /*
               $('#side .obj-scale').text(intersects[0].object.scale.y)
               $('#side .geo-type').text(intersects[0].object.geometry.type)
               $('#side .geo-params').text(JSON.stringify(intersects[0].object.geometry.parameters))
               $('#side .mat-type').text(intersects[0].object.material.type)
               $('#side .mat-params').text(JSON.stringify(intersects[0].object.material.color))
+              */
             } else {
               $('#side').addClass('hide')
             }
@@ -304,7 +306,6 @@
         ground.translateX(500)
         ground.translateY(-500)
         scene.add(ground);
-        // console.log('GND', ground.uuid)
 
         var geometry = new THREE.PlaneBufferGeometry(2000, 2000);
         geometry.name = 'GndMirror'
@@ -321,7 +322,6 @@
         groundMirror.translateX(500)
         groundMirror.translateY(-500)
         scene.add(groundMirror);
-        // console.log('MIRROR', geometry.uuid, groundMirror.uuid)
 
         var fadeout = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshLambertMaterial({ color: 0x000802, opacity : 0.8 , transparent: true }))
         fadeout.name = 'FadeoutMrr'
@@ -330,7 +330,6 @@
         fadeout.translateX(500)
         fadeout.translateY(-500)
         scene.add(fadeout)
-        // console.log('FadeoutMRR', fadeout.uuid)
 
         var grid = new THREE.GridHelper(2000, 20, 0x08cc4c, 0x08cc4c);
         grid.name = 'Grid'
@@ -339,23 +338,121 @@
         grid.translateX(500)
         grid.translateZ(500)
         scene.add(grid);
-        // console.log('GRID', grid.uuid)
 
-        var max = rnd(15, 45)
+        var objMap = ['1stbuilding', '2squerbuild', 'simlebuilding', '3base', 'bmw', 'SciFi_3']
+
+        var max = rnd(10, 25)
+        var sqOffset = {x: 0, y: 0}
         console.log('Max', max)
-        for(var i = 1; i < max; i++) {
-          var offset = {x: rnd(0, 10), z: rnd(0, 10)}
-          //console.log('OFFs', offset)
-          //globalObjects.push(createServer(offset))
+
+        for (var i = 0; i < max + 25; i++) {
+          var coord = {x: rnd(-4, 16), z: rnd(-4, 16)}
+          if (posMap.find(function(x){ return x.x == coord.x && x.z == coord.z })) {
+            coord = {x: rnd(-4, 16), z: rnd(-4, 16)}
+          }
+          posMap.push(coord)
         }
 
-        var objMap = ['1stbuilding', '2squerbuild', 'simlebuilding', '3base', 'bmw']
-        for (var xi = 1; xi < max; xi++) {
-          createObject(scene, objMap[rnd(0, 5)], function(obj) {
+        for (var i = 0; i < max; i++) {
+          sqOffset = posMap[i]
+          // objMap[rnd(0, 5)]
+          createObject(scene, '1stbuilding', sqOffset, function(obj, sqOffset) {
             var scale = 15
             obj.scale.set(scale, scale, scale)
-            obj.position.x = rnd(-4, 14) * 100
-            obj.position.z = rnd(-4, 14) * 100
+            var oX = 0
+            var oZ = 0
+            if (sqOffset && typeof sqOffset === 'object') {
+              oX = sqSize * sqOffset.x
+              oZ = sqSize * sqOffset.z
+            }
+            obj.position.x = oX + 20
+            obj.position.z = oZ + 20
+            obj.userData.type = '1stbuilding'
+            scene.add(obj);
+          })
+          createObject(scene, 'simlebuilding', sqOffset, function(obj, sqOffset) {
+            var scale = 15
+            obj.scale.set(scale, scale, scale)
+            var oX = 0
+            var oZ = 0
+            if (sqOffset && typeof sqOffset === 'object') {
+              oX = sqSize * sqOffset.x
+              oZ = sqSize * sqOffset.z
+            }
+            obj.position.x = oX + 80
+            obj.position.z = oZ + 20
+            obj.userData.type = 'simlebuilding'
+            scene.add(obj);
+          })
+
+          /*if (Math.random() > 0.75) {
+            createObject(scene, 'SciFi_3', sqOffset, function(obj, sqOffset) {
+              var scale = 15
+              obj.scale.set(scale, scale, scale)
+              var oX = 0
+              var oZ = 0
+              if (sqOffset && typeof sqOffset === 'object') {
+                oX = sqSize * sqOffset.x
+                oZ = sqSize * sqOffset.z
+              }
+              obj.position.x = oX + 15
+              obj.position.z = oZ + 90
+              obj.userData.type = 'SciFi_3'
+              scene.add(obj);
+            })
+          }*/
+        }
+
+        for (var i = max + 5; i < max + 15; i++) {
+          sqOffset = posMap[i]
+          createObject(scene, '2squerbuild', sqOffset, function(obj, sqOffset) {
+            var scale = 15
+            obj.scale.set(scale, scale, scale)
+            var oX = 0
+            var oZ = 0
+            if (sqOffset && typeof sqOffset === 'object') {
+              oX = sqSize * sqOffset.x
+              oZ = sqSize * sqOffset.z
+            }
+            obj.position.x = oX + 65
+            obj.position.z = oZ + 50
+            obj.userData.type = '2squerbuild'
+            scene.add(obj);
+          })
+        }
+
+        for (var i = max + 15; i < max + 20; i++) {
+          sqOffset = posMap[i]
+          createObject(scene, '3base', sqOffset, function(obj, sqOffset) {
+            var scale = 15
+            obj.scale.set(scale, scale, scale)
+            var oX = 0
+            var oZ = 0
+            if (sqOffset && typeof sqOffset === 'object') {
+              oX = sqSize * sqOffset.x
+              oZ = sqSize * sqOffset.z
+            }
+            obj.position.x = oX + 45
+            obj.position.z = oZ + 45
+            obj.userData.type = '3base'
+            scene.add(obj);
+          })
+        }
+
+        for (var i = max + 20; i < max + 25; i++) {
+          sqOffset = posMap[i]
+          createObject(scene, 'bmw', sqOffset, function(obj, sqOffset) {
+            var scale = 15
+            obj.scale.set(scale, scale, scale)
+            var oX = 0
+            var oZ = 0
+            if (sqOffset && typeof sqOffset === 'object') {
+              oX = sqSize * sqOffset.x
+              oZ = sqSize * sqOffset.z
+            }
+            obj.position.x = oX + 50
+            obj.position.z = oZ + 75
+            obj.userData.type = 'bmw'
             scene.add(obj);
           })
         }
@@ -365,7 +462,7 @@
         hemiLight.position.set(0, 1000, 0);
         scene.add(hemiLight);
 
-        var directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+        var directionalLight = new THREE.DirectionalLight(0xffffff, 3);
         directionalLight.position.set(-200, 500, 200);
         directionalLight.castShadow = false;
         directionalLight.shadow.camera.top = 180;
@@ -374,14 +471,23 @@
         directionalLight.shadow.camera.right = 120;
         scene.add(directionalLight);
 
-        var directionalLight = new THREE.DirectionalLight(0xffffff, 3);
-        directionalLight.position.set(800, 500, 600);
-        directionalLight.castShadow = false;
-        directionalLight.shadow.camera.top = 180;
-        directionalLight.shadow.camera.bottom = -100;
-        directionalLight.shadow.camera.left = -120;
-        directionalLight.shadow.camera.right = 120;
-        scene.add(directionalLight);
+        var directionalLight2 = new THREE.DirectionalLight(0xffffff, 3);
+        directionalLight2.position.set(800, 500, 600);
+        directionalLight2.castShadow = false;
+        directionalLight2.shadow.camera.top = 180;
+        directionalLight2.shadow.camera.bottom = -100;
+        directionalLight2.shadow.camera.left = -120;
+        directionalLight2.shadow.camera.right = 120;
+        scene.add(directionalLight2);
+
+        var directionalLight3 = new THREE.DirectionalLight(0xffffff, 2);
+        directionalLight3.position.set(-450, 100, -450);
+        directionalLight3.castShadow = false;
+        directionalLight3.shadow.camera.top = 180;
+        directionalLight3.shadow.camera.bottom = -100;
+        directionalLight3.shadow.camera.left = -120;
+        directionalLight3.shadow.camera.right = 120;
+        scene.add(directionalLight3);
 
         renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setPixelRatio(window.devicePixelRatio);
@@ -489,7 +595,7 @@
               <dd class="obj-uuid">?</dd>
               <dt>Distance</dt>
               <dd class="obj-dist">?</dd>
-              <dt>Scale</dt>
+              <!--dt>Scale</dt>
               <dd class="obj-scale">?</dd>
               <dt>Geometry type</dt>
               <dd class="geo-type">?</dd>
@@ -498,7 +604,7 @@
               <dt>Material type</dt>
               <dd class="mat-type">?</dd>
               <dt>Material params</dt>
-              <dd class="mat-params">?</dd>
+              <dd class="mat-params">?</dd-->
             </dl>
             <div id="areaChart" class="epoch category10" style="height: 2rem;"></div>
             <!--
