@@ -5,6 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <style>
+      * {
+        font-size: 10px;
+      }
       #info {
         color: #fff;
         position: absolute;
@@ -17,17 +20,24 @@
         color: #046;
         font-weight: bold;
       }
-      #side {
-        width: 18rem;
-        background-color: rgba(255, 255, 255, 0.75);
-        border: 3px solid #000, 1px solid #FFF;
-        border-radius: 3px;
-        position: absolute;
-        top: 1vh;
-        right: 1vw;
+      .side {
+        width: 15rem;
+        background-color: rgba(255, 255, 255, 0.5);
         height: auto; /*96vh;*/
-        padding-bottom: 1.33rem;
+        padding: 1rem 0.5rem;
+        margin: 0;
+      }
+      .side-left {
+        float: left;
+        position: absolute;
+        top: 7vh;
+        left: 0;
+      }
+      .side-right {
         float: right;
+        position: absolute;
+        top: 0;
+        right: 0;
       }
       canvas {
         width: 100vw;
@@ -68,9 +78,52 @@
       var globalObjects = []
       var noClickObjects = ['Ground', 'Grid', 'FadeoutMrr', 'GndMirror', 'GndMrr']
       var posMap = []
+      var posX0 = -4
+      var posZ0 = -4
+      var cPosX = -4
+      var cPosZ = -4
+      var maxX = 12
+      var maxZ = 6
+      var stepX = 1
+      var stepZ = 2
+      var count = 0
 
       var raycaster = new THREE.Raycaster();
       var mouse = new THREE.Vector2();
+
+      var modelsMap = {
+        '1stbuilding': { scale: 15, oX: 20, oZ: 20 }, //
+        '2squerbuild': { scale: 15, oX: 65, oZ: 50 }, //
+        '3base': { scale: 15, oX: 45, oZ: 45 }, //
+        'bmw': { scale: 15, oX: 50, oZ: 75 },
+        'buildings1': { scale: 15, oX: 20, oZ: 20 },
+        'lastnode': { scale: 15, oX: 20, oZ: 20 },
+        'merscobj': { scale: 15, oX: 20, oZ: 20 },
+        'moderntower': { scale: 15, oX: 20, oZ: 20 },
+        'SciFi_3': { scale: 15, oX: 15, oZ: 90 }, //
+        'scifitower': { scale: 15, oX: 20, oZ: 20 },
+        'simlebuilding': { scale: 15, oX: 80, oZ: 20 }, //
+        'tallbuilding': { scale: 15, oX: 20, oZ: 20 }
+      }
+
+      $(function() {
+        Object.getOwnPropertyNames(modelsMap).forEach(function(model) {
+          $('#typeSelect').append('<option value="' + model + '">' + model + '</option>')
+        })
+
+        $('#addBtn').click(function() {
+          var mdl = $('#typeSelect').val()
+          if (cPosX <= maxX) {
+            cPosX += count === 0? 0 : stepX
+          } else {
+            cPosX = posX0
+            cPosZ += stepZ
+          }
+          var sqOffset = { x: cPosX, z: cPosZ }
+          addModel(scene, mdl, sqOffset)
+          count++
+        })
+      })
 
       var stats = new Stats()
       stats.showPanel(0)
@@ -89,7 +142,7 @@
                 callback(object, params)
               },
               function (xhr) {
-                //console.log('Object %s', objName, (xhr.loaded / xhr.total * 100) + '% loaded');
+                // do nothing
               },
               function (err) {
                 console.error('An error happened while loading MTL object.', err);
@@ -98,9 +151,6 @@
           }
         )
       }
-
-      init();
-      animate();
 
       function onDocumentMouseDown(event) {
         // event.preventDefault()
@@ -113,19 +163,12 @@
           if (intersects.length >= 1) {
             if (noClickObjects.indexOf(intersects[0].object.name) === -1) {
               console.log('Clicked object type: ' + intersects[0].object.geometry.name, intersects[0])
-              $('#side').removeClass('hide')
-              $('#side .obj-dist').text(intersects[0].distance)
-              $('#side .obj-type').text(intersects[0].object.parent.userData.type)
-              $('#side .obj-uuid').text(intersects[0].object.uuid)
-              /*
-              $('#side .obj-scale').text(intersects[0].object.scale.y)
-              $('#side .geo-type').text(intersects[0].object.geometry.type)
-              $('#side .geo-params').text(JSON.stringify(intersects[0].object.geometry.parameters))
-              $('#side .mat-type').text(intersects[0].object.material.type)
-              $('#side .mat-params').text(JSON.stringify(intersects[0].object.material.color))
-              */
+              $('.info-panel').removeClass('hide')
+              $('.info-panel .obj-dist').text(intersects[0].distance)
+              $('.info-panel .obj-type').text(intersects[0].object.parent.userData.type)
+              $('.info-panel .obj-uuid').text(intersects[0].object.uuid)
             } else {
-              $('#side').addClass('hide')
+              $('.info-panel').addClass('hide')
             }
           }
         }
@@ -136,158 +179,7 @@
         return Math.floor(Math.random() * max) + min
       }
 
-      function createWebServers(count, blHeight, sqOffset) {
-        var ws = []
-
-        var oX = 0
-        var oZ = 0
-        if (sqOffset && typeof sqOffset === 'object') {
-          oX = sqSize * sqOffset.x
-          oZ = sqSize * sqOffset.z
-        }
-
-        var distance = 20
-        var bX = 20 + oX
-        var bZ = 20 + oZ
-
-        var material = new THREE.MeshPhongMaterial({ color: 0x333333 });
-
-        for (var i = 0; i < count; i++) {
-          var rnd = Math.floor(Math.random() * 10) + 10
-          var wsHeight = blHeight - 10 + rnd
-          var wsGeo = new THREE.BoxBufferGeometry(15, wsHeight, 15)
-          wsGeo.translate(0, wsHeight / 2, 0)
-          wsGeo.name = 'WebSvr'
-          var wsMesh = new THREE.Mesh(wsGeo, material)
-          wsMesh.castShadow = false
-          var heightDiff = wsHeight - blHeight
-
-          var offset = i === 0 ? 0 : Math.floor(Math.abs(i - 1) / 2) + 1
-          wsMesh.position.y = 0
-          if (i === 0) {
-            wsMesh.position.x = bX
-            wsMesh.position.z = bZ
-          } else if (i % 2 === 0) {
-            wsMesh.position.x = bX + (offset * distance)
-            wsMesh.position.z = bZ
-          } else if (i % 2 !== 0) {
-            wsMesh.position.x = bX
-            wsMesh.position.z = bZ + (offset * distance)
-          }
-          ws[i] = wsMesh
-        }
-        return ws;
-      }
-      function createSqlDbs(count, blHeight, sqOffset) {
-        var sdb = []
-
-        var oX = 0
-        var oZ = 0
-        if (sqOffset && typeof sqOffset === 'object') {
-          oX = sqSize * sqOffset.x
-          oZ = sqSize * sqOffset.z
-        }
-
-        var distance = count === 1 ? 0 : 25
-        var bX = (count === 1 ? 75 : 80) + oX
-        var bZ = (count === 1 ? 75 : 80) + oZ
-
-        var hFactor = count === 1 ? 30 : 50
-
-        var material = new THREE.MeshPhongMaterial({ color: 0x555555 });
-
-        for (var i = 0; i < count; i++) {
-          var rnd = Math.floor(Math.random() * 10) + hFactor
-          var sdbHeight = (count === 1 ? 0 : 10) + blHeight - hFactor + rnd
-          var sdbGeo
-          if (count === 1) {
-            sdbGeo = new THREE.CylinderBufferGeometry(20, 20, sdbHeight, 17)
-          } else {
-            sdbGeo = new THREE.CylinderBufferGeometry(10, 10, sdbHeight, 17)
-          }
-          sdbGeo.translate(0, sdbHeight / 2, 0)
-          sdbGeo.name = 'SqlDB'
-          var sdbMesh = new THREE.Mesh(sdbGeo, material)
-          sdbMesh.castShadow = false
-          var heightDiff = sdbHeight - blHeight
-
-          var offset = i === 0 ? 0 : Math.floor(Math.abs(i - 1) / 2) + 1
-          sdbMesh.position.y = 0
-          if (i === 0) {
-            sdbMesh.position.x = bX
-            sdbMesh.position.z = bZ
-          } else if (i % 2 === 0) {
-            sdbMesh.position.x = bX - (offset * distance)
-            sdbMesh.position.z = bZ
-          } else if (i % 2 !== 0) {
-            sdbMesh.position.x = bX
-            sdbMesh.position.z = bZ - (offset * distance)
-          }
-          sdb[i] = sdbMesh
-        }
-        return sdb;
-      }
-      function createNosqlDbs(count, blHeight, sqOffset) {
-        var ndb = []
-
-        var oX = 0
-        var oZ = 0
-        if (sqOffset && typeof sqOffset === 'object') {
-          oX = sqSize * sqOffset.x
-          oZ = sqSize * sqOffset.z
-        }
-
-        var distance = 15
-        var bX = 20 + oX
-        var bZ = 80 + oZ
-
-        var material = new THREE.MeshPhongMaterial({ color: 0x888888 });
-
-        for (var i = 0; i < count; i++) {
-          var rnd = Math.floor(Math.random() * 10) + 35
-          var ndbHeight = blHeight - 35 + rnd
-          var ndbGeo = new THREE.CylinderBufferGeometry(3, 5, ndbHeight, 9)
-          ndbGeo.translate(0, ndbHeight / 2, 0)
-          ndbGeo.name = 'NosqlDB'
-          var ndbMesh = new THREE.Mesh(ndbGeo, material)
-          ndbMesh.castShadow = false
-          var heightDiff = ndbHeight - blHeight
-
-          var offset = i === 0 ? 0 : Math.floor(Math.abs(i - 1) / 2) + 1
-          ndbMesh.position.y = 0
-          if (i === 0) {
-            ndbMesh.position.x = bX
-            ndbMesh.position.z = bZ
-          } else if (i % 2 === 0) {
-            ndbMesh.position.x = bX + (offset * distance)
-            ndbMesh.position.z = bZ - (offset * distance)
-          } else if (i % 2 !== 0) {
-            ndbMesh.position.x = bX + (offset * distance)
-            ndbMesh.position.z = bZ
-          }
-          ndb[i] = ndbMesh
-        }
-        return ndb;
-      }
-
-      function createServer(sqOffset) {
-        var webServers = createWebServers(rnd(2, 4), 75, sqOffset)
-        webServers.forEach(function(itm) { scene.add(itm) })
-
-        var sqlDbs = createSqlDbs(rnd(1, 3), 17, sqOffset)
-        sqlDbs.forEach(function(itm) { scene.add(itm) })
-
-        var nosqlDbs = createNosqlDbs(rnd(0, 4), 80, sqOffset)
-        nosqlDbs.forEach(function(itm) { scene.add(itm) })
-
-        return {
-          webServer: webServers,
-          sqlDb: sqlDbs,
-          nosqlDb: nosqlDbs
-        }
-      }
-
-      function init() {
+      function setupWorld() {
         camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 4000);
         camera.position.set(1000, 1000, 1000);
         camera.translateX(500)
@@ -339,7 +231,43 @@
         grid.translateZ(500)
         scene.add(grid);
 
+        // hemiLight
+        var hemiLight = new THREE.HemisphereLight(0xffffff, 0xaaaaaa);
+        hemiLight.position.set(0, 1000, 0);
+        scene.add(hemiLight);
+      }
 
+      function addDirLight(scene, params) {
+        var dirLight = new THREE.DirectionalLight(params.color, params.intensity);
+        dirLight.position.set(params.coords.x, params.coords.y, params.coords.z);
+        dirLight.castShadow = false;
+        //dirLight.shadow.camera.top = 180;
+        //dirLight.shadow.camera.bottom = -100;
+        //dirLight.shadow.camera.left = -120;
+        //dirLight.shadow.camera.right = 120;
+        scene.add(dirLight);
+      }
+
+      function addModel(scene, model, sqOffset) {
+        createObject(scene, model, sqOffset, function(obj, sqOffset) {
+          obj.scale.set(modelsMap[model].scale, modelsMap[model].scale, modelsMap[model].scale)
+          var oX = 0
+          var oZ = 0
+          if (sqOffset && typeof sqOffset === 'object') {
+            oX = sqSize * sqOffset.x
+            oZ = sqSize * sqOffset.z
+          }
+          obj.position.x = oX + modelsMap[model].oX
+          obj.position.z = oZ + modelsMap[model].oZ
+          obj.userData.type = model
+          scene.add(obj);
+        })
+      }
+
+      function init() {
+        setupWorld()
+
+        /*
         var max = rnd(3, 7)
         var sqOffset = {x: 0, y: 0}
         console.log('Max', max)
@@ -354,139 +282,24 @@
 
         for (var i = 0; i < max; i++) {
           sqOffset = posMap[i]
-          // objMap[rnd(0, 5)]
-          createObject(scene, '1stbuilding', sqOffset, function(obj, sqOffset) {
-            var scale = 15
-            obj.scale.set(scale, scale, scale)
-            var oX = 0
-            var oZ = 0
-            if (sqOffset && typeof sqOffset === 'object') {
-              oX = sqSize * sqOffset.x
-              oZ = sqSize * sqOffset.z
-            }
-            obj.position.x = oX + 20
-            obj.position.z = oZ + 20
-            obj.userData.type = '1stbuilding'
-            scene.add(obj);
-          })
-          createObject(scene, 'simlebuilding', sqOffset, function(obj, sqOffset) {
-            var scale = 15
-            obj.scale.set(scale, scale, scale)
-            var oX = 0
-            var oZ = 0
-            if (sqOffset && typeof sqOffset === 'object') {
-              oX = sqSize * sqOffset.x
-              oZ = sqSize * sqOffset.z
-            }
-            obj.position.x = oX + 80
-            obj.position.z = oZ + 20
-            obj.userData.type = 'simlebuilding'
-            scene.add(obj);
-          })
-
-          if (Math.random() > 0.5) {
-            createObject(scene, 'SciFi_3', sqOffset, function(obj, sqOffset) {
-              var scale = 15
-              obj.scale.set(scale, scale, scale)
-              var oX = 0
-              var oZ = 0
-              if (sqOffset && typeof sqOffset === 'object') {
-                oX = sqSize * sqOffset.x
-                oZ = sqSize * sqOffset.z
-              }
-              obj.position.x = oX + 15
-              obj.position.z = oZ + 90
-              obj.userData.type = 'SciFi_3'
-              scene.add(obj);
-            })
-          }
         }
+        */
 
-        for (var i = max + 1; i < max + 3; i++) {
-          sqOffset = posMap[i]
-          createObject(scene, '2squerbuild', sqOffset, function(obj, sqOffset) {
-            var scale = 15
-            obj.scale.set(scale, scale, scale)
-            var oX = 0
-            var oZ = 0
-            if (sqOffset && typeof sqOffset === 'object') {
-              oX = sqSize * sqOffset.x
-              oZ = sqSize * sqOffset.z
-            }
-            obj.position.x = oX + 65
-            obj.position.z = oZ + 50
-            obj.userData.type = '2squerbuild'
-            scene.add(obj);
-          })
-        }
-
-        for (var i = max + 3; i < max + 5; i++) {
-          sqOffset = posMap[i]
-          createObject(scene, '3base', sqOffset, function(obj, sqOffset) {
-            var scale = 15
-            obj.scale.set(scale, scale, scale)
-            var oX = 0
-            var oZ = 0
-            if (sqOffset && typeof sqOffset === 'object') {
-              oX = sqSize * sqOffset.x
-              oZ = sqSize * sqOffset.z
-            }
-            obj.position.x = oX + 45
-            obj.position.z = oZ + 45
-            obj.userData.type = '3base'
-            scene.add(obj);
-          })
-        }
-
-        for (var i = max + 5; i < max + 6; i++) {
-          sqOffset = posMap[i]
-          createObject(scene, 'bmw', sqOffset, function(obj, sqOffset) {
-            var scale = 15
-            obj.scale.set(scale, scale, scale)
-            var oX = 0
-            var oZ = 0
-            if (sqOffset && typeof sqOffset === 'object') {
-              oX = sqSize * sqOffset.x
-              oZ = sqSize * sqOffset.z
-            }
-            obj.position.x = oX + 50
-            obj.position.z = oZ + 75
-            obj.userData.type = 'bmw'
-            scene.add(obj);
-          })
-        }
-
-        // hemiLight
-        var hemiLight = new THREE.HemisphereLight(0xffffff, 0xaaaaaa);
-        hemiLight.position.set(0, 1000, 0);
-        scene.add(hemiLight);
-
-        var directionalLight = new THREE.DirectionalLight(0xffffff, 3);
-        directionalLight.position.set(-200, 500, 200);
-        directionalLight.castShadow = false;
-        directionalLight.shadow.camera.top = 180;
-        directionalLight.shadow.camera.bottom = -100;
-        directionalLight.shadow.camera.left = -120;
-        directionalLight.shadow.camera.right = 120;
-        scene.add(directionalLight);
-
-        var directionalLight2 = new THREE.DirectionalLight(0xffffff, 3);
-        directionalLight2.position.set(800, 500, 600);
-        directionalLight2.castShadow = false;
-        directionalLight2.shadow.camera.top = 180;
-        directionalLight2.shadow.camera.bottom = -100;
-        directionalLight2.shadow.camera.left = -120;
-        directionalLight2.shadow.camera.right = 120;
-        scene.add(directionalLight2);
-
-        var directionalLight3 = new THREE.DirectionalLight(0xffffff, 2);
-        directionalLight3.position.set(-450, 100, -450);
-        directionalLight3.castShadow = false;
-        directionalLight3.shadow.camera.top = 180;
-        directionalLight3.shadow.camera.bottom = -100;
-        directionalLight3.shadow.camera.left = -120;
-        directionalLight3.shadow.camera.right = 120;
-        scene.add(directionalLight3);
+        addDirLight(scene, {
+          color: 0xffffff,
+          intensity: 3,
+          coords: { x: -200, y: 500, z: 200 }
+        })
+        addDirLight(scene, {
+          color: 0xffffff,
+          intensity: 3,
+          coords: { x: 800, y: 500, z: 600 }
+        })
+        addDirLight(scene, {
+          color: 0xffffff,
+          intensity: 2,
+          coords: { x: -450, y: 100, z: -4500 }
+        })
 
         renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setPixelRatio(window.devicePixelRatio);
@@ -509,109 +322,44 @@
       }
 
       var prev = 0
+
       function animate() {
         stats.begin()
-
-        /*
-        var timer = Date.now() * 0.01;
-        var sec = Math.round((timer / 10 % 1) * 10)
-        if (sec !== prev) {
-          prev = sec
-          globalObjects.forEach(function(set) {
-            set.webServer.forEach(function(svr) {
-              var nH = svr.scale.y
-              if (Math.floor(Math.random() * 1000) > 900) {
-                if (Math.floor(Math.random() * 10) >= 5) {
-                  nH = 0.5 + Math.random()
-                } else {
-                  nH = 1 - Math.random() / 2
-                }
-              }
-              svr.scale.set(1, nH, 1)
-
-              if (Math.floor(Math.random() * 1000) > 990) {
-                svr.material.color.setHex(0xd90900)
-              }
-              if (Math.floor(Math.random() * 1000) < 100) {
-                svr.material.color.setHex(0x333333)
-              }
-            })
-            set.sqlDb.forEach(function(svr) {
-              var nH = svr.scale.y
-              if (Math.floor(Math.random() * 1000) > 900) {
-                if (Math.floor(Math.random() * 10) >= 7) {
-                  nH = 0.5 + Math.random()
-                } else {
-                  nH = 1 - Math.random() / 2
-                }
-              }
-              svr.scale.set(1, nH, 1)
-
-              if (Math.floor(Math.random() * 1000) > 995) {
-                svr.material.color.setHex(0xd90900)
-              }
-              if (Math.floor(Math.random() * 1000) < 300) {
-                svr.material.color.setHex(0x555555)
-              }
-            })
-            set.nosqlDb.forEach(function(svr) {
-              var nH = svr.scale.y
-              if (Math.floor(Math.random() * 1000) > 800) {
-                if (Math.floor(Math.random() * 10) >= 4) {
-                  nH = 0.5 + Math.random()
-                } else {
-                  nH = 1 - Math.random() / 2
-                }
-              }
-              svr.scale.set(1, nH, 1)
-
-              if (Math.floor(Math.random() * 1000) > 998) {
-                svr.material.color.setHex(0xd90900)
-              }
-              if (Math.floor(Math.random() * 1000) < 200) {
-                svr.material.color.setHex(0x888888)
-              }
-            })
-          })
-        }
-        */
         stats.end()
         requestAnimationFrame(animate);
-
         renderer.render(scene, camera);
       }
+
+      init();
+      animate();
+
     </script>
 
-    <div id="side" class="holder hide">
+    <div class="holder side side-left ctrl-panel">
       <div class="container">
-        <h2 class="display-5">DAVIS</h2>
-        <div class="card" style="width: 100%;">
-          <div class="card-body">
-            <dl class="card-text">
-              <dt>Type</dt>
-              <dd class="obj-type">?</dd>
-              <dt>UUID</dt>
-              <dd class="obj-uuid">?</dd>
-              <dt>Distance</dt>
-              <dd class="obj-dist">?</dd>
-              <!--dt>Scale</dt>
-              <dd class="obj-scale">?</dd>
-              <dt>Geometry type</dt>
-              <dd class="geo-type">?</dd>
-              <dt>Geometry params</dt>
-              <dd class="geo-params">?</dd>
-              <dt>Material type</dt>
-              <dd class="mat-type">?</dd>
-              <dt>Material params</dt>
-              <dd class="mat-params">?</dd-->
-            </dl>
-            <div id="areaChart" class="epoch category10" style="height: 2rem;"></div>
-            <!--
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
-            -->
+        <h5>Add new object</h5>
+        <form>
+          <div class="form-group">
+            <label for="typeSelect">Model type</label>
+            <select class="form-control" id="typeSelect">
+            </select>
           </div>
-        </div>
+          <button id="addBtn" type="button" class="btn btn-primary">Add</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="holder side side-right info-panel hide">
+      <div class="container">
+        <dl class="card-text">
+          <dt>Type</dt>
+          <dd class="obj-type">?</dd>
+          <dt>UUID</dt>
+          <dd class="obj-uuid">?</dd>
+          <dt>Distance</dt>
+          <dd class="obj-dist">?</dd>
+        </dl>
+        <div id="areaChart" class="epoch category10" style="height: 2rem;"></div>
       </div>
     </div>
 

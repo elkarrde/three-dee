@@ -1,0 +1,13 @@
+# Blender MTL File: 'None'
+# Material Count: 1
+
+newmtl floordots
+Ns 292.156863
+Ka 1.000000 1.000000 1.000000
+Kd 0.430578 0.430578 0.430578
+Ks 1.000000 1.000000 1.000000
+Ke 1.076445 1.076445 1.076445
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd floordots-min.png
