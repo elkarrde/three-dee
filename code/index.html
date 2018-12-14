@@ -92,18 +92,18 @@
       var mouse = new THREE.Vector2();
 
       var modelsMap = {
-        '1stbuilding': { scale: 15, oX: 20, oZ: 20 },
-        '2squerbuild': { scale: 15, oX: 65, oZ: 50 },
-        '3base': { scale: 15, oX: 45, oZ: 45 },
-        'bmw': { scale: 15, oX: 50, oZ: 75 },
-        'buildings1': { scale: 15, oX: 55, oZ: 75 },
-        'lastnode': { scale: 15, oX: 50, oZ: 50 },
-        'merscobj': { scale: 15, oX: 40, oZ: 50 },
-        'moderntower': { scale: 15, oX: 80, oZ: 50 },
-        'SciFi_3': { scale: 15, oX: 15, oZ: 90 },
-        'scifitower': { scale: 15, oX: 50, oZ: 80 },
-        'simlebuilding': { scale: 15, oX: 80, oZ: 20 },
-        'tallbuilding': { scale: 15, oX: 20, oZ: 20 }
+        '1stbuilding': { scale: 15, oX: 20, oZ: 20, count: 0, model: null },
+        '2squerbuild': { scale: 15, oX: 65, oZ: 50, count: 0, model: null },
+        '3base': { scale: 15, oX: 45, oZ: 45, count: 0, model: null },
+        'bmw': { scale: 15, oX: 50, oZ: 75, count: 0, model: null },
+        'buildings1': { scale: 15, oX: 55, oZ: 75, count: 0, model: null },
+        'lastnode': { scale: 15, oX: 50, oZ: 50, count: 0, model: null },
+        'merscobj': { scale: 15, oX: 40, oZ: 50, count: 0, model: null },
+        'moderntower': { scale: 15, oX: 80, oZ: 50, count: 0, model: null },
+        'SciFi_3': { scale: 15, oX: 15, oZ: 90, count: 0, model: null },
+        'scifitower': { scale: 15, oX: 50, oZ: 80, count: 0, model: null },
+        'simlebuilding': { scale: 15, oX: 80, oZ: 20, count: 0, model: null },
+        'tallbuilding': { scale: 15, oX: 20, oZ: 20, count: 0, model: null }
       }
 
       $(function() {
@@ -249,19 +249,34 @@
       }
 
       function addModel(scene, model, sqOffset) {
-        createObject(scene, model, sqOffset, function(obj, sqOffset) {
-          obj.scale.set(modelsMap[model].scale, modelsMap[model].scale, modelsMap[model].scale)
+        if (modelsMap[model].model) {
+          var mdl = modelsMap[model].model.clone()
           var oX = 0
           var oZ = 0
           if (sqOffset && typeof sqOffset === 'object') {
             oX = sqSize * sqOffset.x
             oZ = sqSize * sqOffset.z
           }
-          obj.position.x = oX + modelsMap[model].oX
-          obj.position.z = oZ + modelsMap[model].oZ
-          obj.userData.type = model
-          scene.add(obj);
-        })
+          mdl.position.x = oX + modelsMap[model].oX
+          mdl.position.z = oZ + modelsMap[model].oZ
+          scene.add(mdl)
+        } else {
+          createObject(scene, model, sqOffset, function(obj, sqOffset) {
+            obj.scale.set(modelsMap[model].scale, modelsMap[model].scale, modelsMap[model].scale)
+            var oX = 0
+            var oZ = 0
+            if (sqOffset && typeof sqOffset === 'object') {
+              oX = sqSize * sqOffset.x
+              oZ = sqSize * sqOffset.z
+            }
+            obj.position.x = oX + modelsMap[model].oX
+            obj.position.z = oZ + modelsMap[model].oZ
+            obj.userData.type = model
+            modelsMap[model].count++
+            modelsMap[model].model = obj
+            scene.add(obj);
+          })
+        }
       }
 
       function init() {
