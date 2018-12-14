@@ -339,13 +339,12 @@
         grid.translateZ(500)
         scene.add(grid);
 
-        var objMap = ['1stbuilding', '2squerbuild', 'simlebuilding', '3base', 'bmw', 'SciFi_3']
 
-        var max = rnd(10, 25)
+        var max = rnd(3, 7)
         var sqOffset = {x: 0, y: 0}
         console.log('Max', max)
 
-        for (var i = 0; i < max + 25; i++) {
+        for (var i = 0; i < max + 6; i++) {
           var coord = {x: rnd(-4, 16), z: rnd(-4, 16)}
           if (posMap.find(function(x){ return x.x == coord.x && x.z == coord.z })) {
             coord = {x: rnd(-4, 16), z: rnd(-4, 16)}
@@ -403,7 +402,7 @@
           }
         }
 
-        for (var i = max + 5; i < max + 15; i++) {
+        for (var i = max + 1; i < max + 3; i++) {
           sqOffset = posMap[i]
           createObject(scene, '2squerbuild', sqOffset, function(obj, sqOffset) {
             var scale = 15
@@ -421,7 +420,7 @@
           })
         }
 
-        for (var i = max + 15; i < max + 20; i++) {
+        for (var i = max + 3; i < max + 5; i++) {
           sqOffset = posMap[i]
           createObject(scene, '3base', sqOffset, function(obj, sqOffset) {
             var scale = 15
@@ -439,7 +438,7 @@
           })
         }
 
-        for (var i = max + 20; i < max + 25; i++) {
+        for (var i = max + 5; i < max + 6; i++) {
           sqOffset = posMap[i]
           createObject(scene, 'bmw', sqOffset, function(obj, sqOffset) {
             var scale = 15
