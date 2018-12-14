@@ -73,7 +73,7 @@
         document.body.appendChild(WEBGL.getWebGLErrorMessage());
       }
 
-      var scene, camera, renderer, exporter, mesh;
+      var scene, camera, renderer, exporter, mesh, spotLight;
       var sqSize = 100
       var globalObjects = []
       var noClickObjects = ['Ground', 'Grid', 'FadeoutMrr', 'GndMirror', 'GndMrr']
@@ -159,6 +159,8 @@
           mouse.y = -(event.clientY / renderer.domElement.clientHeight) * 2 + 1
           raycaster.setFromCamera(mouse, camera)
 
+          spotLight.position.set(camera.position)
+
           var intersects = raycaster.intersectObjects(scene.children, true)
           if (intersects.length >= 1) {
             if (noClickObjects.indexOf(intersects[0].object.name) === -1) {
@@ -167,6 +169,7 @@
               $('.info-panel .obj-dist').text(intersects[0].distance)
               $('.info-panel .obj-type').text(intersects[0].object.parent.userData.type)
               $('.info-panel .obj-uuid').text(intersects[0].object.uuid)
+              spotLight.target = intersects[0].object.parent
             } else {
               $('.info-panel').addClass('hide')
             }
@@ -215,15 +218,15 @@
         groundMirror.translateY(-500)
         scene.add(groundMirror);
 
-        var fadeout = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshLambertMaterial({ color: 0x000802, opacity : 0.8 , transparent: true }))
+        var fadeout = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshLambertMaterial({ color: 0x000300, opacity : 0.85 , transparent: true }))
         fadeout.name = 'FadeoutMrr'
-        fadeout.position.y = 0.75
+        fadeout.position.y = 0.85
         fadeout.rotateX(-Math.PI / 2)
         fadeout.translateX(500)
         fadeout.translateY(-500)
         scene.add(fadeout)
 
-        var grid = new THREE.GridHelper(2000, 20, 0x08cc4c, 0x08cc4c);
+        var grid = new THREE.GridHelper(2000, 20, 0x3bff7f, 0x3bff7f);
         grid.name = 'Grid'
         grid.material.opacity = 1;
         grid.material.transparent = true;
@@ -232,20 +235,38 @@
         scene.add(grid);
 
         // hemiLight
-        var hemiLight = new THREE.HemisphereLight(0xffffff, 0xaaaaaa);
+        var hemiLight = new THREE.HemisphereLight(0xffffff, 0xaaaaaa)
+        var hlHelper = new THREE.HemisphereLightHelper(hemiLight, 50, 0xffff00)
         hemiLight.position.set(0, 1000, 0);
         scene.add(hemiLight);
+        scene.add(hlHelper);
       }
 
       function addDirLight(scene, params) {
-        var dirLight = new THREE.DirectionalLight(params.color, params.intensity);
-        dirLight.position.set(params.coords.x, params.coords.y, params.coords.z);
-        dirLight.castShadow = false;
-        //dirLight.shadow.camera.top = 180;
-        //dirLight.shadow.camera.bottom = -100;
-        //dirLight.shadow.camera.left = -120;
-        //dirLight.shadow.camera.right = 120;
-        scene.add(dirLight);
+        var dirLight = new THREE.DirectionalLight(params.color, params.intensity)
+        var dlHelper = new THREE.DirectionalLightHelper(dirLight, 10, 0x0000ff)
+        dirLight.position.set(params.coords.x, params.coords.y, params.coords.z)
+        dirLight.castShadow = false
+        scene.add(dirLight)
+        scene.add(dlHelper)
+      }
+
+      function addSpotLight(scene, params) {
+        var spotLight = new THREE.SpotLight(params.color, params.intensity)
+        spotLight.position.set(params.coords.x, params.coords.y, params.coords.z)
+        spotLight.castShadow = false
+
+        spotLight.angle = Math.PI / 4;
+        spotLight.penumbra = 0.05;
+        spotLight.decay = 2;
+        spotLight.distance = 200;
+
+        scene.add(spotLight)
+
+        var slHelper = new THREE.SpotLightHelper(spotLight, 10, 0x0000ff)
+        scene.add(slHelper)
+
+        return spotLight
       }
 
       function addModel(scene, model, sqOffset) {
@@ -281,25 +302,6 @@
 
       function init() {
         setupWorld()
-
-        /*
-        var max = rnd(3, 7)
-        var sqOffset = {x: 0, y: 0}
-        console.log('Max', max)
-
-        for (var i = 0; i < max + 6; i++) {
-          var coord = {x: rnd(-4, 16), z: rnd(-4, 16)}
-          if (posMap.find(function(x){ return x.x == coord.x && x.z == coord.z })) {
-            coord = {x: rnd(-4, 16), z: rnd(-4, 16)}
-          }
-          posMap.push(coord)
-        }
-
-        for (var i = 0; i < max; i++) {
-          sqOffset = posMap[i]
-        }
-        */
-
         addDirLight(scene, {
           color: 0xffffff,
           intensity: 3,
@@ -312,8 +314,13 @@
         })
         addDirLight(scene, {
           color: 0xffffff,
-          intensity: 2,
-          coords: { x: -450, y: 100, z: -4500 }
+          intensity: 3,
+          coords: { x: -450, y: 500, z: -450 }
+        })
+        spotLight = addSpotLight(scene, {
+          color: 0xffffff,
+          intensity: 3,
+          coords: { x: -450, y: 500, z: -450 }
         })
 
         renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -335,9 +342,6 @@
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
       }
-
-      var prev = 0
-
       function animate() {
         stats.begin()
         stats.end()
