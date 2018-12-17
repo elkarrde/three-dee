@@ -1,13 +1,9 @@
 TODO
 ---
-- [ ] 5. pozicioniranje i definiranje kućica kroz JSON descriptor [4h] --> Zlatko pripremiti JSON
-- [ ] 7. postavljanje 3D logotipa (radije to nego 2D)
-- [ ] 8. pozicioniranje i definiranje cjevovoda
-    - [ ] 8. odlučit kako uopće dati tu informaciju - veza izmedju bloka tog i tog
+- [x] 0. naziv app - logo, mozda neki podaci o logiranom korisniku, tekuće vrijeme
 - [ ] 1. helper svjetla - da vidimo gdje je svjetlo i eventualno direkciju [1h]
 - [ ] 2. HTML element (prozor) probati micanje mišem od strane korisnika (da se ponaša kao Windows prozor) [2h]
 - [ ] 3. tooltip objekta (nadovezuje se na ovo iznad) [1h]
-- [ ] 9. click handler i tooltip na klikanje na cjevovod
 - [ ] 4. GUI - sidebarovi lijevi i desni, zrcalno simetrični, tri placeholdera za interakciju i štošta: [1h]
     - štošta:
     - [ ] graf, [2h]
@@ -19,8 +15,12 @@ TODO
     - [ ] klik-odabir što se prikazuje u placeholderu, --> 3.
     - [ ] klik na 3D svijet/element/pipe otvara u placeholderu (zadnje korištenom? ili pita gdje) --> text, graf, konzola
     - nešto - graf, text, tablica (odabire su kroz popup)
-- [x] 0. naziv app - logo, mozda neki podaci o logiranom korisniku, tekuće vrijeme
+- [ ] 5. pozicioniranje i definiranje kućica kroz JSON descriptor [4h] --> Zlatko pripremiti JSON
 - [ ] 6. slideri-kontrole u three.js za podešavanje nekih dinamičkih parametara: [2h]
     - [ ] intenzitet svjetla, odbljeska, boja svijetla
     - [ ] podloge
     - [ ] kamere
+- [ ] 7. postavljanje 3D logotipa (radije to nego 2D)
+- [ ] 8. pozicioniranje i definiranje cjevovoda
+    - [ ] 8. odlučit kako uopće dati tu informaciju - veza izmedju bloka tog i tog
+- [ ] 9. click handler i tooltip na klikanje na cjevovod
