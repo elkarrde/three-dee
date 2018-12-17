@@ -4,10 +4,12 @@
     <title>World</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <style>
       * {
         font-size: 10px;
       }
+      body { background-color: #000; }
       #info {
         color: #fff;
         position: absolute;
@@ -45,12 +47,33 @@
         padding: 0;
         margin: 0;
       }
+      header .navbar {
+        padding: 0 1rem;
+      }
+      header .navbar h5 { color: #eee; }
       .hide { display: none; }
     </style>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="./res/css/epoch.min.css">
   </head>
   <body>
+    <header>
+      <nav class="navbar navbar-dark bg-dark">
+        <span class="navbar-text">
+          <h5>
+            <strong>DaVE</strong> &nbsp; <small>Datacenter Visualization Environment</small>
+          </h5>
+        </span>
+        <span class="navbar-text pull-right">
+          @elkarrde
+          &nbsp;
+          <button class="btn btn-outline-danger btn-sm my-2 my-sm-0 js-btn-logout" type="button">Log out</button>
+          &nbsp;&nbsp;
+          <span class="js-time">&middot;</span>
+          &nbsp;&nbsp;
+          <button class="btn btn-outline-primary btn-sm my-2 my-sm-0 js-btn-stats" type="button">Stats</button>
+        </span>
+      </nav>
+    </header>
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
@@ -88,6 +111,8 @@
       var stepZ = 2
       var count = 0
 
+      var cT, cTi
+
       var raycaster = new THREE.Raycaster();
       var mouse = new THREE.Vector2();
 
@@ -123,11 +148,22 @@
           addModel(scene, mdl, sqOffset)
           count++
         })
+
+        $('.js-btn-stats').click(function() {
+          $(stats.domElement).toggleClass('hide')
+        })
+
+        cTi = setInterval(function() {
+          cT = new Date()
+          $('.js-time').html(cT.toLocaleTimeString('hr'))
+        }, 500)
       })
 
       var stats = new Stats()
+      $(stats.domElement).css('top', '3rem').css('right', 0).css('left', '')
       stats.showPanel(0)
       document.body.appendChild(stats.dom)
+      $(stats.domElement).addClass('hide')
 
       function createObject(scene, objName, params, callback) {
         var loader = new THREE.MTLLoader()
@@ -325,7 +361,7 @@
 
         renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(window.innerWidth, window.innerHeight - 34);
         renderer.shadowMap.enabled = false;
         document.body.appendChild(renderer.domElement);
 
