@@ -20,7 +20,7 @@ TODO
     - [ ] intenzitet svjetla, odbljeska, boja svijetla
     - [ ] podloge
     - [ ] kamere
-- [ ] 7. postavljanje 3D logotipa (radije to nego 2D)
-- [ ] 8. pozicioniranje i definiranje cjevovoda
+- [ ] 7. postavljanje 3D logotipa (radije to nego 2D) [3h]
+- [ ] 8. pozicioniranje i definiranje cjevovoda [4h]
     - [ ] 8. odlučit kako uopće dati tu informaciju - veza izmedju bloka tog i tog
-- [ ] 9. click handler i tooltip na klikanje na cjevovod
+- [ ] 9. click handler i tooltip na klikanje na cjevovod [2h]
