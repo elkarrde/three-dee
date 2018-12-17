@@ -25,3 +25,6 @@ TODO
     - [ ] 8. odlučit kako uopće dati tu informaciju - veza izmedju bloka tog i tog
     - [ ] 8. animiranje toka podataka [?]
 - [ ] 9. click handler i tooltip na klikanje na cjevovod [2h]
+- [ ] 10. spojne točke na cjevovodu + click handler [2h]
+
+30h total
