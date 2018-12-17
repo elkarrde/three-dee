@@ -1,9 +1,9 @@
 TODO
 ---
 - [x] 0. naziv app - logo, mozda neki podaci o logiranom korisniku, tekuće vrijeme
-- [ ] 1. helper svjetla - da vidimo gdje je svjetlo i eventualno direkciju [1h]
-- [ ] 2. HTML element (prozor) probati micanje mišem od strane korisnika (da se ponaša kao Windows prozor) [2h]
-- [ ] 3. tooltip objekta (nadovezuje se na ovo iznad) [1h]
+- [x] 1. helper svjetla - da vidimo gdje je svjetlo i eventualno direkciju [1h]
+- [x] 2. HTML element (prozor) probati micanje mišem od strane korisnika (da se ponaša kao Windows prozor) [2h]
+- [x] 3. tooltip objekta (nadovezuje se na ovo iznad) [1h]
 - [ ] 4. GUI - sidebarovi lijevi i desni, zrcalno simetrični, tri placeholdera za interakciju i štošta: [1h]
     - [ ] štošta:
     - [ ] graf, [2h]
