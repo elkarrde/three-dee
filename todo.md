@@ -5,13 +5,13 @@ TODO
 - [ ] 2. HTML element (prozor) probati micanje mišem od strane korisnika (da se ponaša kao Windows prozor) [2h]
 - [ ] 3. tooltip objekta (nadovezuje se na ovo iznad) [1h]
 - [ ] 4. GUI - sidebarovi lijevi i desni, zrcalno simetrični, tri placeholdera za interakciju i štošta: [1h]
-    - štošta:
+    - [ ] štošta:
     - [ ] graf, [2h]
     - [ ] tekst, [30m]
     - [ ] tablica, [30m]
     - [ ] 3D view [3h]
     - [ ] konzola [30m]
-    - interakcije: [2h]
+    - [ ] interakcije: [2h]
     - [ ] klik-odabir što se prikazuje u placeholderu, --> 3.
     - [ ] klik na 3D svijet/element/pipe otvara u placeholderu (zadnje korištenom? ili pita gdje) --> text, graf, konzola
     - nešto - graf, text, tablica (odabire su kroz popup)
@@ -22,8 +22,8 @@ TODO
     - [ ] kamere
 - [ ] 7. postavljanje 3D logotipa (radije to nego 2D) [3h]
 - [ ] 8. pozicioniranje i definiranje cjevovoda [4h]
-    - [ ] 8. odlučit kako uopće dati tu informaciju - veza izmedju bloka tog i tog
-    - [ ] 8. animiranje toka podataka [?]
+    - [ ] odlučit kako uopće dati tu informaciju - veza izmedju bloka tog i tog
+    - [ ] animiranje toka podataka [?]
 - [ ] 9. click handler i tooltip na klikanje na cjevovod [2h]
 - [ ] 10. spojne točke na cjevovodu + click handler [2h]
 
