@@ -14,7 +14,7 @@ TODO
     - [ ] interakcije: [2h]
     - [ ] klik-odabir što se prikazuje u placeholderu, --> 3.
     - [ ] klik na 3D svijet/element/pipe otvara u placeholderu (zadnje korištenom? ili pita gdje) --> text, graf, konzola
-    - nešto - graf, text, tablica (odabire su kroz popup)
+    - [ ] nešto - graf, text, tablica (odabire su kroz popup)
 - [ ] 5. pozicioniranje i definiranje kućica kroz JSON descriptor [4h] --> Zlatko pripremiti JSON
 - [ ] 6. slideri-kontrole u three.js za podešavanje nekih dinamičkih parametara: [2h]
     - [ ] intenzitet svjetla, odbljeska, boja svijetla
