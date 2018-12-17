@@ -22,24 +22,29 @@
         color: #046;
         font-weight: bold;
       }
-      .side {
+      .info-panel {
         width: 15rem;
         background-color: rgba(255, 255, 255, 0.5);
-        height: auto; /*96vh;*/
+        height: auto;
         padding: 1rem 0.5rem;
         margin: 0;
+        position: absolute;
       }
       .side-left {
         float: left;
-        position: absolute;
-        top: 7vh;
+        top: 4vh;
         left: 0;
+        height: 96vh;
+        background: linear-gradient(to right, rgba(71, 127, 56,  0.8) 0%, rgba(0, 0, 0, 0.2) 100%);
+        color: #EEE;
       }
       .side-right {
         float: right;
-        position: absolute;
-        top: 0;
+        top: 4vh;
         right: 0;
+        height: 96vh;
+        background: linear-gradient(to right, rgba(71, 127, 56,  0.8) 100%, rgba(0, 0, 0, 0.2) 0%);
+        color: #eee;
       }
       canvas {
         width: 100vw;
@@ -52,6 +57,11 @@
       }
       header .navbar h5 { color: #eee; }
       .hide { display: none; }
+
+      #objttip {
+        top: 10vh;
+        left: 10vw;
+      }
     </style>
   </head>
   <body>
@@ -63,13 +73,17 @@
           </h5>
         </span>
         <span class="navbar-text pull-right">
-          @elkarrde
-          &nbsp;
-          <button class="btn btn-outline-danger btn-sm my-2 my-sm-0 js-btn-logout" type="button">Log out</button>
-          &nbsp;&nbsp;
-          <span class="js-time">&middot;</span>
-          &nbsp;&nbsp;
-          <button class="btn btn-outline-primary btn-sm my-2 my-sm-0 js-btn-stats" type="button">Stats</button>
+          <span class="info-user pl-0 pr-2">
+            <span class="js-username pr-2"><em>Logged out</em></span>
+          </span>
+          <span class="info-time px-2">
+            <span class="js-time">&middot;</span>
+          </span>
+          <span class="info-actions pl-2 pr-0">
+            <button class="btn btn-outline-danger btn-sm mr-1 js-btn-logout hide" type="button">Log out</button>
+            <button class="btn btn-outline-success btn-sm mr-1 js-btn-login" type="button">Log in</button>
+            <button class="btn btn-outline-primary btn-sm mr-0 js-btn-stats" type="button">Stats</button>
+          </span>
         </span>
       </nav>
     </header>
@@ -101,34 +115,75 @@
       var globalObjects = []
       var noClickObjects = ['Ground', 'Grid', 'FadeoutMrr', 'GndMirror', 'GndMrr']
       var posMap = []
-      var posX0 = -4
-      var posZ0 = -4
-      var cPosX = -4
-      var cPosZ = -4
-      var maxX = 12
-      var maxZ = 6
+      var posX0 = -10
+      var posZ0 = -10
+      var cPosX = -10
+      var cPosZ = -10
+      var maxX = 8
+      var maxZ = 8
       var stepX = 1
       var stepZ = 2
       var count = 0
 
       var cT, cTi
 
+      var dirLights = []
+
       var raycaster = new THREE.Raycaster();
       var mouse = new THREE.Vector2();
 
       var modelsMap = {
-        '1stbuilding': { scale: 15, oX: 20, oZ: 20, count: 0, model: null },
-        '2squerbuild': { scale: 15, oX: 65, oZ: 50, count: 0, model: null },
-        '3base': { scale: 15, oX: 45, oZ: 45, count: 0, model: null },
-        'bmw': { scale: 15, oX: 50, oZ: 75, count: 0, model: null },
-        'buildings1': { scale: 15, oX: 55, oZ: 75, count: 0, model: null },
-        'lastnode': { scale: 15, oX: 50, oZ: 50, count: 0, model: null },
-        'merscobj': { scale: 15, oX: 40, oZ: 50, count: 0, model: null },
-        'moderntower': { scale: 15, oX: 80, oZ: 50, count: 0, model: null },
-        'SciFi_3': { scale: 15, oX: 15, oZ: 90, count: 0, model: null },
-        'scifitower': { scale: 15, oX: 50, oZ: 80, count: 0, model: null },
+        '1stbuilding':   { scale: 15, oX: 20, oZ: 20, count: 0, model: null },
+        '2squerbuild':   { scale: 15, oX: 65, oZ: 50, count: 0, model: null },
+        '3base':         { scale: 15, oX: 45, oZ: 45, count: 0, model: null },
+        'bmw':           { scale: 15, oX: 50, oZ: 75, count: 0, model: null },
+        'buildings1':    { scale: 15, oX: 55, oZ: 75, count: 0, model: null },
+        'lastnode':      { scale: 15, oX: 50, oZ: 50, count: 0, model: null },
+        'merscobj':      { scale: 15, oX: 40, oZ: 50, count: 0, model: null },
+        'moderntower':   { scale: 15, oX: 80, oZ: 50, count: 0, model: null },
+        'SciFi_3':       { scale: 15, oX: 15, oZ: 90, count: 0, model: null },
+        'scifitower':    { scale: 15, oX: 50, oZ: 80, count: 0, model: null },
         'simlebuilding': { scale: 15, oX: 80, oZ: 20, count: 0, model: null },
-        'tallbuilding': { scale: 15, oX: 20, oZ: 20, count: 0, model: null }
+        'tallbuilding':  { scale: 15, oX: 20, oZ: 20, count: 0, model: null }
+      }
+
+      var userAdapter = {
+        doLogin: function() {
+          var username = prompt('Enter your username:')
+          this.data.name = username.trim()
+          this.data.active = true
+          localStorage.setItem('user', JSON.stringify(this.data))
+          this.updateUi()
+        },
+        doLogout: function() {
+          this.data.name = null
+          this.data.active = false
+          localStorage.removeItem('user')
+          this.updateUi()
+        },
+        updateUi: function() {
+          if (this.data.active) {
+            $('.js-username').html('@' + this.data.name)
+            $('.js-btn-login').addClass('hide')
+            $('.js-btn-logout').removeClass('hide')
+          } else {
+            $('.js-username').html('<em>Logged out</em>')
+            $('.js-btn-login').removeClass('hide')
+            $('.js-btn-logout').addClass('hide')
+          }
+        },
+        init: function() {
+          if (localStorage.getItem('user') !== null) {
+            var tmpUser = JSON.parse(localStorage.getItem('user'))
+            this.data.name = tmpUser.name
+            this.data.active = true
+          }
+          this.updateUi()
+        },
+        data: {
+          name: null,
+          active: false
+        }
       }
 
       $(function() {
@@ -151,6 +206,14 @@
 
         $('.js-btn-stats').click(function() {
           $(stats.domElement).toggleClass('hide')
+        })
+
+        userAdapter.init()
+        $('.js-btn-login').click(function() {
+          userAdapter.doLogin()
+        })
+        $('.js-btn-logout').click(function() {
+          userAdapter.doLogout()
         })
 
         cTi = setInterval(function() {
@@ -188,31 +251,49 @@
         )
       }
 
-      function onDocumentMouseDown(event) {
-        // event.preventDefault()
+      function onDocumentMouseUp(event) {
         if (event.button === 0) {
-          mouse.x = (event.clientX / renderer.domElement.clientWidth) * 2 - 1
-          mouse.y = -(event.clientY / renderer.domElement.clientHeight) * 2 + 1
-          raycaster.setFromCamera(mouse, camera)
+          var lMap = event.path.filter(function(x) { return $(x)[0].id === 'objttip' })
+          if (lMap.length > 0) {
+            event.preventDefault()
+          } else {
+            mouse.x = (event.clientX / renderer.domElement.clientWidth) * 2 - 1
+            mouse.y = -(event.clientY / renderer.domElement.clientHeight) * 2 + 1
+            raycaster.setFromCamera(mouse, camera)
 
-          spotLight.position.set(camera.position)
+            var intersects = raycaster.intersectObjects(scene.children, true)
+            if (intersects.length >= 1) {
+              $('#objttip').css('left', event.x + 50).css('top', event.y).removeClass('hide')
+              spotLight.position.set(camera.position)
 
-          var intersects = raycaster.intersectObjects(scene.children, true)
-          if (intersects.length >= 1) {
-            if (noClickObjects.indexOf(intersects[0].object.name) === -1) {
-              console.log('Clicked object type: ' + intersects[0].object.geometry.name, intersects[0])
-              $('.info-panel').removeClass('hide')
-              $('.info-panel .obj-dist').text(intersects[0].distance)
-              $('.info-panel .obj-type').text(intersects[0].object.parent.userData.type)
-              $('.info-panel .obj-uuid').text(intersects[0].object.uuid)
-              spotLight.target = intersects[0].object.parent
+              if (noClickObjects.indexOf(intersects[0].object.name) === -1) {
+                console.log('Clicked object type: ' + intersects[0].object.geometry.name, intersects[0])
+                $('.obj-panel').removeClass('hide')
+                $('.obj-panel .obj-dist').text(intersects[0].distance)
+                $('.obj-panel .obj-type').text(intersects[0].object.parent.userData.type)
+                $('.obj-panel .obj-uuid').text(intersects[0].object.uuid)
+                spotLight.target = intersects[0].object.parent
+              } else {
+                $('.obj-panel').addClass('hide')
+              }
             } else {
-              $('.info-panel').addClass('hide')
+              $('#objttip').addClass('hide')
             }
           }
         }
       }
-      document.addEventListener('mousedown', onDocumentMouseDown, false)
+      document.addEventListener('mouseup', onDocumentMouseUp, false)
+
+      function onDocumentMouseMove(evt) {
+        if (evt.buttons === 1 && evt.button === 0) { // drag!
+          var lMap = evt.path.filter(function(x) { return $(x)[0].id === 'objttip' })
+          if (lMap.length > 0) {
+            $('#objttip').css('left', evt.x - 15).css('top', evt.y - 15)
+            evt.preventDefault()
+          }
+        }
+      }
+      document.addEventListener('mousemove', onDocumentMouseMove, false)
 
       function rnd(min, max) {
         return Math.floor(Math.random() * max) + min
@@ -234,8 +315,6 @@
         ground.rotation.x = -Math.PI / 2;
         ground.receiveShadow = false;
         ground.opacity = 0.8
-        ground.translateX(500)
-        ground.translateY(-500)
         scene.add(ground);
 
         var geometry = new THREE.PlaneBufferGeometry(2000, 2000);
@@ -250,24 +329,18 @@
         groundMirror.name = 'GndMrr'
         groundMirror.position.y = 0.5;
         groundMirror.rotateX(-Math.PI / 2);
-        groundMirror.translateX(500)
-        groundMirror.translateY(-500)
         scene.add(groundMirror);
 
         var fadeout = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshLambertMaterial({ color: 0x000300, opacity : 0.85 , transparent: true }))
         fadeout.name = 'FadeoutMrr'
         fadeout.position.y = 0.85
         fadeout.rotateX(-Math.PI / 2)
-        fadeout.translateX(500)
-        fadeout.translateY(-500)
         scene.add(fadeout)
 
         var grid = new THREE.GridHelper(2000, 20, 0x3bff7f, 0x3bff7f);
         grid.name = 'Grid'
         grid.material.opacity = 1;
         grid.material.transparent = true;
-        grid.translateX(500)
-        grid.translateZ(500)
         scene.add(grid);
 
         // hemiLight
@@ -280,23 +353,26 @@
 
       function addDirLight(scene, params) {
         var dirLight = new THREE.DirectionalLight(params.color, params.intensity)
-        var dlHelper = new THREE.DirectionalLightHelper(dirLight, 10, 0x0000ff)
         dirLight.position.set(params.coords.x, params.coords.y, params.coords.z)
         dirLight.castShadow = false
+        dirLight.target.position.set(params.coords.x, 0, params.coords.z)
         scene.add(dirLight)
-        scene.add(dlHelper)
+        scene.add(dirLight.target)
+
+        //var dlHelper = new THREE.DirectionalLightHelper(dirLight, 10, 0x0088ff)
+        //scene.add(dlHelper)
+
+        return dirLight
       }
 
       function addSpotLight(scene, params) {
         var spotLight = new THREE.SpotLight(params.color, params.intensity)
         spotLight.position.set(params.coords.x, params.coords.y, params.coords.z)
         spotLight.castShadow = false
-
         spotLight.angle = Math.PI / 4;
         spotLight.penumbra = 0.05;
         spotLight.decay = 2;
         spotLight.distance = 200;
-
         scene.add(spotLight)
 
         var slHelper = new THREE.SpotLightHelper(spotLight, 10, 0x0000ff)
@@ -338,26 +414,30 @@
 
       function init() {
         setupWorld()
-        addDirLight(scene, {
+        dirLights[0] = addDirLight(scene, {
           color: 0xffffff,
           intensity: 3,
-          coords: { x: -200, y: 500, z: 200 }
+          coords: { x: -200, y: 1000, z: 200 }
         })
-        addDirLight(scene, {
+        dirLights[1] = addDirLight(scene, {
           color: 0xffffff,
           intensity: 3,
-          coords: { x: 800, y: 500, z: 600 }
+          coords: { x: 800, y: 1000, z: 600 }
         })
-        addDirLight(scene, {
+        dirLights[2] = addDirLight(scene, {
           color: 0xffffff,
           intensity: 3,
-          coords: { x: -450, y: 500, z: -450 }
+          coords: { x: -450, y: 1000, z: -450 }
         })
         spotLight = addSpotLight(scene, {
           color: 0xffffff,
           intensity: 3,
-          coords: { x: -450, y: 500, z: -450 }
+          coords: { x: -450, y: 1000, z: -450 }
         })
+
+        dirLights[0].position.set(500, 1000, 500)
+        dirLights[1].position.set(0, 1000, 500)
+        dirLights[2].position.set(-500, 1000, -500)
 
         renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setPixelRatio(window.devicePixelRatio);
@@ -390,7 +470,7 @@
 
     </script>
 
-    <div class="holder side side-left ctrl-panel">
+    <div class="holder side side-left info-panel">
       <div class="container">
         <h5>Add new object</h5>
         <form>
@@ -404,7 +484,7 @@
       </div>
     </div>
 
-    <div class="holder side side-right info-panel hide">
+    <div class="holder side side-right info-panel obj-panel hide">
       <div class="container">
         <dl class="card-text">
           <dt>Type</dt>
@@ -417,6 +497,12 @@
         <div id="areaChart" class="epoch category10" style="height: 2rem;"></div>
       </div>
     </div>
+
+    <aside id="objttip" class="info-panel ttp-panel hide">
+      <div class="container">
+        Lorem ipsum dolor sit amet, nunc integer.
+      </div>
+    </aside>
 
   </body>
 </html>
