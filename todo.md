@@ -18,7 +18,7 @@ TODO
     - [ ] klik-odabir što se prikazuje u placeholderu,
     - [ ] klik na 3D svijet/element/pipe otvara u placeholderu (zadnje korištenom? ili pita gdje)
     - nešto - graf, text, tablica (odabire su kroz popup)
-- [ ] naziv app - logo, mozda neki podaci o logiranom korisniku, tekuće vrijeme
+- [x] naziv app - logo, mozda neki podaci o logiranom korisniku, tekuće vrijeme
 - [ ] slideri-kontrole u three.js za podešavanje nekih dinamičkih parametara:
     - [ ] intenzitet svjetla, odbljeska, boja svijetla
     - [ ] podloge
