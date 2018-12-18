@@ -5,10 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/dat.gui.css">
     <style>
-      * {
-        font-size: 10px;
-      }
+      * { font-size: 10px; }
       body { background-color: #000; }
       #info {
         color: #fff;
@@ -52,9 +51,7 @@
         padding: 0;
         margin: 0;
       }
-      header .navbar {
-        padding: 0 1rem;
-      }
+      header .navbar { padding: 0 1rem; }
       header .navbar h5 { color: #eee; }
       .hide { display: none; }
 
@@ -67,6 +64,9 @@
         top: 10vh;
         left: 10vw;
       }
+
+      .w90 { max-width: 90%; }
+      .w-overflow { overflow: auto; }
     </style>
   </head>
   <body>
@@ -104,6 +104,7 @@
     <script src="./js/loaders/OBJLoader.js"></script>
     <script src="./js/WebGL.js"></script>
     <script src="./js/stats.js"></script>
+    <script src="./js/dat.gui.min.js"></script>
 
     <!--
     <script src="https://d3js.org/d3.v5.min.js"></script>
@@ -142,7 +143,7 @@
         '2squerbuild':   { scale: 15, oX: 65, oZ: 50, count: 0, model: null },
         '3base':         { scale: 15, oX: 45, oZ: 45, count: 0, model: null },
         'bmw':           { scale: 15, oX: 50, oZ: 75, count: 0, model: null },
-        'bigbmw':        { scale: 1,  oX: 50, oZ: 50, count: 0, model: null },
+        'bigbmwf':       { scale: 1,  oX: 50, oZ: 50, count: 0, model: null },
         'buildings1':    { scale: 15, oX: 55, oZ: 75, count: 0, model: null },
         'lastnode':      { scale: 15, oX: 50, oZ: 50, count: 0, model: null },
         'merscobj':      { scale: 15, oX: 40, oZ: 50, count: 0, model: null },
@@ -226,6 +227,8 @@
           cT = new Date()
           $('.js-time').html(cT.toLocaleTimeString('hr'))
         }, 500)
+
+        $('.dg.ac').css('top', '3rem')
       })
 
       var stats = new Stats()
@@ -349,14 +352,49 @@
         grid.material.transparent = true;
         scene.add(grid);
 
-        // hemiLight
-        var hemiLight = new THREE.HemisphereLight(0xffffff, 0xaaaaaa)
-        var hlHelper = new THREE.HemisphereLightHelper(hemiLight, 50, 0xffff00)
-        hemiLight.position.set(0, 1000, 0);
-        scene.add(hemiLight);
-        scene.add(hlHelper);
+        // hemiLight - main, central
+        addHemiLight(scene, {
+          color: 0xffffff,
+          groundColor: 0xaaaaaa,
+          intensity: 2,
+          coords: { x: 0, y: 1000, z: 0 }
+        })
+        // hemiLight - bordering
+        addHemiLight(scene, {
+          color: 0xffffff,
+          groundColor: 0xaaaaaa,
+          intensity: 2,
+          coords: { x: 500, y: 1000, z: 500 }
+        })
+        addHemiLight(scene, {
+          color: 0xffffff,
+          groundColor: 0xaaaaaa,
+          intensity: 2,
+          coords: { x: 500, y: 1000, z: -500 }
+        })
+        addHemiLight(scene, {
+          color: 0xffffff,
+          groundColor: 0xaaaaaa,
+          intensity: 2,
+          coords: { x: -500, y: 1000, z: -500 }
+        })
+        addHemiLight(scene, {
+          color: 0xffffff,
+          groundColor: 0xaaaaaa,
+          intensity: 2,
+          coords: { x: -500, y: 1000, z: 500 }
+        })
       }
 
+      function addHemiLight(scene, params) {
+        var hemiLight = new THREE.HemisphereLight(params.color, params.groundColor, params.intensity)
+        var hlHelper = new THREE.HemisphereLightHelper(hemiLight, 50, 0xffff00)
+        hemiLight.position.set(params.coords.x, params.coords.y, params.coords.z);
+        scene.add(hemiLight);
+        scene.add(hlHelper);
+
+        return hemiLight
+      }
       function addDirLight(scene, params) {
         var dirLight = new THREE.DirectionalLight(params.color, params.intensity)
         dirLight.position.set(params.coords.x, params.coords.y, params.coords.z)
@@ -474,6 +512,28 @@
       init();
       animate();
 
+
+      // GUI
+      /*
+      var options = {
+        camera: {}
+      };
+      */
+
+      // DAT.GUI Related Stuff
+      var gui = new dat.GUI();
+
+      var gCamera = gui.addFolder('Camera');
+      gCamera.add(camera.position, 'x', 0, 1000).listen();
+      gCamera.add(camera.position, 'y', 0, 1000).listen();
+      gCamera.add(camera.position, 'z', 0, 1000).listen();
+      gCamera.open();
+
+      var gDirLight = gui.addFolder('DirectionalLight');
+      gDirLight.add(dirLights[0], 'x', -0.2, 0.2).name('X').listen();
+      gDirLight.add(dirLights[0], 'z', -0.2, 0.2).name('Z').listen();
+      gDirLight.open();
+
     </script>
 
     <div class="holder side side-left info-panel">
@@ -500,7 +560,7 @@
           <dt>Distance</dt>
           <dd class="obj-dist">?</dd>
         </dl>
-        <table class="table">
+        <table class="table w90 w-overflow">
           <tr>
             <td>Type</td>
             <td class="obj-type">&middot;</td>

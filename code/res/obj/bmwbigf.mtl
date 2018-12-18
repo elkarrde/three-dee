@@ -1,0 +1,13 @@
+# Blender MTL File: 'bmwwithlights.blend'
+# Material Count: 1
+
+newmtl towermaterial
+Ns 194.117647
+Ka 1.000000 1.000000 1.000000
+Kd 0.202353 0.202353 0.202353
+Ks 0.500000 0.500000 0.500000
+Ke 0.252941 0.252941 0.252941
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Bmwtext.jpg
