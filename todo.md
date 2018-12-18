@@ -7,7 +7,7 @@ TODO
 - [ ] 4. GUI - sidebarovi lijevi i desni, zrcalno simetrični, tri placeholdera za interakciju i štošta: [1h]
     - [ ] štošta:
     - [ ] graf, [2h]
-    - [ ] tekst, [30m]
+    - [x] tekst, [30m]
     - [ ] tablica, [30m]
     - [ ] 3D view [3h]
     - [ ] konzola [30m]
