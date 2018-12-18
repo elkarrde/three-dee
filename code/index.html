@@ -43,7 +43,7 @@
         top: 4vh;
         right: 0;
         height: 96vh;
-        background: linear-gradient(to right, rgba(71, 127, 56,  0.8) 100%, rgba(0, 0, 0, 0.2) 0%);
+        background: linear-gradient(to left, rgba(71, 127, 56,  0.8) 0%, rgba(0, 0, 0, 0.2) 100%);
         color: #eee;
       }
       canvas {
@@ -57,6 +57,11 @@
       }
       header .navbar h5 { color: #eee; }
       .hide { display: none; }
+
+      .container {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+      }
 
       #objttip {
         top: 10vh;
@@ -137,6 +142,7 @@
         '2squerbuild':   { scale: 15, oX: 65, oZ: 50, count: 0, model: null },
         '3base':         { scale: 15, oX: 45, oZ: 45, count: 0, model: null },
         'bmw':           { scale: 15, oX: 50, oZ: 75, count: 0, model: null },
+        'bigbmw':        { scale: 1,  oX: 50, oZ: 50, count: 0, model: null },
         'buildings1':    { scale: 15, oX: 55, oZ: 75, count: 0, model: null },
         'lastnode':      { scale: 15, oX: 50, oZ: 50, count: 0, model: null },
         'merscobj':      { scale: 15, oX: 40, oZ: 50, count: 0, model: null },
@@ -359,8 +365,8 @@
         scene.add(dirLight)
         scene.add(dirLight.target)
 
-        //var dlHelper = new THREE.DirectionalLightHelper(dirLight, 10, 0x0088ff)
-        //scene.add(dlHelper)
+        var dlHelper = new THREE.DirectionalLightHelper(dirLight, 10, 0x0088ff)
+        scene.add(dlHelper)
 
         return dirLight
       }
@@ -494,6 +500,20 @@
           <dt>Distance</dt>
           <dd class="obj-dist">?</dd>
         </dl>
+        <table class="table">
+          <tr>
+            <td>Type</td>
+            <td class="obj-type">&middot;</td>
+          </tr>
+          <tr>
+            <td>UUID</td>
+            <td class="obj-uuid">&middot;</td>
+          </tr>
+          <tr>
+            <td>Distance</td>
+            <td class="obj-dist">&middot;</td>
+          </tr>
+        </table>
         <div id="areaChart" class="epoch category10" style="height: 2rem;"></div>
       </div>
     </div>
