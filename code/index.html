@@ -170,6 +170,7 @@
         'tallbuildingb': { scale: 1,  oX: 50, oZ: 50, count: 0, model: null },
         'torus':         { scale: 1,  oX: 50, oZ: 50, count: 0, model: null }
       }
+      var logoMap = ["Apache_kafka", "centos", "clickhouse", "elastic", "flink", "git", "Prometheus", "spark", "ubuntu", "zepelin", "Zoo"]
 
       var userAdapter = {
         doLogin: function() {
@@ -210,6 +211,8 @@
         }
       }
 
+      var multiPlace = false
+
       $(function() {
         Object.getOwnPropertyNames(modelsMap).forEach(function(model) {
           $('#typeSelect').append('<option value="' + model + '">' + model + '</option>')
@@ -225,7 +228,21 @@
           }
           var sqOffset = { x: cPosX, z: cPosZ }
           addModel(scene, mdl, sqOffset)
+
+          if (modelsMap[mdl].count) {
+            $('.js-object-list tbody').find('.js-count-' + mdl).find('.js-num').html(modelsMap[mdl].count)
+          } else {
+            $('.js-object-list tbody').append('<tr class="js-count-' + mdl + '"><td>' + mdl + '</td><td class="js-num">1</td></tr>')
+          }
           count++
+        })
+        $('#addBtnMulti').click(function() {
+          multiPlace = true
+          var count = prompt('Number: ')
+          for (var i = 0; i < count; i++) {
+            $('#addBtn').trigger('click')
+          }
+          multiPlace = false
         })
 
         $('.js-btn-stats').click(function() {
@@ -453,6 +470,7 @@
           }
           mdl.position.x = oX + modelsMap[model].oX
           mdl.position.z = oZ + modelsMap[model].oZ
+          modelsMap[model].count++
           scene.add(mdl)
         } else {
           createObject(scene, model, sqOffset, function(obj, sqOffset) {
@@ -466,16 +484,45 @@
             obj.position.x = oX + modelsMap[model].oX
             obj.position.z = oZ + modelsMap[model].oZ
             obj.userData.type = model
-            modelsMap[model].count++
+            modelsMap[model].count = 1
             modelsMap[model].model = obj
             scene.add(obj);
           })
         }
       }
 
+      function initLogos() {
+        logoMap.forEach(function(logo) {
+          if (cPosX <= maxX) {
+            cPosX += count === 0? 0 : stepX
+          } else {
+            cPosX = posX0
+            cPosZ += stepZ
+          }
+          var sqOffset = { x: cPosX, z: cPosZ }
+          createObject(scene, 'logos/' + logo, sqOffset, function(obj, sqOffset) {
+            console.log('Loading: ', logo)
+            var scale = 5
+            obj.scale.set(scale, scale, scale)
+            var oX = 0
+            var oZ = 0
+            if (sqOffset && typeof sqOffset === 'object') {
+              oX = sqSize * sqOffset.x
+              oZ = sqSize * sqOffset.z
+            }
+            obj.position.x = oX + 50
+            obj.position.z = oZ + 50
+            obj.userData.type = logo
+            scene.add(obj);
+          })
+          count++
+        })
+      }
+
       function init() {
         setupWorld()
-        /*
+        initLogos()
+
         dirLights[0] = addDirLight(scene, {
           color: 0xffffff,
           intensity: 3,
@@ -491,6 +538,7 @@
           intensity: 3,
           coords: { x: -450, y: 1000, z: -450 }
         })
+
         spotLight = addSpotLight(scene, {
           color: 0xffffff,
           intensity: 3,
@@ -500,7 +548,6 @@
         dirLights[0].position.set(500, 1000, 500)
         dirLights[1].position.set(0, 1000, 500)
         dirLights[2].position.set(-500, 1000, -500)
-        */
 
         renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setPixelRatio(window.devicePixelRatio);
@@ -512,6 +559,8 @@
         controls.target.set(100, 100, 100);
         controls.maxPolarAngle = Math.PI / 2
         controls.update();
+
+
 
         window.addEventListener('resize', onWindowResize, false);
       }
@@ -597,14 +646,27 @@
     <div class="holder side side-left info-panel">
       <div class="container">
         <h5>Add new object</h5>
-        <form>
+        <form class="mb-4">
           <div class="form-group">
             <label for="typeSelect">Model type</label>
             <select class="form-control" id="typeSelect">
             </select>
           </div>
           <button id="addBtn" type="button" class="btn btn-primary">Add</button>
+          <button id="addBtnMulti" type="button" class="btn btn-outline-light">Add multiple</button>
         </form>
+      </div>
+      <div class="container">
+        <table class="table my-4 w90 w-overflow js-object-list">
+          <thead>
+            <tr>
+              <th>Object</th>
+              <th>Count</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
       </div>
     </div>
 
@@ -618,20 +680,6 @@
           <dt>Distance</dt>
           <dd class="obj-dist">?</dd>
         </dl>
-        <table class="table w90 w-overflow">
-          <tr>
-            <td>Type</td>
-            <td class="obj-type">&middot;</td>
-          </tr>
-          <tr>
-            <td>UUID</td>
-            <td class="obj-uuid">&middot;</td>
-          </tr>
-          <tr>
-            <td>Distance</td>
-            <td class="obj-dist">&middot;</td>
-          </tr>
-        </table>
         <div id="areaChart" class="epoch category10" style="height: 2rem;"></div>
       </div>
     </div>
