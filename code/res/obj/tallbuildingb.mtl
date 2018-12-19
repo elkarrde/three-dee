@@ -1,0 +1,24 @@
+# Blender MTL File: 'tallbuilding.blend'
+# Material Count: 2
+
+newmtl led
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.733426 0.800000 0.749753
+Ks 0.500000 0.500000 0.500000
+Ke 1.466852 1.600000 1.499507
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd tallbuildingb.jpg
+
+newmtl windows
+Ns 400.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.467204 0.467204 0.467204
+Ks 0.500000 0.500000 0.500000
+Ke 0.700806 0.700806 0.700806
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd tallbuildingb.jpg

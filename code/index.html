@@ -116,7 +116,7 @@
         document.body.appendChild(WEBGL.getWebGLErrorMessage());
       }
 
-      var scene, camera, renderer, exporter, mesh, spotLight;
+      var scene, camera, renderer, exporter, mesh, groundMirror, grid, spotLight;
       var sqSize = 100
       var globalObjects = []
       var noClickObjects = ['Ground', 'Grid', 'FadeoutMrr', 'GndMirror', 'GndMrr']
@@ -134,24 +134,41 @@
       var cT, cTi
 
       var dirLights = []
+      var hemiLights = []
 
       var raycaster = new THREE.Raycaster();
       var mouse = new THREE.Vector2();
+
+      function dec2hex(i) {
+        var result = "0x000000";
+        if (i >= 0 && i <= 15) { result = "0x00000" + i.toString(16); }
+        else if (i >= 16 && i <= 255) { result = "0x0000" + i.toString(16); }
+        else if (i >= 256 && i <= 4095) { result = "0x000" + i.toString(16); }
+        else if (i >= 4096 && i <= 65535) { result = "0x00" + i.toString(16); }
+        else if (i >= 65535 && i <= 1048575) { result = "0x0" + i.toString(16); }
+        else if (i >= 1048575 ) { result = '0x' + i.toString(16); }
+        if (result.length == 8) { return result; }
+      }
+      var deg2rad = function(degree) { return degree * (Math.PI / 180); }
 
       var modelsMap = {
         '1stbuilding':   { scale: 15, oX: 20, oZ: 20, count: 0, model: null },
         '2squerbuild':   { scale: 15, oX: 65, oZ: 50, count: 0, model: null },
         '3base':         { scale: 15, oX: 45, oZ: 45, count: 0, model: null },
+        'bigbmw':        { scale: 1,  oX: 50, oZ: 50, count: 0, model: null },
         'bmw':           { scale: 15, oX: 50, oZ: 75, count: 0, model: null },
-        'bigbmwf':       { scale: 1,  oX: 50, oZ: 50, count: 0, model: null },
+        'bmwbigf':       { scale: 1,  oX: 50, oZ: 50, count: 0, model: null },
         'buildings1':    { scale: 15, oX: 55, oZ: 75, count: 0, model: null },
         'lastnode':      { scale: 15, oX: 50, oZ: 50, count: 0, model: null },
         'merscobj':      { scale: 15, oX: 40, oZ: 50, count: 0, model: null },
         'moderntower':   { scale: 15, oX: 80, oZ: 50, count: 0, model: null },
+        'silos':         { scale: 1,  oX: 50, oZ: 50, count: 0, model: null },
         'SciFi_3':       { scale: 15, oX: 15, oZ: 90, count: 0, model: null },
         'scifitower':    { scale: 15, oX: 50, oZ: 80, count: 0, model: null },
         'simlebuilding': { scale: 15, oX: 80, oZ: 20, count: 0, model: null },
-        'tallbuilding':  { scale: 15, oX: 20, oZ: 20, count: 0, model: null }
+        'tallbuilding':  { scale: 15, oX: 20, oZ: 20, count: 0, model: null },
+        'tallbuildingb': { scale: 1,  oX: 50, oZ: 50, count: 0, model: null },
+        'torus':         { scale: 1,  oX: 50, oZ: 50, count: 0, model: null }
       }
 
       var userAdapter = {
@@ -319,7 +336,7 @@
         scene.fog = new THREE.Fog(0x000000, 1000, 4000);
 
         // ground
-        var ground = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshPhongMaterial({ color: 0x333333, depthWrite: true }));
+        ground = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshPhongMaterial({ color: 0x333333, depthWrite: true }));
         ground.name = 'Ground'
         ground.rotation.x = -Math.PI / 2;
         ground.receiveShadow = false;
@@ -328,7 +345,7 @@
 
         var geometry = new THREE.PlaneBufferGeometry(2000, 2000);
         geometry.name = 'GndMirror'
-        var groundMirror = new THREE.Reflector(geometry, {
+        groundMirror = new THREE.Reflector(geometry, {
           clipBias: 0.8,
           textureWidth: window.innerWidth * window.devicePixelRatio,
           textureHeight: window.innerHeight * window.devicePixelRatio,
@@ -346,44 +363,44 @@
         fadeout.rotateX(-Math.PI / 2)
         scene.add(fadeout)
 
-        var grid = new THREE.GridHelper(2000, 20, 0x3bff7f, 0x3bff7f);
+        grid = new THREE.GridHelper(2000, 20, 0x3bff7f, 0x3bff7f);
         grid.name = 'Grid'
         grid.material.opacity = 1;
         grid.material.transparent = true;
         scene.add(grid);
 
         // hemiLight - main, central
-        addHemiLight(scene, {
+        hemiLights.push(addHemiLight(scene, {
           color: 0xffffff,
           groundColor: 0xaaaaaa,
           intensity: 2,
           coords: { x: 0, y: 1000, z: 0 }
-        })
+        }))
         // hemiLight - bordering
-        addHemiLight(scene, {
+        hemiLights.push(addHemiLight(scene, {
           color: 0xffffff,
           groundColor: 0xaaaaaa,
           intensity: 2,
           coords: { x: 500, y: 1000, z: 500 }
-        })
-        addHemiLight(scene, {
+        }))
+        hemiLights.push(addHemiLight(scene, {
           color: 0xffffff,
           groundColor: 0xaaaaaa,
           intensity: 2,
           coords: { x: 500, y: 1000, z: -500 }
-        })
-        addHemiLight(scene, {
+        }))
+        hemiLights.push(addHemiLight(scene, {
           color: 0xffffff,
           groundColor: 0xaaaaaa,
           intensity: 2,
           coords: { x: -500, y: 1000, z: -500 }
-        })
-        addHemiLight(scene, {
+        }))
+        hemiLights.push(addHemiLight(scene, {
           color: 0xffffff,
           groundColor: 0xaaaaaa,
           intensity: 2,
           coords: { x: -500, y: 1000, z: 500 }
-        })
+        }))
       }
 
       function addHemiLight(scene, params) {
@@ -458,6 +475,7 @@
 
       function init() {
         setupWorld()
+        /*
         dirLights[0] = addDirLight(scene, {
           color: 0xffffff,
           intensity: 3,
@@ -482,6 +500,7 @@
         dirLights[0].position.set(500, 1000, 500)
         dirLights[1].position.set(0, 1000, 500)
         dirLights[2].position.set(-500, 1000, -500)
+        */
 
         renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setPixelRatio(window.devicePixelRatio);
@@ -512,27 +531,66 @@
       init();
       animate();
 
-
-      // GUI
-      /*
-      var options = {
-        camera: {}
-      };
-      */
-
       // DAT.GUI Related Stuff
       var gui = new dat.GUI();
 
-      var gCamera = gui.addFolder('Camera');
-      gCamera.add(camera.position, 'x', 0, 1000).listen();
-      gCamera.add(camera.position, 'y', 0, 1000).listen();
-      gCamera.add(camera.position, 'z', 0, 1000).listen();
-      gCamera.open();
+      var gOptions = {
+        grid: {
+          visible: true
+        },
+        lights: {
+          lightId: 0,
+          intensity: 2,
+          positionX: 0,
+          positionY: 1000,
+          positionZ: 0,
+          targetX: 0,
+          targetY: 0,
+          targetZ: 0
+        },
+      };
 
-      var gDirLight = gui.addFolder('DirectionalLight');
-      gDirLight.add(dirLights[0], 'x', -0.2, 0.2).name('X').listen();
-      gDirLight.add(dirLights[0], 'z', -0.2, 0.2).name('Z').listen();
-      gDirLight.open();
+      var gCamera = gui.addFolder('Camera');
+      gCamera.add(camera.position, 'x', -5000, 5000).name('X').listen()
+      gCamera.add(camera.position, 'y', -5000, 5000).name('Y').listen()
+      gCamera.add(camera.position, 'z', -5000, 5000).name('Z').listen()
+      gCamera.open()
+
+      var gGrid = gui.addFolder('Grid');
+      gGrid.add(grid, 'visible').name('Visible').listen()
+      gGrid.open();
+
+      var ghLights = gui.addFolder('HemisphereLights')
+      ghLights.add(gOptions.lights, 'lightId', 0, 4).name('Light #').listen()
+      ghLights.add(gOptions.lights, 'intensity', 1, 20).name('Intensity').listen()
+      ghLights.add(gOptions.lights, 'positionX', -1000, 1000).onChange(function() {
+         hemiLights[Math.round(gOptions.lights.lightId)].position.x = (gOptions.lights.positionX);
+      });
+      ghLights.add(gOptions.lights, 'positionY', -1000, 1000).onChange(function() {
+         hemiLights[Math.round(gOptions.lights.lightId)].position.y = (gOptions.lights.positionY);
+      });
+      ghLights.add(gOptions.lights, 'positionZ', -1000, 1000).onChange(function() {
+         hemiLights[Math.round(gOptions.lights.lightId)].position.z = (gOptions.lights.positionZ);
+      });
+      ghLights.open()
+
+      /*
+      var gLights = gui.addFolder('DirectionalLights')
+      gLights.add(gOptions.lights, 'lightId', 0, 2).name('Light #').listen()
+      gLights.add(gOptions.lights, 'positionX', -1000, 1000).onChange(function() {
+         dirLights[Math.round(gOptions.lights.lightId)].position.x = (gOptions.lights.positionX);
+      });
+      gLights.add(gOptions.lights, 'positionZ', -1000, 1000).onChange(function() {
+         dirLights[Math.round(gOptions.lights.lightId)].position.z = (gOptions.lights.positionZ);
+      });
+      gLights.add(gOptions.lights, 'targetX', -1000, 1000).onChange(function() {
+         dirLights[Math.round(gOptions.lights.lightId)].target.position.x = (gOptions.lights.targetX);
+      });
+      gLights.add(gOptions.lights, 'targetZ', -1000, 1000).onChange(function() {
+         dirLights[Math.round(gOptions.lights.lightId)].target.position.z = (gOptions.lights.targetZ);
+      });
+      gLights.open()
+      */
 
     </script>
 
