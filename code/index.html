@@ -78,6 +78,8 @@
       var raycaster = new THREE.Raycaster();
       var mouse = new THREE.Vector2();
 
+      var dataSrc = 'http://173.249.3.78:29200/df_arch/doc/_search'
+
       function dec2hex(i) {
         var result = "0x000000";
         if (i >= 0 && i <= 15) { result = "0x00000" + i.toString(16); }
