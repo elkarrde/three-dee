@@ -74,6 +74,7 @@
       var dirLights = []
       var hemiLights = []
       var ghLights = []
+      var ambiLight
 
       var raycaster = new THREE.Raycaster();
       var mouse = new THREE.Vector2();
@@ -410,6 +411,9 @@
           intensity: 2,
           coords: { x: -500, y: 1000, z: 500 }
         }))
+
+        ambiLight = new THREE.AmbientLight(0xa0a0a0, 2)
+        scene.add(ambiLight)
       }
 
       function setupView(domElm) {
@@ -436,6 +440,8 @@
           intensity: 5,
           coords: { x: 0, y: 500, z: 0 }
         })
+        var ambilight = new THREE.AmbientLight(0xa0a0a0, 3)
+        vport.add(ambilight)
       }
 
       function addHemiLight(scene, params) {
@@ -644,7 +650,12 @@
           reflectivity: 0.85
         },
         lights: {
-          hemi: []
+          hemi: [],
+          ambi: {
+            visible: true,
+            color: 0xa0a0a0,
+            intensity: 2
+          }
         },
         sidebars: {
           width: 20,
@@ -699,6 +710,18 @@
         mrrFadeout.material.color.setHex(dec2hex(gOptions.ground.color))
       })
       gGround.add(mrrFadeout.material, 'opacity', 0.25, 1).name('Matte').listen()
+
+
+      ghAmbiLight = gui.addFolder('Ambient light')
+      ghAmbiLight.add(gOptions.lights.ambi, 'visible').name('Visibility').onChange(function() {
+        ambiLight.visible = gOptions.lights.ambi.visible;
+      });
+      ghAmbiLight.addColor(gOptions.lights.ambi, 'color').name('Color').onChange(function() {
+        ambiLight.color.setHex(dec2hex(gOptions.lights.ambi.color));
+      })
+      ghAmbiLight.add(gOptions.lights.ambi, 'intensity', 1, 20).name('Intensity').onChange(function() {
+        ambiLight.intensity = gOptions.lights.ambi.intensity;
+      });
 
       for (var ghc = 0; ghc < hemiLights.length; ghc++) {
         ghLights[ghc] = gui.addFolder('HemisphereLight #' + (ghc + 1))
