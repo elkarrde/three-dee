@@ -29,21 +29,21 @@
         margin: 0;
         position: absolute;
       }
+      .side {
+        top: 4vh;
+        height: 96vh;
+        color: #eee;
+        width: 15rem;
+      }
       .side-left {
         float: left;
-        top: 4vh;
         left: 0;
-        height: 96vh;
-        background: linear-gradient(to right, rgba(71, 127, 56,  0.8) 0%, rgba(0, 0, 0, 0.2) 100%);
-        color: #EEE;
+        background: linear-gradient(to right, rgba(71, 127, 56, 0.8) 0%, rgba(0, 0, 0, 0.2) 100%);
       }
       .side-right {
         float: right;
-        top: 4vh;
         right: 0;
-        height: 96vh;
-        background: linear-gradient(to left, rgba(71, 127, 56,  0.8) 0%, rgba(0, 0, 0, 0.2) 100%);
-        color: #eee;
+        background: linear-gradient(to left, rgba(71, 127, 56, 0.8) 0%, rgba(0, 0, 0, 0.2) 100%);
       }
       canvas {
         width: 100vw;
@@ -564,8 +564,6 @@
         controls.maxPolarAngle = Math.PI / 2
         controls.update();
 
-
-
         window.addEventListener('resize', onWindowResize, false);
       }
 
@@ -601,6 +599,27 @@
           targetY: 0,
           targetZ: 0
         },
+        sidebars: {
+          width: 15,
+          startColor: 0x477f38,
+          endColor: 0x000000,
+          startOpacity: 80,
+          endOpacity: 20,
+        },
+        mkGrad: function() {
+          var sc = dec2hex(this.sidebars.startColor).substr(2)
+          var scR = parseInt(sc.substr(0, 2), 16)
+          var scG = parseInt(sc.substr(2, 2), 16)
+          var scB = parseInt(sc.substr(4, 2), 16)
+          var se = dec2hex(this.sidebars.endColor).substr(2)
+          var seR = parseInt(se.substr(0, 2), 16)
+          var seG = parseInt(se.substr(2, 2), 16)
+          var seB = parseInt(se.substr(4, 2), 16)
+          var oS = this.sidebars.startOpacity / 100
+          var oE = this.sidebars.endOpacity / 100
+          $('.side-left').css('background', '-webkit-gradient(linear, left center, right center, from(rgba(' + scR + ', ' + scG + ', ' + scB + ', ' + oS + ')), to(rgba(' + seR + ', ' + seG + ', ' + seB + ', ' + oE + ')))')
+          $('.side-right').css('background', '-webkit-gradient(linear, right center, left center, from(rgba(' + scR + ', ' + scG + ', ' + scB + ', ' + oS + ')), to(rgba(' + seR + ', ' + seG + ', ' + seB + ', ' + oE + ')))')
+        },
       };
 
       var gCamera = gui.addFolder('Camera');
@@ -625,7 +644,23 @@
       ghLights.add(gOptions.lights, 'positionZ', -1000, 1000).onChange(function() {
          hemiLights[Math.round(gOptions.lights.lightId)].position.z = (gOptions.lights.positionZ);
       });
-      ghLights.open()
+
+      var gSbars = gui.addFolder('Sidebars')
+      gSbars.add(gOptions.sidebars, 'width', 5, 30).onChange(function() {
+        $('.side').css('width', gOptions.sidebars.width + 'rem')
+      })
+      gSbars.addColor(gOptions.sidebars, 'startColor').onChange(function() {
+        gOptions.mkGrad()
+      })
+      gSbars.add(gOptions.sidebars, 'startOpacity', 0, 100).onChange(function() {
+        gOptions.mkGrad()
+      })
+      gSbars.addColor(gOptions.sidebars, 'endColor').onChange(function() {
+        gOptions.mkGrad()
+      })
+      gSbars.add(gOptions.sidebars, 'endOpacity', 0, 100).onChange(function() {
+        gOptions.mkGrad()
+      })
 
       /*
       var gLights = gui.addFolder('DirectionalLights')
@@ -648,9 +683,9 @@
     </script>
 
     <div class="holder side side-left info-panel">
-      <div class="container">
-        <h5>Add new object</h5>
-        <form class="mb-4">
+      <div class="container type-form mb-4">
+        <h5>New object</h5>
+        <form>
           <div class="form-group">
             <label for="typeSelect">Model type</label>
             <select class="form-control" id="typeSelect">
@@ -660,8 +695,9 @@
           <button id="addBtnMulti" type="button" class="btn btn-outline-light">Add multiple</button>
         </form>
       </div>
-      <div class="container">
-        <table class="table my-4 w90 w-overflow js-object-list">
+      <div class="container type-table my-4">
+        <h5>Objects info</h5>
+        <table class="table w90 w-overflow js-object-list">
           <thead>
             <tr>
               <th>Object</th>
@@ -675,7 +711,7 @@
     </div>
 
     <div class="holder side side-right info-panel obj-panel">
-      <div class="container">
+      <div class="container type-list mb-4">
         <dl class="card-text">
           <dt>Type</dt>
           <dd class="obj-type">&middot;</dd>
@@ -684,7 +720,6 @@
           <dt>Distance</dt>
           <dd class="obj-dist">&middot;</dd>
         </dl>
-        <div id="areaChart" class="epoch category10" style="height: 2rem;"></div>
       </div>
     </div>
 
