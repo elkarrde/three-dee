@@ -21,7 +21,7 @@ TODO
     - [x] 3. kamere
 - [ ] 6. postavljanje 3D logotipa (radije to nego 2D)
     - [x] 1. pozicioniranje logića na scenu (30m)
-    - [ ] 2. pozicioniranje na zgrade (3h)
+    - [x] 2. pozicioniranje na zgrade (3h)
 - [ ] 7. pozicioniranje i definiranje kućica kroz JSON descriptor [4h]
     - [x] 1. Zlatko pripremiti JSON
     - [ ] 2. posložiti pozicioniranje po JSONu
