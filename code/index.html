@@ -160,14 +160,18 @@
         'bmwbigf':       { scale: 1,  oX: 50, oZ: 50, count: 0, model: null },
         'buildings1':    { scale: 15, oX: 55, oZ: 75, count: 0, model: null },
         'lastnode':      { scale: 15, oX: 50, oZ: 50, count: 0, model: null },
+        'lighttower':    { scale: 1,  oX: 50, oZ: 50, count: 0, model: null },
         'merscobj':      { scale: 15, oX: 40, oZ: 50, count: 0, model: null },
         'moderntower':   { scale: 15, oX: 80, oZ: 50, count: 0, model: null },
-        'silos':         { scale: 1,  oX: 50, oZ: 50, count: 0, model: null },
+        'prison':        { scale: 1,  oX: 50, oZ: 50, count: 0, model: null },
         'SciFi_3':       { scale: 15, oX: 15, oZ: 90, count: 0, model: null },
         'scifitower':    { scale: 15, oX: 50, oZ: 80, count: 0, model: null },
+        'silos':         { scale: 1,  oX: 50, oZ: 50, count: 0, model: null },
+        'simple':        { scale: 15, oX: 50, oZ: 50, count: 0, model: null },
         'simlebuilding': { scale: 15, oX: 80, oZ: 20, count: 0, model: null },
         'tallbuilding':  { scale: 15, oX: 20, oZ: 20, count: 0, model: null },
         'tallbuildingb': { scale: 1,  oX: 50, oZ: 50, count: 0, model: null },
+        'tallfix':       { scale: 1,  oX: 50, oZ: 50, count: 0, model: null },
         'torus':         { scale: 1,  oX: 50, oZ: 50, count: 0, model: null }
       }
       var logoMap = ["Apache_kafka", "centos", "clickhouse", "elastic", "flink", "git", "Prometheus", "spark", "ubuntu", "zepelin", "Zoo"]
@@ -262,7 +266,7 @@
           $('.js-time').html(cT.toLocaleTimeString('hr'))
         }, 500)
 
-        $('.dg.ac').css('top', '3rem')
+        $('.dg.ac').css('top', '3rem').css('right', '15rem')
       })
 
       var stats = new Stats()
@@ -343,14 +347,14 @@
       }
 
       function setupWorld() {
-        camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 4000);
+        camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 8000);
         camera.position.set(1000, 1000, 1000);
         camera.translateX(500)
         camera.translateZ(1000)
 
         scene = new THREE.Scene();
         scene.background = new THREE.Color(0x000000);
-        scene.fog = new THREE.Fog(0x000000, 1000, 4000);
+        scene.fog = new THREE.Fog(0x000000, 1000, 8000);
 
         // ground
         ground = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshPhongMaterial({ color: 0x333333, depthWrite: true }));
@@ -603,11 +607,11 @@
       gCamera.add(camera.position, 'x', -5000, 5000).name('X').listen()
       gCamera.add(camera.position, 'y', -5000, 5000).name('Y').listen()
       gCamera.add(camera.position, 'z', -5000, 5000).name('Z').listen()
-      gCamera.open()
+      //gCamera.open()
 
       var gGrid = gui.addFolder('Grid');
       gGrid.add(grid, 'visible').name('Visible').listen()
-      gGrid.open();
+      //gGrid.open();
 
       var ghLights = gui.addFolder('HemisphereLights')
       ghLights.add(gOptions.lights, 'lightId', 0, 4).name('Light #').listen()
@@ -670,15 +674,15 @@
       </div>
     </div>
 
-    <div class="holder side side-right info-panel obj-panel hide">
+    <div class="holder side side-right info-panel obj-panel">
       <div class="container">
         <dl class="card-text">
           <dt>Type</dt>
-          <dd class="obj-type">?</dd>
+          <dd class="obj-type">&middot;</dd>
           <dt>UUID</dt>
-          <dd class="obj-uuid">?</dd>
+          <dd class="obj-uuid">&middot;</dd>
           <dt>Distance</dt>
-          <dd class="obj-dist">?</dd>
+          <dd class="obj-dist">&middot;</dd>
         </dl>
         <div id="areaChart" class="epoch category10" style="height: 2rem;"></div>
       </div>
