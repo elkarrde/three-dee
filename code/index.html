@@ -33,17 +33,32 @@
         top: 4vh;
         height: 96vh;
         color: #eee;
-        width: 15rem;
+        width: 20rem;
       }
+      .side .container h5 {
+        font-variant: small-caps;
+        font-size: 1rem;
+        text-shadow: 1px 1px 0 #000;
+        border-bottom: 2px solid #000;
+        padding-bottom: 0.33rem;
+      }
+      .side table { border: 1px dotted #000; }
+      .side table th {
+        border-top: none;
+        border-bottom: 1px solid #000;
+        padding: 0.33rem;
+        background: rgba(0, 0, 0, 0.33);
+      }
+      .side table td { border-top: 1px dotted #000; }
       .side-left {
         float: left;
         left: 0;
-        background: linear-gradient(to right, rgba(71, 127, 56, 0.8) 0%, rgba(0, 0, 0, 0.2) 100%);
+        background: linear-gradient(to right, rgba(71, 127, 56, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
       }
       .side-right {
         float: right;
         right: 0;
-        background: linear-gradient(to left, rgba(71, 127, 56, 0.8) 0%, rgba(0, 0, 0, 0.2) 100%);
+        background: linear-gradient(to left, rgba(71, 127, 56, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
       }
       canvas {
         width: 100vw;
@@ -65,15 +80,21 @@
         left: 10vw;
       }
 
-      .w90 { max-width: 90%; }
+      .w90 { width: 90%; }
+      .w100 { width: 100%; }
+      .mw90 { max-width: 90%; }
       .w-overflow { overflow: auto; }
 
       .console {
         background: #000;
-        color: #EEE;
+        color: #CCC;
         font-family: Consolas, fixed;
         font-size: 8px;
+        border-color: #888;
       }
+      .console:focus { color: #FFF; }
+
+      #graph { background: rgba(255, 255, 255, 0.5); }
     </style>
   </head>
   <body>
@@ -111,19 +132,17 @@
     <script src="./js/loaders/OBJLoader.js"></script>
     <script src="./js/WebGL.js"></script>
     <script src="./js/stats.js"></script>
-    <script src="./js/dat.gui.min.js"></script>
-
-    <!--
-    <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script src="./js/epoch.min.js"></script>
-    -->
+    <script src="./js/libs/dat.gui.min.js"></script>
+    <script src="./js/moment.min.js"></script>
+    <script src="./js/Chart.min.js"></script>
+    <script src="./js/chartjs-plugin-streaming.min.js"></script>
 
     <script>
       if (WEBGL.isWebGLAvailable() === false) {
         document.body.appendChild(WEBGL.getWebGLErrorMessage());
       }
 
-      var scene, camera, renderer, exporter, mesh, groundMirror, grid, spotLight;
+      var scene, camera, renderer, exporter, mesh, groundMirror, grid, mrrFadeout, spotLight;
       var sqSize = 100
       var globalObjects = []
       var noClickObjects = ['Ground', 'Grid', 'FadeoutMrr', 'GndMirror', 'GndMrr']
@@ -142,6 +161,7 @@
 
       var dirLights = []
       var hemiLights = []
+      var ghLights = []
 
       var raycaster = new THREE.Raycaster();
       var mouse = new THREE.Vector2();
@@ -159,7 +179,7 @@
       var deg2rad = function(degree) { return degree * (Math.PI / 180); }
 
       var modelsMap = {
-        '1stbuilding':   { scale: 15, oX: 20, oZ: 20, count: 0, model: null },
+        '1stbuilding':   { scale: 15, oX: 20, oZ: 20, count: 0, model: null, lX: 20, lY: 20, lZ: 20 },
         '2squerbuild':   { scale: 15, oX: 65, oZ: 50, count: 0, model: null },
         '3base':         { scale: 15, oX: 45, oZ: 45, count: 0, model: null },
         'bigbmw':        { scale: 1,  oX: 50, oZ: 50, count: 0, model: null },
@@ -273,7 +293,41 @@
           $('.js-time').html(cT.toLocaleTimeString('hr'))
         }, 500)
 
-        $('.dg.ac').css('top', '3rem').css('right', '15rem')
+        $('.dg.ac').css('top', '3rem').css('right', '30rem')
+
+        $('#console').text('neven@Neven-E580:~/Code/DT-demo (master)\r\n[' + (new Date()).toLocaleTimeString('hr') + '] $ ')
+
+        var ctx = document.getElementById('graph').getContext('2d');
+        var chart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            datasets: [{
+              data: [],
+              label: 'Load',
+              borderColor: 'rgb(239, 0, 0)',
+              backgroundColor: 'rgba(239, 0, 0, 0.5)',
+            }]
+          },
+          options: {
+            scales: {
+              xAxes: [{
+                type: 'realtime',
+                realtime: {
+                  delay: 2000,
+                  onRefresh: function(chart) {
+                    chart.data.datasets.forEach(function(dataset) {
+                      dataset.data.push({
+                        x: Date.now(),
+                        y: Math.random()
+                      });
+                    });
+                  }
+                }
+              }]
+            }
+          }
+        });
+
       })
 
       var stats = new Stats()
@@ -317,11 +371,11 @@
 
             var intersects = raycaster.intersectObjects(scene.children, true)
             if (intersects.length >= 1) {
-              $('#objttip').css('left', event.x + 50).css('top', event.y).removeClass('hide')
               spotLight.position.set(camera.position)
 
               if (noClickObjects.indexOf(intersects[0].object.name) === -1) {
                 console.log('Clicked object type: ' + intersects[0].object.geometry.name, intersects[0])
+                $('#objttip').css('left', event.x + 50).css('top', event.y).removeClass('hide')
                 $('.obj-panel').removeClass('hide')
                 $('.obj-panel .obj-dist').text(intersects[0].distance)
                 $('.obj-panel .obj-type').text(intersects[0].object.parent.userData.type)
@@ -377,7 +431,7 @@
           clipBias: 0.8,
           textureWidth: window.innerWidth * window.devicePixelRatio,
           textureHeight: window.innerHeight * window.devicePixelRatio,
-          color: 0x70857d,
+          color: 0x848484,
           recursion: 1
         });
         groundMirror.name = 'GndMrr'
@@ -385,11 +439,11 @@
         groundMirror.rotateX(-Math.PI / 2);
         scene.add(groundMirror);
 
-        var fadeout = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshLambertMaterial({ color: 0x000300, opacity : 0.85 , transparent: true }))
-        fadeout.name = 'FadeoutMrr'
-        fadeout.position.y = 0.85
-        fadeout.rotateX(-Math.PI / 2)
-        scene.add(fadeout)
+        mrrFadeout = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshLambertMaterial({ color: 0x000300, opacity : 0.85 , transparent: true }))
+        mrrFadeout.name = 'FadeoutMrr'
+        mrrFadeout.position.y = 0.85
+        mrrFadeout.rotateX(-Math.PI / 2)
+        scene.add(mrrFadeout)
 
         grid = new THREE.GridHelper(2000, 20, 0x3bff7f, 0x3bff7f);
         grid.name = 'Grid'
@@ -534,6 +588,7 @@
         setupWorld()
         initLogos()
 
+        /*
         dirLights[0] = addDirLight(scene, {
           color: 0xffffff,
           intensity: 3,
@@ -550,15 +605,16 @@
           coords: { x: -450, y: 1000, z: -450 }
         })
 
+        dirLights[0].position.set(500, 1000, 500)
+        dirLights[1].position.set(0, 1000, 500)
+        dirLights[2].position.set(-500, 1000, -500)
+        */
+
         spotLight = addSpotLight(scene, {
           color: 0xffffff,
           intensity: 3,
           coords: { x: -450, y: 1000, z: -450 }
         })
-
-        dirLights[0].position.set(500, 1000, 500)
-        dirLights[1].position.set(0, 1000, 500)
-        dirLights[2].position.set(-500, 1000, -500)
 
         renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setPixelRatio(window.devicePixelRatio);
@@ -594,24 +650,23 @@
 
       var gOptions = {
         grid: {
-          visible: true
+          visible: true,
+          color: 0xffffff
+        },
+        ground: {
+          visible: true,
+          color: 0x000300,
+          reflectivity: 0.85
         },
         lights: {
-          lightId: 0,
-          intensity: 2,
-          positionX: 0,
-          positionY: 1000,
-          positionZ: 0,
-          targetX: 0,
-          targetY: 0,
-          targetZ: 0
+          hemi: []
         },
         sidebars: {
-          width: 15,
+          width: 20,
           startColor: 0x477f38,
           endColor: 0x000000,
           startOpacity: 80,
-          endOpacity: 20,
+          endOpacity: 0,
         },
         mkGrad: function() {
           var sc = dec2hex(this.sidebars.startColor).substr(2)
@@ -628,6 +683,19 @@
           $('.side-right').css('background', '-webkit-gradient(linear, right center, left center, from(rgba(' + scR + ', ' + scG + ', ' + scB + ', ' + oS + ')), to(rgba(' + seR + ', ' + seG + ', ' + seB + ', ' + oE + ')))')
         },
       };
+      var cGl = {}
+      for (var ghc = 0; ghc < hemiLights.length; ghc++) {
+        gOptions.lights.hemi[ghc] = {
+          index: ghc,
+          visible: true,
+          color: 0xffffff,
+          intensity: 2,
+          positionX: 0,
+          positionY: 1000,
+          positionZ: 0
+        }
+        cGl[ghc] = ghc
+      }
 
       var gCamera = gui.addFolder('Camera');
       gCamera.add(camera.position, 'x', -5000, 5000).name('X').listen()
@@ -636,22 +704,41 @@
 
       var gGrid = gui.addFolder('Grid');
       gGrid.add(grid, 'visible').name('Visible').listen()
+      gGrid.addColor(gOptions.grid, 'color').name('Color').onChange(function() {
+        grid.material.color.setHex(dec2hex(gOptions.grid.color))
+      })
 
-      var ghLights = gui.addFolder('HemisphereLights')
-      ghLights.add(gOptions.lights, 'lightId', 0, 4).name('Light #').listen()
-      ghLights.add(gOptions.lights, 'intensity', 1, 20).name('Intensity').listen()
-      ghLights.add(gOptions.lights, 'positionX', -1000, 1000).onChange(function() {
-         hemiLights[Math.round(gOptions.lights.lightId)].position.x = (gOptions.lights.positionX);
-      });
-      ghLights.add(gOptions.lights, 'positionY', -1000, 1000).onChange(function() {
-         hemiLights[Math.round(gOptions.lights.lightId)].position.y = (gOptions.lights.positionY);
-      });
-      ghLights.add(gOptions.lights, 'positionZ', -1000, 1000).onChange(function() {
-         hemiLights[Math.round(gOptions.lights.lightId)].position.z = (gOptions.lights.positionZ);
-      });
+      var gGround = gui.addFolder('Ground');
+      gGround.add(mrrFadeout, 'visible').name('Visible').listen()
+      gGround.addColor(gOptions.ground, 'color').name('Color').onChange(function() {
+        mrrFadeout.material.color.setHex(dec2hex(gOptions.ground.color))
+      })
+      gGround.add(mrrFadeout.material, 'opacity', 0.25, 1).name('Matte').listen()
+
+      for (var ghc = 0; ghc < hemiLights.length; ghc++) {
+        ghLights[ghc] = gui.addFolder('HemisphereLight #' + (ghc + 1))
+        ghLights[ghc].add(gOptions.lights.hemi[ghc], 'visible').name('Visibility').onChange(function() {
+          hemiLights[this.object.index].visible = gOptions.lights.hemi[this.object.index].visible;
+        });
+        ghLights[ghc].addColor(gOptions.lights.hemi[ghc], 'color').name('Color').onChange(function() {
+          hemiLights[this.object.index].color.setHex(dec2hex(gOptions.lights.hemi[this.object.index].color));
+        })
+        ghLights[ghc].add(gOptions.lights.hemi[ghc], 'intensity', 1, 20).name('Intensity').onChange(function() {
+          hemiLights[this.object.index].intensity = gOptions.lights.hemi[this.object.index].intensity;
+        });
+        ghLights[ghc].add(gOptions.lights.hemi[ghc], 'positionX', -1000, 1000).name('Position X').onChange(function() {
+          hemiLights[this.object.index].position.x = gOptions.lights.hemi[this.object.index].positionX;
+        });
+        ghLights[ghc].add(gOptions.lights.hemi[ghc], 'positionY', -1000, 1000).name('Position Y').onChange(function() {
+          hemiLights[this.object.index].position.y = gOptions.lights.hemi[this.object.index].positionY;
+        });
+        ghLights[ghc].add(gOptions.lights.hemi[ghc], 'positionZ', -1000, 1000).name('Position Z').onChange(function() {
+          hemiLights[this.object.index].position.z = gOptions.lights.hemi[this.object.index].positionZ;
+        });
+      }
 
       var gSbars = gui.addFolder('Sidebars')
-      gSbars.add(gOptions.sidebars, 'width', 5, 30).onChange(function() {
+      gSbars.add(gOptions.sidebars, 'width', 10, 30).onChange(function() {
         $('.side').css('width', gOptions.sidebars.width + 'rem')
       })
       gSbars.addColor(gOptions.sidebars, 'startColor').onChange(function() {
@@ -683,8 +770,8 @@
         </form>
       </div>
       <div class="container type-table my-4">
-        <h5>Objects info</h5>
-        <table class="table w90 w-overflow js-object-list">
+        <h5>Objects count</h5>
+        <table class="table mw90 w90 w-overflow js-object-list">
           <thead>
             <tr>
               <th>Object</th>
@@ -699,6 +786,7 @@
 
     <div class="holder side side-right info-panel obj-panel">
       <div class="container type-list mb-4">
+        <h5>Object info</h5>
         <dl class="card-text">
           <dt>Type</dt>
           <dd class="obj-type">&middot;</dd>
@@ -709,8 +797,12 @@
         </dl>
       </div>
       <div class="container type-console my-4">
-        <textarea name="console" id="console" cols="40" rows="10" class="console">neven@Neven-E580:~/Code/DT-demo (master)
-[10:49:31] $</textarea>
+        <h5>Console</h5>
+        <textarea name="console" id="console" cols="40" rows="10" class="console w100 w-overflow"></textarea>
+      </div>
+      <div class="container type-graph my-4">
+        <h5>Graph</h5>
+        <canvas id="graph"></canvas>
       </div>
     </div>
 

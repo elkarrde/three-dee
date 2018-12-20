@@ -6,18 +6,18 @@ TODO
 - [x] 3. tooltip objekta (nadovezuje se na ovo iznad) [1h]
 - [ ] 4. GUI - sidebarovi lijevi i desni, zrcalno simetrični, tri placeholdera za interakciju i štošta: [1h]
     - [ ] štošta:
-    - [ ] 1. graf, [2h]
+    - [x] 1. graf, [2h]
     - [x] 2. tekst, [30m]
     - [x] 3. tablica, [30m]
     - [ ] 4. 3D view [3h]
-    - [ ] 5. konzola [30m]
+    - [x] 5. konzola [30m]
     - [ ] interakcije: [2h]
     - [ ] 6. klik-odabir što se prikazuje u placeholderu, ➡ 3.
     - [ ] 7. klik na 3D svijet/element/pipe otvara u placeholderu (zadnje korištenom? ili pita gdje) ➡ text, graf, konzola
     - [ ] 8. nešto - graf, text, tablica (odabire su kroz popup)
 - [x] 5. slideri-kontrole u three.js za podešavanje nekih dinamičkih parametara: [2h]
-    - [ ] 1. intenzitet svjetla, odbljeska, boja svijetla
-    - [ ] 2. podloge
+    - [x] 1. intenzitet svjetla, odbljeska, boja svijetla
+    - [x] 2. podloge
     - [x] 3. kamere
 - [ ] 6. postavljanje 3D logotipa (radije to nego 2D)
     - [x] 1. pozicioniranje logića na scenu (30m)
