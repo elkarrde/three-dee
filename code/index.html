@@ -26,7 +26,6 @@
           <span class="info-actions pl-2 pr-0">
             <button class="btn btn-outline-danger btn-sm mr-1 js-btn-logout hide" type="button">Log out</button>
             <button class="btn btn-outline-success btn-sm mr-1 js-btn-login" type="button">Log in</button>
-            <button class="btn btn-outline-warning btn-sm mr-1 js-btn-load" type="button">Load</button>
             <button class="btn btn-outline-primary btn-sm mr-0 js-btn-stats" type="button">Stats</button>
           </span>
         </span>
@@ -57,6 +56,7 @@
       var scene, camera, renderer, mesh, groundMirror, grid, mrrFadeout, spotLight;
       var vport, vpcam, vprend
       var sqSize = 100
+      var subSqSize = sqSize / 5
       var globalObjects = []
       var noClickObjects = ['Ground', 'Grid', 'FadeoutMrr', 'GndMirror', 'GndMrr']
       var posMap = []
@@ -170,8 +170,6 @@
         }
       }
 
-      var multiPlace = false
-
       $(function() {
         Object.getOwnPropertyNames(modelsMap).forEach(function(model) {
           $('#typeSelect').append('<option value="' + model + '">' + model + '</option>')
@@ -196,12 +194,13 @@
           count++
         })
         $('#addBtnMulti').click(function() {
-          multiPlace = true
           var count = prompt('Number: ')
-          for (var i = 0; i < count; i++) {
-            $('#addBtn').trigger('click')
-          }
-          multiPlace = false
+          $('#addBtn').trigger('click')
+          setTimeout(function() {
+            for (var i = 0; i < count; i++) {
+              $('#addBtn').trigger('click')
+            }
+          }, 50, --count)
         })
 
         $('.js-btn-stats').click(function() {
@@ -275,11 +274,26 @@
           }).done(function(res) {
             var hits = res.hits.hits
             console.log('Hits:', hits)
+            alert('Objects found: ' + hits.length)
           })
         }
       }
-      function placeModels() {
-        // do something
+      function placeModels(location, objArray) {
+        var posX = location.x * sqSize
+        var posZ = location.z * sqSize
+
+        var geometry = new THREE.BoxBufferGeometry(sqSize, 1, sqSize)
+        var material = new THREE.MeshBasicMaterial({color: 0x030303})
+        var base = new THREE.Mesh(geometry, material)
+        base.position.x = 0
+        base.position.z = 0
+
+        objArray.forEach(function(obj) {
+          obj.position.x = 0
+        })
+
+        var cell = new THREE.Group()
+        //cell.add()
       }
 
       var stats = new Stats()
@@ -398,7 +412,7 @@
         mrrFadeout.rotateX(-Math.PI / 2)
         scene.add(mrrFadeout)
 
-        grid = new THREE.GridHelper(2000, 20, 0x3bff7f, 0x3bff7f); //0x3bff7f
+        grid = new THREE.GridHelper(2000, 20, 0xffffff, 0xffffff); //0x3bff7f
         grid.name = 'Grid'
         grid.material.opacity = 1;
         grid.material.transparent = true;
@@ -799,7 +813,9 @@
             </select>
           </div>
           <button id="addBtn" type="button" class="btn btn-primary">Add</button>
-          <button id="addBtnMulti" type="button" class="btn btn-outline-light">Add multiple</button>
+          <button id="addBtnMulti" type="button" class="btn btn-outline-light ">Add multiple</button>
+          <br>
+          <button id="loadBtn" type="button" class="btn btn-info mt-2 js-btn-load">Fetch JSON</button>
         </form>
       </div>
       <div class="container type-table my-4">
