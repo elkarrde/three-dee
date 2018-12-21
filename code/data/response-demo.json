@@ -1,166 +1,280 @@
-{"took":7,"timed_out":false,"_shards":{"total":5,"successful":5,"skipped":0,"failed":0},"hits":{"total":7,"max_score":1.0,"hits":[{"_index":"df_arch","_type":"doc","_id":"5","_score":1.0,"_source":{
-    "NodeName": "Server for Kafka and Flink",
-    "NodeAltName": "Alternative name: flink + kafka",
-    "Group": "This specifies group where this virtual machine belongs to: i.e. TA2d",
-    "GroupMajor": "2",
-    "GroupMinor": "d",
-    "Description": "This is for longer description of the node (VM) itself.",
-    "Note": "In case there are particular notes, this can be filled here.",
-	"OS_name": "Linux",
-	"OS_flavor": "Centos",
-    "OS_version": "7",
-	"LocationIn3d": [ 2, 6 ],
-	"Services": [
-	  {
-	     "Name": "Flink",
-		 "Logo": "flink",
-		 "LocationIn3dTile": [0,0]
-	  },
-	  {
-	     "Name": "Kafka",
-		 "Logo": "kafka",
-		 "LocationIn3dTile": [0,2]
-	  }
-	]
+{
+  "took": 3,
+  "timed_out": false,
+  "_shards": {
+    "total": 5,
+    "successful": 5,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": 7,
+    "max_score": 1.0,
+    "hits": [
+      {
+        "_index": "df_arch",
+        "_type": "doc",
+        "_id": "5",
+        "_score": 1.0,
+        "_source": {
+          "NodeName": "Server for Kafka and Flink",
+          "NodeAltName": "Alternative name:  flink + kafka",
+          "Group": "This specifies group where this virtual machine belongs to:  i.e. TA2d",
+          "GroupMajor": "2",
+          "GroupMinor": "d",
+          "Description": "This is for longer description of the node (VM) itself.",
+          "Note": "In case there are particular notes, this can be filled here.",
+          "OS_name": "Linux",
+          "OS_flavor": "Centos",
+          "OS_version": "7",
+          "LocationIn3d": [
+            2,
+            6
+          ],
+          "Services": [
+            {
+              "Name": "Flink",
+              "Logo": "flink",
+              "LocationIn3dTile": [
+                0,
+                0
+              ]
+            },
+            {
+              "Name": "Kafka",
+              "Logo": "kafka",
+              "LocationIn3dTile": [
+                0,
+                2
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "_index": "df_arch",
+        "_type": "doc",
+        "_id": "2",
+        "_score": 1.0,
+        "_source": {
+          "NodeName": "Server for Kafka and Zookeeper",
+          "NodeAltName": "Alternative name:  zookeeper + kafka",
+          "Group": "This specifies group where this virtual machine belongs to:  i.e. TA2d",
+          "GroupMajor": "2",
+          "GroupMinor": "d",
+          "Description": "This is for longer description of the node (VM) itself.",
+          "Note": "In case there are particular notes, this can be filled here.",
+          "OS_name": "Linux",
+          "OS_flavor": "Centos",
+          "OS_version": "7",
+          "LocationIn3d": [
+            2,
+            2
+          ],
+          "Services": [
+            {
+              "Name": "Zookeeper",
+              "Logo": "zookeeper",
+              "LocationIn3dTile": [
+                0,
+                0
+              ]
+            },
+            {
+              "Name": "Kafka",
+              "Logo": "kafka",
+              "LocationIn3dTile": [
+                0,
+                2
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "_index": "df_arch",
+        "_type": "doc",
+        "_id": "4",
+        "_score": 1.0,
+        "_source": {
+          "NodeName": "Server2 for Flink",
+          "NodeAltName": "Alternative name:  Flink",
+          "Group": "This specifies group where this virtual machine belongs to:  i.e. TA2d",
+          "GroupMajor": "2",
+          "GroupMinor": "d",
+          "Description": "This is for longer description of the node (VM) itself.",
+          "Note": "In case there are particular notes, this can be filled here.",
+          "OS_name": "Linux",
+          "OS_flavor": "Ubuntu",
+          "OS_version": "16.04 LTS",
+          "LocationIn3d": [
+            2,
+            4
+          ],
+          "Services": [
+            {
+              "Name": "Flink",
+              "Logo": "flink",
+              "LocationIn3dTile": [
+                1,
+                1
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "_index": "df_arch",
+        "_type": "doc",
+        "_id": "6",
+        "_score": 1.0,
+        "_source": {
+          "NodeName": "Server2 for Kafka and Flink",
+          "NodeAltName": "Alternative name:  flink + kafka",
+          "Group": "This specifies group where this virtual machine belongs to:  i.e. TA2d",
+          "GroupMajor": "2",
+          "GroupMinor": "d",
+          "Description": "This is for longer description of the node (VM) itself.",
+          "Note": "In case there are particular notes, this can be filled here.",
+          "OS_name": "Linux",
+          "OS_flavor": "Centos",
+          "OS_version": "7",
+          "LocationIn3d": [
+            4,
+            6
+          ],
+          "Services": [
+            {
+              "Name": "Flink",
+              "Logo": "flink",
+              "LocationIn3dTile": [
+                0,
+                0
+              ]
+            },
+            {
+              "Name": "Kafka",
+              "Logo": "kafka",
+              "LocationIn3dTile": [
+                0,
+                2
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "_index": "df_arch",
+        "_type": "doc",
+        "_id": "1",
+        "_score": 1.0,
+        "_source": {
+          "NodeName": "Server for Elastic and Nginx",
+          "NodeAltName": "Alternative name:  elastic + nginx",
+          "Group": "This specifies group where this virtual machine belongs to:  i.e. TA2d",
+          "GroupMajor": "2",
+          "GroupMinor": "d",
+          "Description": "This is for longer description of the node (VM) itself.",
+          "Note": "In case there are particular notes, this can be filled here.",
+          "OS_name": "Linux",
+          "OS_flavor": "Ubuntu",
+          "OS_version": "18.04.01 LTE",
+          "LocationIn3d": [
+            10,
+            10
+          ],
+          "Services": [
+            {
+              "Name": "Elastic",
+              "Logo": "elastic",
+              "LocationIn3dTile": [
+                1,
+                1
+              ]
+            },
+            {
+              "Name": "Nginx",
+              "Logo": "nginx",
+              "LocationIn3dTile": [
+                1,
+                2
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "_index": "df_arch",
+        "_type": "doc",
+        "_id": "7",
+        "_score": 1.0,
+        "_source": {
+          "NodeName": "Server3 for Kafka and Flink",
+          "NodeAltName": "Alternative name:  flink + kafka",
+          "Group": "This specifies group where this virtual machine belongs to:  i.e. TA2d",
+          "GroupMajor": "2",
+          "GroupMinor": "d",
+          "Description": "This is for longer description of the node (VM) itself.",
+          "Note": "In case there are particular notes, this can be filled here.",
+          "OS_name": "Linux",
+          "OS_flavor": "Centos",
+          "OS_version": "7",
+          "LocationIn3d": [
+            6,
+            4
+          ],
+          "Services": [
+            {
+              "Name": "Flink",
+              "Logo": "flink",
+              "LocationIn3dTile": [
+                1,
+                0
+              ]
+            },
+            {
+              "Name": "Kafka",
+              "Logo": "kafka",
+              "LocationIn3dTile": [
+                0,
+                2
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "_index": "df_arch",
+        "_type": "doc",
+        "_id": "3",
+        "_score": 1.0,
+        "_source": {
+          "NodeName": "Server for Flink",
+          "NodeAltName": "Alternative name:  Flink",
+          "Group": "This specifies group where this virtual machine belongs to:  i.e. TA2d",
+          "GroupMajor": "2",
+          "GroupMinor": "d",
+          "Description": "This is for longer description of the node (VM) itself.",
+          "Note": "In case there are particular notes, this can be filled here.",
+          "OS_name": "Linux",
+          "OS_flavor": "Ubuntu",
+          "OS_version": "16.04 LTS",
+          "LocationIn3d": [
+            2,
+            3
+          ],
+          "Services": [
+            {
+              "Name": "Flink",
+              "Logo": "flink",
+              "LocationIn3dTile": [
+                1,
+                1
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
 }
-},{"_index":"df_arch","_type":"doc","_id":"2","_score":1.0,"_source":{
-    "NodeName": "Server for Kafka and Zookeeper",
-    "NodeAltName": "Alternative name: zookeeper + kafka",
-    "Group": "This specifies group where this virtual machine belongs to: i.e. TA2d",
-    "GroupMajor": "2",
-    "GroupMinor": "d",
-    "Description": "This is for longer description of the node (VM) itself.",
-    "Note": "In case there are particular notes, this can be filled here.",
-	"OS_name": "Linux",
-	"OS_flavor": "Centos",
-    "OS_version": "7",
-	"LocationIn3d": [ 2, 2 ],
-	"Services": [
-	  {
-	     "Name": "Zookeeper",
-		 "Logo": "zookeeper",
-		 "LocationIn3dTile": [0,0]
-	  },
-	  {
-	     "Name": "Kafka",
-		 "Logo": "kafka",
-		 "LocationIn3dTile": [0,2]
-	  }
-	]
-}
-},{"_index":"df_arch","_type":"doc","_id":"4","_score":1.0,"_source":{
-    "NodeName": "Server2 for Flink",
-    "NodeAltName": "Alternative name: Flink",
-    "Group": "This specifies group where this virtual machine belongs to: i.e. TA2d",
-    "GroupMajor": "2",
-    "GroupMinor": "d",
-    "Description": "This is for longer description of the node (VM) itself.",
-    "Note": "In case there are particular notes, this can be filled here.",
-	"OS_name": "Linux",
-	"OS_flavor": "Ubuntu",
-    "OS_version": "16.04 LTS",
-	"LocationIn3d": [ 2, 4 ],
-	"Services": [
-	  {
-	     "Name": "Flink",
-		 "Logo": "flink",
-		 "LocationIn3dTile": [1,1]
-	  }
-	]
-}
-},{"_index":"df_arch","_type":"doc","_id":"6","_score":1.0,"_source":{
-    "NodeName": "Server2 for Kafka and Flink",
-    "NodeAltName": "Alternative name: flink + kafka",
-    "Group": "This specifies group where this virtual machine belongs to: i.e. TA2d",
-    "GroupMajor": "2",
-    "GroupMinor": "d",
-    "Description": "This is for longer description of the node (VM) itself.",
-    "Note": "In case there are particular notes, this can be filled here.",
-	"OS_name": "Linux",
-	"OS_flavor": "Centos",
-    "OS_version": "7",
-	"LocationIn3d": [ 4, 6 ],
-	"Services": [
-	  {
-	     "Name": "Flink",
-		 "Logo": "flink",
-		 "LocationIn3dTile": [0,0]
-	  },
-	  {
-	     "Name": "Kafka",
-		 "Logo": "kafka",
-		 "LocationIn3dTile": [0,2]
-	  }
-	]
-}
-},{"_index":"df_arch","_type":"doc","_id":"1","_score":1.0,"_source":{
-    "NodeName": "Server for Elastic and Nginx",
-    "NodeAltName": "Alternative name: elastic + nginx",
-    "Group": "This specifies group where this virtual machine belongs to: i.e. TA2d",
-    "GroupMajor": "2",
-    "GroupMinor": "d",
-    "Description": "This is for longer description of the node (VM) itself.",
-    "Note": "In case there are particular notes, this can be filled here.",
-	"OS_name": "Linux",
-	"OS_flavor": "Ubuntu",
-    "OS_version": "18.04.01 LTE",
-	"LocationIn3d": [ 10, 10 ],
-	"Services": [
-	  {
-	     "Name": "Elastic",
-		 "Logo": "elastic",
-		 "LocationIn3dTile": [1,1]
-	  },
-	  {
-	     "Name": "Nginx",
-		 "Logo": "nginx",
-		 "LocationIn3dTile": [1,2]
-	  }
-	]
-}
-},{"_index":"df_arch","_type":"doc","_id":"7","_score":1.0,"_source":{
-    "NodeName": "Server3 for Kafka and Flink",
-    "NodeAltName": "Alternative name: flink + kafka",
-    "Group": "This specifies group where this virtual machine belongs to: i.e. TA2d",
-    "GroupMajor": "2",
-    "GroupMinor": "d",
-    "Description": "This is for longer description of the node (VM) itself.",
-    "Note": "In case there are particular notes, this can be filled here.",
-	"OS_name": "Linux",
-	"OS_flavor": "Centos",
-    "OS_version": "7",
-	"LocationIn3d": [ 6, 4 ],
-	"Services": [
-	  {
-	     "Name": "Flink",
-		 "Logo": "flink",
-		 "LocationIn3dTile": [1,0]
-	  },
-	  {
-	     "Name": "Kafka",
-		 "Logo": "kafka",
-		 "LocationIn3dTile": [0,2]
-	  }
-	]
-}
-},{"_index":"df_arch","_type":"doc","_id":"3","_score":1.0,"_source":{
-    "NodeName": "Server for Flink",
-    "NodeAltName": "Alternative name: Flink",
-    "Group": "This specifies group where this virtual machine belongs to: i.e. TA2d",
-    "GroupMajor": "2",
-    "GroupMinor": "d",
-    "Description": "This is for longer description of the node (VM) itself.",
-    "Note": "In case there are particular notes, this can be filled here.",
-	"OS_name": "Linux",
-	"OS_flavor": "Ubuntu",
-    "OS_version": "16.04 LTS",
-	"LocationIn3d": [ 2, 3 ],
-	"Services": [
-	  {
-	     "Name": "Flink",
-		 "Logo": "flink",
-		 "LocationIn3dTile": [1,1]
-	  }
-	]
-}
-}]}}
