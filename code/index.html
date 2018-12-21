@@ -393,32 +393,32 @@
         hemiLights.push(addHemiLight(scene, {
           color: 0xffffff,
           groundColor: 0xaaaaaa,
-          intensity: 2,
+          intensity: 1,
           coords: { x: 0, y: 1000, z: 0 }
         }))
         // hemiLight - bordering
         hemiLights.push(addHemiLight(scene, {
           color: 0xffffff,
           groundColor: 0xaaaaaa,
-          intensity: 2,
+          intensity: 1,
           coords: { x: 500, y: 1000, z: 500 }
         }))
         hemiLights.push(addHemiLight(scene, {
           color: 0xffffff,
           groundColor: 0xaaaaaa,
-          intensity: 2,
+          intensity: 1,
           coords: { x: 500, y: 1000, z: -500 }
         }))
         hemiLights.push(addHemiLight(scene, {
           color: 0xffffff,
           groundColor: 0xaaaaaa,
-          intensity: 2,
+          intensity: 1,
           coords: { x: -500, y: 1000, z: -500 }
         }))
         hemiLights.push(addHemiLight(scene, {
           color: 0xffffff,
           groundColor: 0xaaaaaa,
-          intensity: 2,
+          intensity: 1,
           coords: { x: -500, y: 1000, z: 500 }
         }))
 
@@ -697,9 +697,9 @@
       for (var ghc = 0; ghc < hemiLights.length; ghc++) {
         gOptions.lights.hemi[ghc] = {
           index: ghc,
-          visible: true,
+          visible: false,
           color: 0xffffff,
-          intensity: 2,
+          intensity: 1,
           positionX: 0,
           positionY: 1000,
           positionZ: 0
@@ -707,10 +707,12 @@
         cGl[ghc] = ghc
       }
 
+      /*
       var gCamera = gui.addFolder('Camera');
       gCamera.add(camera.position, 'x', -5000, 5000).name('X').listen()
       gCamera.add(camera.position, 'y', -5000, 5000).name('Y').listen()
       gCamera.add(camera.position, 'z', -5000, 5000).name('Z').listen()
+      */
 
       var gGrid = gui.addFolder('Grid');
       gGrid.add(grid, 'visible').name('Visible').listen()
@@ -738,6 +740,8 @@
       });
 
       for (var ghc = 0; ghc < hemiLights.length; ghc++) {
+        hemiLights[ghc].visible = false; // They say that girl ya know she act too tough tough tough
+
         ghLights[ghc] = gui.addFolder('HemisphereLight #' + (ghc + 1))
         ghLights[ghc].add(gOptions.lights.hemi[ghc], 'visible').name('Visibility').onChange(function() {
           hemiLights[this.object.index].visible = gOptions.lights.hemi[this.object.index].visible;
