@@ -94,42 +94,42 @@
       var deg2rad = function(degree) { return degree * (Math.PI / 180); }
 
       var modelsMap = {
-        '1stbuilding':   { scale: 15, oX: 20, oZ: 20, count: 0, model: null, lX: 12, lY: 35, lZ: 7 },
-        '2squerbuild':   { scale: 15, oX: 65, oZ: 50, count: 0, model: null, lX: 20, lY: 50, lZ: 20 },
-        '3base':         { scale: 15, oX: 45, oZ: 45, count: 0, model: null, lX: 20, lY: 50, lZ: 20 },
-        'bigbmw':        { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 20, lY: 50, lZ: 20 },
-        'bmw':           { scale: 15, oX: 50, oZ: 75, count: 0, model: null, lX: 20, lY: 50, lZ: 20 },
-        'bmwbigf':       { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 20, lY: 50, lZ: 20 },
-        'buildings1':    { scale: 15, oX: 55, oZ: 75, count: 0, model: null, lX: 20, lY: 50, lZ: 20 },
-        'cube_trans':    { scale: 15, oX: 50, oZ: 50, count: 0, model: null, lX: 0, lY: 40, lZ: 0 },
-        'lastnode':      { scale: 15, oX: 50, oZ: 50, count: 0, model: null, lX: 20, lY: 50, lZ: 20 },
-        'lighttower':    { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 20, lY: 50, lZ: 20 },
-        'merscobj':      { scale: 15, oX: 40, oZ: 50, count: 0, model: null, lX: 20, lY: 50, lZ: 20 },
-        'moderntower':   { scale: 15, oX: 80, oZ: 50, count: 0, model: null, lX: 20, lY: 50, lZ: 20 },
-        'prison':        { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 20, lY: 50, lZ: 20 },
-        'SciFi_3':       { scale: 15, oX: 15, oZ: 90, count: 0, model: null, lX: 20, lY: 50, lZ: 20 },
-        'scifitower':    { scale: 15, oX: 50, oZ: 80, count: 0, model: null, lX: 20, lY: 50, lZ: 20 },
-        'silos':         { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 20, lY: 50, lZ: 20 },
-        'silostrans':    { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 10, lY: 65, lZ: 10 },
-        'simple':        { scale: 15, oX: 50, oZ: 50, count: 0, model: null, lX: 20, lY: 50, lZ: 20 },
-        'simlebuilding': { scale: 15, oX: 80, oZ: 20, count: 0, model: null, lX: 20, lY: 50, lZ: 20 },
-        'tallbuilding':  { scale: 15, oX: 20, oZ: 20, count: 0, model: null, lX: 20, lY: 50, lZ: 20 },
-        'tallbuildingb': { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 20, lY: 50, lZ: 20 },
-        'tallfix':       { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 20, lY: 50, lZ: 20 },
-        'torus':         { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 20, lY: 50, lZ: 20 }
+        '1stbuilding':   { scale: 15, oX: 20, oZ: 20, count: 0, model: null, lX: 0,  lY: 35, lZ: 9  },
+        '2squerbuild':   { scale: 15, oX: 65, oZ: 50, count: 0, model: null, lX: 0,  lY: 37, lZ: 2  },
+        '3base':         { scale: 15, oX: 45, oZ: 45, count: 0, model: null, lX: 5,  lY: 40, lZ: 5  },
+        'bigbmw':        { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 125, lZ: 0 }, //
+        'bmw':           { scale: 15, oX: 50, oZ: 75, count: 0, model: null, lX: 0,  lY: 50, lZ: 0  }, //
+        'bmwbigf':       { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 30, lZ: 0  },
+        'buildings1':    { scale: 15, oX: 55, oZ: 75, count: 0, model: null, lX: 22, lY: 35, lZ: 1  },
+        'cube_trans':    { scale: 15, oX: 50, oZ: 50, count: 0, model: null, lX: -1, lY: 40, lZ: 1  },
+        'lastnode':      { scale: 15, oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 35, lZ: 2  },
+        'lighttower':    { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 120, lZ: 0 },
+        'merscobj':      { scale: 15, oX: 40, oZ: 50, count: 0, model: null, lX: 10, lY: 37, lZ: 2, doubleSided: true },
+        'moderntower':   { scale: 15, oX: 80, oZ: 50, count: 0, model: null, lX: 0,  lY: 70, lZ: 0  },
+        'prison':        { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 25, lZ: 0  },
+        'SciFi_3':       { scale: 15, oX: 15, oZ: 90, count: 0, model: null, lX: 0,  lY: 55, lZ: -7 },
+        'scifitower':    { scale: 15, oX: 50, oZ: 80, count: 0, model: null, lX: 0, lY: 50, lZ: 0 }, //
+        'silos':         { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 75, lZ: 0  },
+        'silostrans':    { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 65, lZ: 0  },
+        'simple':        { scale: 15, oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 27, lZ: 2  },
+        'simlebuilding': { scale: 15, oX: 80, oZ: 20, count: 0, model: null, lX: 0,  lY: 40, lZ: 2  },
+        'tallbuilding':  { scale: 15, oX: 20, oZ: 20, count: 0, model: null, lX: 0,  lY: 50, lZ: 0  },
+        'tallbuildingb': { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 90, lZ: 0  },
+        'tallfix':       { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 90, lZ: 0  },
+        'torus':         { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 60, lZ: 0  }
       }
       var logoMap = [
-        { name: "Apache_kafka", scale: 2,  oX: -12, oZ: 2, model: null, count: 0},
-        { name: "centos",       scale: 6,  oX: 0, oZ: 0, model: null, count: 0},
-        { name: "clickhouse",   scale: 10, oX: 0, oZ: 0, model: null, count: 0},
-        { name: "elastic",      scale: 3,  oX: 0, oZ: 0, model: null, count: 0},
-        { name: "flink",        scale: 5,  oX: 0, oZ: 0, model: null, count: 0},
-        { name: "git",          scale: 5,  oX: 0, oZ: 0, model: null, count: 0},
-        { name: "Prometheus",   scale: 12, oX: 0, oZ: 0, model: null, count: 0},
-        { name: "spark",        scale: 5,  oX: 0, oZ: 0, model: null, count: 0},
-        { name: "ubuntu",       scale: 4,  oX: 0, oZ: 0, model: null, count: 0},
-        { name: "zepelin",      scale: 6,  oX: 0, oZ: 0, model: null, count: 0},
-        { name: "Zoo",          scale: 9,  oX: 0, oZ: 0, model: null, count: 0}
+        { name: "Apache_kafka", scale: 2,  oX: 2,  oZ: 0, model: null, count: 0},
+        { name: "centos",       scale: 6,  oX: 2,  oZ: 3, model: null, count: 0},
+        { name: "clickhouse",   scale: 10, oX: 30, oZ: 0, model: null, count: 0},
+        { name: "elastic",      scale: 3,  oX: 0,  oZ: 0, model: null, count: 0},
+        { name: "flink",        scale: 5,  oX: 0,  oZ: 0, model: null, count: 0},
+        { name: "git",          scale: 5,  oX: 0,  oZ: 6, model: null, count: 0},
+        { name: "Prometheus",   scale: 12, oX: 0,  oZ: 0, model: null, count: 0},
+        { name: "spark",        scale: 5,  oX: 0,  oZ: 0, model: null, count: 0},
+        { name: "ubuntu",       scale: 4,  oX: 0,  oZ: 0, model: null, count: 0},
+        { name: "zepelin",      scale: 6,  oX: 0,  oZ: 2, model: null, count: 0},
+        { name: "Zoo",          scale: 9,  oX: 35, oZ: 0, model: null, count: 0}
       ]
 
       var userAdapter = {
@@ -270,6 +270,7 @@
         var loader = new THREE.MTLLoader()
 
         var objPath = './res/obj/'
+        if (modelsMap[objName] && modelsMap[objName].hasOwnProperty('doubleSided')) { loader.setMaterialOptions({ side: THREE.DoubleSide }) }
         loader.load(
           objPath + objName + '.mtl',
           function (materials) {
@@ -387,7 +388,7 @@
         subGrid.material.opacity = 0.75;
         subGrid.material.transparent = true;
         subGrid.position.y = 0.05;
-        scene.add(subGrid);
+        //scene.add(subGrid);
 
         // hemiLight - main, central
         hemiLights.push(addHemiLight(scene, {
@@ -539,8 +540,6 @@
             group.add(obj)
             group.add(logo)
 
-            console.log('L', logo)
-
             scene.add(group);
           })
         }
@@ -564,8 +563,8 @@
               oX = sqSize * sqOffset.x
               oZ = sqSize * sqOffset.z
             }
-            obj.position.x = oX + 50 + logo.scale
-            obj.position.z = oZ + 50 + logo.scale
+            obj.position.x = oX + logo.oX
+            obj.position.z = oZ + logo.oZ
             obj.position.y = 10
             obj.userData.type = logo.name
             logo.count = 1
