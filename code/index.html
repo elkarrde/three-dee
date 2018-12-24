@@ -273,14 +273,21 @@
             dataType: 'json'
           }).done(function(res) {
             var hits = res.hits.hits
-            console.log('Hits:', hits)
             alert('Objects found: ' + hits.length)
+            $('#loadBtn').addClass('hide')
+            hits.forEach(function(itm) {
+              placeModels(scene, itm._source)
+            })
           })
         }
       }
-      function placeModels(location, objArray) {
-        var posX = location.x * sqSize
-        var posZ = location.z * sqSize
+
+      function placeModels(scene, cellData) {
+        var location = cellData.LocationIn3d
+        var objArray = cellData.Services
+
+        var posX = parseInt(location[0], 10) * sqSize
+        var posZ = parseInt(location[1], 10) * sqSize
 
         var geometry = new THREE.BoxBufferGeometry(sqSize, 1, sqSize)
         var material = new THREE.MeshBasicMaterial({color: 0x030303})
@@ -288,12 +295,18 @@
         base.position.x = 0
         base.position.z = 0
 
+        var cell = new THREE.Group()
+        cell.add(base)
+        var sqOffset = { x: location[0], z: location[1] }
+
+        var ic = 0
         objArray.forEach(function(obj) {
-          obj.position.x = 0
+          var objModel = 'simple'
+          addModel(cell, objModel, sqOffset)
+          ic++
         })
 
-        var cell = new THREE.Group()
-        //cell.add()
+        scene.add(cell)
       }
 
       var stats = new Stats()
@@ -542,14 +555,16 @@
           mdl.position.z = oZ + modelsMap[model].oZ
           modelsMap[model].count++
 
+          /*
           var group = new THREE.Group();
           var logoObj = logoMap[rnd(0, logoMap.length)]
           var logo = logoObj.model.clone()
           logo.position.x = mdl.position.x + modelsMap[model].lX + logoObj.oX
           logo.position.y = modelsMap[model].lY
           logo.position.z = mdl.position.z + modelsMap[model].lZ + logoObj.oZ
+          */
           group.add(mdl)
-          group.add(logo)
+          // group.add(logo)
 
           scene.add(group)
         } else {
@@ -568,13 +583,15 @@
             modelsMap[model].model = obj
 
             var group = new THREE.Group();
+            /*
             var logoObj = logoMap[rnd(0, logoMap.length)]
             var logo = logoObj.model.clone()
             logo.position.x = obj.position.x + modelsMap[model].lX + logoObj.oX
             logo.position.y = modelsMap[model].lY
             logo.position.z = obj.position.z + modelsMap[model].lZ + logoObj.oZ
+            */
             group.add(obj)
-            group.add(logo)
+            // group.add(logo)
 
             scene.add(group);
           })
