@@ -24,7 +24,7 @@ TODO
     - [x] 2. pozicioniranje na zgrade (3h)
 - [ ] 7. pozicioniranje i definiranje kućica kroz JSON descriptor [4h]
     - [x] 1. Zlatko pripremiti JSON
-    - [ ] 2. posložiti pozicioniranje po JSONu
+    - [x] 2. posložiti pozicioniranje po JSONu
 - [ ] 8. pozicioniranje i definiranje cjevovoda [4h]
     - [ ] 1. odlučit kako uopće dati tu informaciju - veza izmedju bloka tog i tog
     - [ ] 2. animiranje toka podataka [?]

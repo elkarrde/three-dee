@@ -184,7 +184,7 @@
             cPosZ += stepZ
           }
           var sqOffset = { x: cPosX, z: cPosZ }
-          addModel(scene, mdl, sqOffset)
+          addModel(scene, mdl, logoMap[rnd(0, logoMap.length - 1)], sqOffset)
 
           if (modelsMap[mdl].count) {
             $('.js-object-list tbody').find('.js-count-' + mdl).find('.js-num').html(modelsMap[mdl].count)
@@ -263,7 +263,7 @@
       })
 
       var dataAdapter = {
-        fullUrl: 'http://173.249.3.78:29200/df_arch/doc/_search',
+        // url: 'http://173.249.3.78:29200/df_arch/doc/_search',
         url: '/data/response-demo.json',
         load: function() {
           $.ajax({
@@ -273,7 +273,6 @@
             dataType: 'json'
           }).done(function(res) {
             var hits = res.hits.hits
-            alert('Objects found: ' + hits.length)
             $('#loadBtn').addClass('hide')
             hits.forEach(function(itm) {
               placeModels(scene, itm._source)
@@ -290,10 +289,12 @@
         var posZ = parseInt(location[1], 10) * sqSize
 
         var geometry = new THREE.BoxBufferGeometry(sqSize, 1, sqSize)
-        var material = new THREE.MeshBasicMaterial({color: 0x030303})
+        var material = new THREE.MeshPhongMaterial({ color: 0x010101 })
         var base = new THREE.Mesh(geometry, material)
-        base.position.x = 0
-        base.position.z = 0
+        base.position.x = posX + sqSize / 2
+        base.position.z = posZ + sqSize / 2
+        base.userData.name = 'CellBase'
+        base.opacity = 0.25
 
         var cell = new THREE.Group()
         cell.add(base)
@@ -301,8 +302,10 @@
 
         var ic = 0
         objArray.forEach(function(obj) {
-          var objModel = 'simple'
-          addModel(cell, objModel, sqOffset)
+          var mdlArr = Object.getOwnPropertyNames(modelsMap)
+          var objModel = mdlArr[rnd(0, mdlArr.length - 1)]
+          var logoModel = obj.Logo
+          addModel(cell, objModel, logoModel, sqOffset)
           ic++
         })
 
@@ -542,7 +545,7 @@
         return spotLight
       }
 
-      function addModel(scene, model, sqOffset) {
+      function addModel(scene, model, logoModel, sqOffset) {
         if (modelsMap[model].model) {
           var mdl = modelsMap[model].model.clone()
           var oX = 0
@@ -555,16 +558,15 @@
           mdl.position.z = oZ + modelsMap[model].oZ
           modelsMap[model].count++
 
-          /*
           var group = new THREE.Group();
-          var logoObj = logoMap[rnd(0, logoMap.length)]
+          console.log('Lx', logoModel)
+          var logoObj = logoModel // logoMap[rnd(0, logoMap.length)]
           var logo = logoObj.model.clone()
           logo.position.x = mdl.position.x + modelsMap[model].lX + logoObj.oX
           logo.position.y = modelsMap[model].lY
           logo.position.z = mdl.position.z + modelsMap[model].lZ + logoObj.oZ
-          */
           group.add(mdl)
-          // group.add(logo)
+          group.add(logo)
 
           scene.add(group)
         } else {
@@ -583,15 +585,19 @@
             modelsMap[model].model = obj
 
             var group = new THREE.Group();
-            /*
-            var logoObj = logoMap[rnd(0, logoMap.length)]
-            var logo = logoObj.model.clone()
-            logo.position.x = obj.position.x + modelsMap[model].lX + logoObj.oX
-            logo.position.y = modelsMap[model].lY
-            logo.position.z = obj.position.z + modelsMap[model].lZ + logoObj.oZ
-            */
+            var tmp = logoMap.find(function(itm) { return logoModel.indexOf(itm.name) > -1 })
+            var logoObj = tmp? tmp.name : logoModel // logoMap[rnd(0, logoMap.length)]
+            var logo = null
+            try {
+              logo = logoObj.model.clone()
+            } catch(e) {}
+            if (logo) {
+              logo.position.x = obj.position.x + modelsMap[model].lX + logoObj.oX
+              logo.position.y = modelsMap[model].lY
+              logo.position.z = obj.position.z + modelsMap[model].lZ + logoObj.oZ
+              group.add(logo)
+            }
             group.add(obj)
-            // group.add(logo)
 
             scene.add(group);
           })
