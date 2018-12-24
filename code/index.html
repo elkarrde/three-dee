@@ -95,19 +95,22 @@
       var modelsMap = {
         '1stbuilding':   { scale: 15, oX: 20, oZ: 20, count: 0, model: null, lX: 0,  lY: 35, lZ: 9  },
         '2squerbuild':   { scale: 15, oX: 65, oZ: 50, count: 0, model: null, lX: 0,  lY: 37, lZ: 2  },
+        'aqua':          { scale: 0.5, oX: 80, oZ: 40, count: 0, model: null, lX: 0, lY: 60, lZ: 0  },
         '3base':         { scale: 15, oX: 45, oZ: 45, count: 0, model: null, lX: 5,  lY: 40, lZ: 5  },
         'bigbmw':        { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 125, lZ: 0 }, //
         'bmw':           { scale: 15, oX: 50, oZ: 75, count: 0, model: null, lX: 0,  lY: 50, lZ: 0  }, //
         'bmwbigf':       { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 30, lZ: 0  },
         'buildings1':    { scale: 15, oX: 55, oZ: 75, count: 0, model: null, lX: 22, lY: 35, lZ: 1  },
+        'castle':        { scale: 0.5, oX: 50, oZ: 50, count: 0, model: null, lX: 0, lY: 35, lZ: 0  },
         'cube_trans':    { scale: 15, oX: 50, oZ: 50, count: 0, model: null, lX: -1, lY: 40, lZ: 1  },
         'lastnode':      { scale: 15, oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 35, lZ: 2  },
         'lighttower':    { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 120, lZ: 0 },
+        'longsilos':     { scale: 1,  oX: 50, oZ: 70, count: 0, model: null, lX: 0,  lY: 65,  lZ: 0 },
         'merscobj':      { scale: 15, oX: 40, oZ: 50, count: 0, model: null, lX: 10, lY: 37, lZ: 2, doubleSided: true },
         'moderntower':   { scale: 15, oX: 80, oZ: 50, count: 0, model: null, lX: 0,  lY: 70, lZ: 0  },
         'prison':        { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 25, lZ: 0  },
         'SciFi_3':       { scale: 15, oX: 15, oZ: 90, count: 0, model: null, lX: 0,  lY: 55, lZ: -7 },
-        'scifitower':    { scale: 15, oX: 50, oZ: 80, count: 0, model: null, lX: 0, lY: 50, lZ: 0 }, //
+        'scifitower':    { scale: 15, oX: 50, oZ: 80, count: 0, model: null, lX: 0,  lY: 50, lZ: 0  }, //
         'silos':         { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 75, lZ: 0  },
         'silostrans':    { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 65, lZ: 0  },
         'simple':        { scale: 15, oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 27, lZ: 2  },
@@ -285,8 +288,8 @@
         var location = cellData.LocationIn3d
         var objArray = cellData.Services
 
-        var posX = parseInt(location[0], 10) * sqSize
-        var posZ = parseInt(location[1], 10) * sqSize
+        var posX = -5 * sqSize + parseInt(location[0], 10) * sqSize
+        var posZ = -5 * sqSize + parseInt(location[1], 10) * sqSize
 
         var geometry = new THREE.BoxBufferGeometry(sqSize, 1, sqSize)
         var material = new THREE.MeshPhongMaterial({ color: 0x010101 })
@@ -298,10 +301,14 @@
 
         var cell = new THREE.Group()
         cell.add(base)
-        var sqOffset = { x: location[0], z: location[1] }
+        var sqOffset = { 
+          x: -5 + location[0], 
+          z: -5 + location[1] 
+        }
 
         var ic = 0
         objArray.forEach(function(obj) {
+          console.log('OBJ', obj)
           var mdlArr = Object.getOwnPropertyNames(modelsMap)
           var objModel = mdlArr[rnd(0, mdlArr.length - 1)]
           var logoModel = obj.Logo
@@ -559,14 +566,22 @@
           modelsMap[model].count++
 
           var group = new THREE.Group();
-          console.log('Lx', logoModel)
-          var logoObj = logoModel // logoMap[rnd(0, logoMap.length)]
-          var logo = logoObj.model.clone()
-          logo.position.x = mdl.position.x + modelsMap[model].lX + logoObj.oX
-          logo.position.y = modelsMap[model].lY
-          logo.position.z = mdl.position.z + modelsMap[model].lZ + logoObj.oZ
+            var group = new THREE.Group();
+            var tmpLogoObj = logoMap.find(function(itm) { return logoMap.indexOf(itm.name) > -1 })
+            var logoObj = tmpLogoObj? tmpLoboObj.name : logoModel // logoMap[rnd(0, logoMap.length)]
+            var logo = null
+            try {
+              logo = logoObj.model.clone()
+            } catch(e) {
+              console.warn('Could not load logo object:', logoObj, logoModel, e)
+            }
+          if (logo) {
+            logo.position.x = mdl.position.x + modelsMap[model].lX + logoObj.oX
+            logo.position.y = modelsMap[model].lY
+            logo.position.z = mdl.position.z + modelsMap[model].lZ + logoObj.oZ
+            group.add(logo)
+          }
           group.add(mdl)
-          group.add(logo)
 
           scene.add(group)
         } else {
@@ -585,12 +600,14 @@
             modelsMap[model].model = obj
 
             var group = new THREE.Group();
-            var tmp = logoMap.find(function(itm) { return logoModel.indexOf(itm.name) > -1 })
-            var logoObj = tmp? tmp.name : logoModel // logoMap[rnd(0, logoMap.length)]
+            var tmpLogoObj = logoMap.find(function(itm) { return logoMap.indexOf(itm.name) > -1 })
+            var logoObj = tmpLogoObj? tmpLoboObj.name : logoModel // logoMap[rnd(0, logoMap.length)]
             var logo = null
             try {
               logo = logoObj.model.clone()
-            } catch(e) {}
+            } catch(e) {
+              console.warn('Could not load logo object:', logoObj, logoModel, e)
+            }
             if (logo) {
               logo.position.x = obj.position.x + modelsMap[model].lX + logoObj.oX
               logo.position.y = modelsMap[model].lY
