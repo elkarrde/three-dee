@@ -97,6 +97,7 @@
         '2squerbuild':   { scale: 15, oX: 65, oZ: 50, count: 0, model: null, lX: 0,  lY: 37, lZ: 2  },
         'aqua':          { scale: 0.5, oX: 80, oZ: 40, count: 0, model: null, lX: 0, lY: 60, lZ: 0  },
         '3base':         { scale: 15, oX: 45, oZ: 45, count: 0, model: null, lX: 5,  lY: 40, lZ: 5  },
+        'basictall':     { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 300, lZ: 0  },
         'bigbmw':        { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 125, lZ: 0 }, //
         'bmw':           { scale: 15, oX: 50, oZ: 75, count: 0, model: null, lX: 0,  lY: 50, lZ: 0  }, //
         'bmwbigf':       { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 30, lZ: 0  },
@@ -106,6 +107,7 @@
         'lastnode':      { scale: 15, oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 35, lZ: 2  },
         'lighttower':    { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 120, lZ: 0 },
         'longsilos':     { scale: 1,  oX: 50, oZ: 70, count: 0, model: null, lX: 0,  lY: 65,  lZ: 0 },
+        'ltrans':        { scale: 0.5,  oX: 50, oZ: 75, count: 0, model: null, lX: 0,  lY: 65,  lZ: 0 },
         'merscobj':      { scale: 15, oX: 40, oZ: 50, count: 0, model: null, lX: 10, lY: 37, lZ: 2, doubleSided: true },
         'moderntower':   { scale: 15, oX: 80, oZ: 50, count: 0, model: null, lX: 0,  lY: 70, lZ: 0  },
         'prison':        { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 25, lZ: 0  },
@@ -118,7 +120,8 @@
         'tallbuilding':  { scale: 15, oX: 20, oZ: 20, count: 0, model: null, lX: 0,  lY: 50, lZ: 0  },
         'tallbuildingb': { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 90, lZ: 0  },
         'tallfix':       { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 90, lZ: 0  },
-        'torus':         { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 60, lZ: 0  }
+        'torus':         { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 60, lZ: 0  },
+        'transtower':    { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 210, lZ: 0  }
       }
       var logoMap = [
         { name: "Apache_kafka", scale: 2,  oX: 2,  oZ: 0, model: null, count: 0},
@@ -301,9 +304,9 @@
 
         var cell = new THREE.Group()
         cell.add(base)
-        var sqOffset = { 
-          x: -5 + location[0], 
-          z: -5 + location[1] 
+        var sqOffset = {
+          x: -5 + location[0],
+          z: -5 + location[1]
         }
 
         var ic = 0
