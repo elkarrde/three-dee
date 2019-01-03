@@ -80,18 +80,6 @@
       var raycaster = new THREE.Raycaster();
       var mouse = new THREE.Vector2();
 
-      function dec2hex(i) {
-        var result = "0x000000";
-        if (i >= 0 && i <= 15) { result = "0x00000" + i.toString(16); }
-        else if (i >= 16 && i <= 255) { result = "0x0000" + i.toString(16); }
-        else if (i >= 256 && i <= 4095) { result = "0x000" + i.toString(16); }
-        else if (i >= 4096 && i <= 65535) { result = "0x00" + i.toString(16); }
-        else if (i >= 65535 && i <= 1048575) { result = "0x0" + i.toString(16); }
-        else if (i >= 1048575 ) { result = '0x' + i.toString(16); }
-        if (result.length == 8) { return result; }
-      }
-      var deg2rad = function(degree) { return degree * (Math.PI / 180); }
-
       var modelsMap = {
         '1stbuilding':   { scale: 15, oX: 20, oZ: 20, count: 0, model: null, lX: 0,  lY: 35, lZ: 9  },
         '2squerbuild':   { scale: 15, oX: 65, oZ: 50, count: 0, model: null, lX: 0,  lY: 37, lZ: 2  },
@@ -137,137 +125,6 @@
         { name: "Zoo",          scale: 9,  oX: 35, oZ: 0, model: null, count: 0}
       ]
 
-      var userAdapter = {
-        doLogin: function() {
-          var username = prompt('Enter your username:')
-          this.data.name = username.trim()
-          this.data.active = true
-          localStorage.setItem('user', JSON.stringify(this.data))
-          this.updateUi()
-        },
-        doLogout: function() {
-          this.data.name = null
-          this.data.active = false
-          localStorage.removeItem('user')
-          this.updateUi()
-        },
-        updateUi: function() {
-          if (this.data.active) {
-            $('.js-username').html('@' + this.data.name)
-            $('.js-btn-login').addClass('hide')
-            $('.js-btn-logout').removeClass('hide')
-          } else {
-            $('.js-username').html('<em>Logged out</em>')
-            $('.js-btn-login').removeClass('hide')
-            $('.js-btn-logout').addClass('hide')
-          }
-        },
-        init: function() {
-          if (localStorage.getItem('user') !== null) {
-            var tmpUser = JSON.parse(localStorage.getItem('user'))
-            this.data.name = tmpUser.name
-            this.data.active = true
-          }
-          this.updateUi()
-        },
-        data: {
-          name: null,
-          active: false
-        }
-      }
-
-      $(function() {
-        Object.getOwnPropertyNames(modelsMap).forEach(function(model) {
-          $('#typeSelect').append('<option value="' + model + '">' + model + '</option>')
-        })
-
-        $('#addBtn').click(function() {
-          var mdl = $('#typeSelect').val()
-          if (cPosX <= maxX) {
-            cPosX += count === 0? 0 : stepX
-          } else {
-            cPosX = posX0
-            cPosZ += stepZ
-          }
-          var sqOffset = { x: cPosX, z: cPosZ }
-          addModel(scene, mdl, logoMap[rnd(0, logoMap.length - 1)], sqOffset)
-
-          if (modelsMap[mdl].count) {
-            $('.js-object-list tbody').find('.js-count-' + mdl).find('.js-num').html(modelsMap[mdl].count)
-          } else {
-            $('.js-object-list tbody').append('<tr class="js-count-' + mdl + '"><td>' + mdl + '</td><td class="js-num">1</td></tr>')
-          }
-          count++
-        })
-        $('#addBtnMulti').click(function() {
-          var count = prompt('Number: ')
-          $('#addBtn').trigger('click')
-          setTimeout(function() {
-            for (var i = 0; i < count; i++) {
-              $('#addBtn').trigger('click')
-            }
-          }, 50, --count)
-        })
-
-        $('.js-btn-stats').click(function() {
-          $(stats.domElement).toggleClass('hide')
-        })
-
-        $('.js-btn-load').click(function() {
-          dataAdapter.load()
-        })
-
-        userAdapter.init()
-        $('.js-btn-login').click(function() {
-          userAdapter.doLogin()
-        })
-        $('.js-btn-logout').click(function() {
-          userAdapter.doLogout()
-        })
-
-        cTi = setInterval(function() {
-          cT = new Date()
-          $('.js-time').html(cT.toLocaleTimeString('hr'))
-        }, 500)
-
-        $('.dg.ac').css('right', '30rem')
-
-        $('#console').text('neven@Neven-E580:~/Code/DT-demo (master)\r\n[' + (new Date()).toLocaleTimeString('hr') + '] $ ')
-
-        var ctx = document.getElementById('graph').getContext('2d');
-        var chart = new Chart(ctx, {
-          type: 'line',
-          data: {
-            datasets: [{
-              data: [],
-              label: 'Load',
-              borderColor: 'rgb(239, 0, 0)',
-              backgroundColor: 'rgba(239, 0, 0, 0.5)',
-            }]
-          },
-          options: {
-            scales: {
-              xAxes: [{
-                type: 'realtime',
-                realtime: {
-                  delay: 2000,
-                  onRefresh: function(chart) {
-                    chart.data.datasets.forEach(function(dataset) {
-                      dataset.data.push({
-                        x: Date.now(),
-                        y: Math.random()
-                      });
-                    });
-                  }
-                }
-              }]
-            }
-          }
-        });
-
-        $('#scene').append(vprend.domElement);
-      })
-
       var dataAdapter = {
         // url: 'http://173.249.3.78:29200/df_arch/doc/_search',
         url: '/data/response-demo.json',
@@ -287,70 +144,11 @@
         }
       }
 
-      function placeModels(scene, cellData) {
-        var location = cellData.LocationIn3d
-        var objArray = cellData.Services
-
-        var posX = -5 * sqSize + parseInt(location[0], 10) * sqSize
-        var posZ = -5 * sqSize + parseInt(location[1], 10) * sqSize
-
-        var geometry = new THREE.BoxBufferGeometry(sqSize, 1, sqSize)
-        var material = new THREE.MeshPhongMaterial({ color: 0x010101 })
-        var base = new THREE.Mesh(geometry, material)
-        base.position.x = posX + sqSize / 2
-        base.position.z = posZ + sqSize / 2
-        base.userData.name = 'CellBase'
-        base.opacity = 0.25
-
-        var cell = new THREE.Group()
-        cell.add(base)
-        var sqOffset = {
-          x: -5 + location[0],
-          z: -5 + location[1]
-        }
-
-        var ic = 0
-        objArray.forEach(function(obj) {
-          console.log('OBJ', obj)
-          var mdlArr = Object.getOwnPropertyNames(modelsMap)
-          var objModel = mdlArr[rnd(0, mdlArr.length - 1)]
-          var logoModel = obj.Logo
-          addModel(cell, objModel, logoModel, sqOffset)
-          ic++
-        })
-
-        scene.add(cell)
-      }
-
       var stats = new Stats()
       $(stats.domElement).css('top', '3rem').css('right', 0).css('left', '')
       stats.showPanel(0)
       document.body.appendChild(stats.dom)
       $(stats.domElement).addClass('hide')
-
-      function createObject(scene, objName, params, callback) {
-        var loader = new THREE.MTLLoader()
-
-        var objPath = './res/obj/'
-        if (modelsMap[objName] && modelsMap[objName].hasOwnProperty('doubleSided')) { loader.setMaterialOptions({ side: THREE.DoubleSide }) }
-        loader.load(
-          objPath + objName + '.mtl',
-          function (materials) {
-            materials.preload();
-            new THREE.OBJLoader()
-              .setMaterials(materials).load(objPath + objName + '.obj', function (object) {
-                callback(object, params)
-              },
-              function (xhr) {
-                // do nothing
-              },
-              function (err) {
-                console.error('An error happened while loading MTL object.', err);
-              }
-            )
-          }
-        )
-      }
 
       function onDocumentMouseUp(event) {
         if (event.button === 0) {
@@ -395,10 +193,6 @@
         }
       }
       document.addEventListener('mousemove', onDocumentMouseMove, false)
-
-      function rnd(min, max) {
-        return Math.floor(Math.random() * max) + min
-      }
 
       function setupWorld() {
         camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 8000);
@@ -713,136 +507,6 @@
 
       init();
       animate();
-
-      // DAT.GUI Related Stuff
-      var gui = new dat.GUI();
-
-      var gOptions = {
-        grid: {
-          visible: true,
-          color: 0xffffff
-        },
-        ground: {
-          visible: true,
-          color: 0x000300,
-          reflectivity: 0.85
-        },
-        lights: {
-          hemi: [],
-          ambi: {
-            visible: true,
-            color: 0xa0a0a0,
-            intensity: 2
-          }
-        },
-        sidebars: {
-          width: 20,
-          startColor: 0x477f38,
-          endColor: 0x000000,
-          startOpacity: 80,
-          endOpacity: 0,
-        },
-        mkGrad: function() {
-          var sc = dec2hex(this.sidebars.startColor).substr(2)
-          var scR = parseInt(sc.substr(0, 2), 16)
-          var scG = parseInt(sc.substr(2, 2), 16)
-          var scB = parseInt(sc.substr(4, 2), 16)
-          var se = dec2hex(this.sidebars.endColor).substr(2)
-          var seR = parseInt(se.substr(0, 2), 16)
-          var seG = parseInt(se.substr(2, 2), 16)
-          var seB = parseInt(se.substr(4, 2), 16)
-          var oS = this.sidebars.startOpacity / 100
-          var oE = this.sidebars.endOpacity / 100
-          $('.side-left').css('background', '-webkit-gradient(linear, left center, right center, from(rgba(' + scR + ', ' + scG + ', ' + scB + ', ' + oS + ')), to(rgba(' + seR + ', ' + seG + ', ' + seB + ', ' + oE + ')))')
-          $('.side-right').css('background', '-webkit-gradient(linear, right center, left center, from(rgba(' + scR + ', ' + scG + ', ' + scB + ', ' + oS + ')), to(rgba(' + seR + ', ' + seG + ', ' + seB + ', ' + oE + ')))')
-        },
-      };
-      var cGl = {}
-      for (var ghc = 0; ghc < hemiLights.length; ghc++) {
-        gOptions.lights.hemi[ghc] = {
-          index: ghc,
-          visible: false,
-          color: 0xffffff,
-          intensity: 1,
-          positionX: 0,
-          positionY: 1000,
-          positionZ: 0
-        }
-        cGl[ghc] = ghc
-      }
-
-      /*
-      var gCamera = gui.addFolder('Camera');
-      gCamera.add(camera.position, 'x', -5000, 5000).name('X').listen()
-      gCamera.add(camera.position, 'y', -5000, 5000).name('Y').listen()
-      gCamera.add(camera.position, 'z', -5000, 5000).name('Z').listen()
-      */
-
-      var gGrid = gui.addFolder('Grid');
-      gGrid.add(grid, 'visible').name('Visible').listen()
-      gGrid.addColor(gOptions.grid, 'color').name('Color').onChange(function() {
-        grid.material.color.setHex(dec2hex(gOptions.grid.color))
-      })
-
-      var gGround = gui.addFolder('Ground');
-      gGround.add(mrrFadeout, 'visible').name('Visible').listen()
-      gGround.addColor(gOptions.ground, 'color').name('Color').onChange(function() {
-        mrrFadeout.material.color.setHex(dec2hex(gOptions.ground.color))
-      })
-      gGround.add(mrrFadeout.material, 'opacity', 0.25, 1).name('Matte').listen()
-
-
-      ghAmbiLight = gui.addFolder('Ambient light')
-      ghAmbiLight.add(gOptions.lights.ambi, 'visible').name('Visibility').onChange(function() {
-        ambiLight.visible = gOptions.lights.ambi.visible;
-      });
-      ghAmbiLight.addColor(gOptions.lights.ambi, 'color').name('Color').onChange(function() {
-        ambiLight.color.setHex(dec2hex(gOptions.lights.ambi.color));
-      })
-      ghAmbiLight.add(gOptions.lights.ambi, 'intensity', 1, 20).name('Intensity').onChange(function() {
-        ambiLight.intensity = gOptions.lights.ambi.intensity;
-      });
-
-      for (var ghc = 0; ghc < hemiLights.length; ghc++) {
-        hemiLights[ghc].visible = false; // They say that girl ya know she act too tough tough tough
-
-        ghLights[ghc] = gui.addFolder('HemisphereLight #' + (ghc + 1))
-        ghLights[ghc].add(gOptions.lights.hemi[ghc], 'visible').name('Visibility').onChange(function() {
-          hemiLights[this.object.index].visible = gOptions.lights.hemi[this.object.index].visible;
-        });
-        ghLights[ghc].addColor(gOptions.lights.hemi[ghc], 'color').name('Color').onChange(function() {
-          hemiLights[this.object.index].color.setHex(dec2hex(gOptions.lights.hemi[this.object.index].color));
-        })
-        ghLights[ghc].add(gOptions.lights.hemi[ghc], 'intensity', 1, 20).name('Intensity').onChange(function() {
-          hemiLights[this.object.index].intensity = gOptions.lights.hemi[this.object.index].intensity;
-        });
-        ghLights[ghc].add(gOptions.lights.hemi[ghc], 'positionX', -1000, 1000).name('Position X').onChange(function() {
-          hemiLights[this.object.index].position.x = gOptions.lights.hemi[this.object.index].positionX;
-        });
-        ghLights[ghc].add(gOptions.lights.hemi[ghc], 'positionY', -1000, 1000).name('Position Y').onChange(function() {
-          hemiLights[this.object.index].position.y = gOptions.lights.hemi[this.object.index].positionY;
-        });
-        ghLights[ghc].add(gOptions.lights.hemi[ghc], 'positionZ', -1000, 1000).name('Position Z').onChange(function() {
-          hemiLights[this.object.index].position.z = gOptions.lights.hemi[this.object.index].positionZ;
-        });
-      }
-
-      var gSbars = gui.addFolder('Sidebars')
-      gSbars.add(gOptions.sidebars, 'width', 10, 30).onChange(function() {
-        $('.side').css('width', gOptions.sidebars.width + 'rem')
-      })
-      gSbars.addColor(gOptions.sidebars, 'startColor').onChange(function() {
-        gOptions.mkGrad()
-      })
-      gSbars.add(gOptions.sidebars, 'startOpacity', 0, 100).onChange(function() {
-        gOptions.mkGrad()
-      })
-      gSbars.addColor(gOptions.sidebars, 'endColor').onChange(function() {
-        gOptions.mkGrad()
-      })
-      gSbars.add(gOptions.sidebars, 'endOpacity', 0, 100).onChange(function() {
-        gOptions.mkGrad()
-      })
 
     </script>
 

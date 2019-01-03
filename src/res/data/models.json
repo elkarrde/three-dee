@@ -1,0 +1,19 @@
+{
+  "1stbuilding":   { "scale": 15, "oX": 20, "oZ": 20, "count": 0, "model": null },
+  "2squerbuild":   { "scale": 15, "oX": 65, "oZ": 50, "count": 0, "model": null },
+  "3base":         { "scale": 15, "oX": 45, "oZ": 45, "count": 0, "model": null },
+  "bigbmw":        { "scale": 1,  "oX": 50, "oZ": 50, "count": 0, "model": null },
+  "bmw":           { "scale": 15, "oX": 50, "oZ": 75, "count": 0, "model": null },
+  "bmwbigf":       { "scale": 1,  "oX": 50, "oZ": 50, "count": 0, "model": null },
+  "buildings1":    { "scale": 15, "oX": 55, "oZ": 75, "count": 0, "model": null },
+  "lastnode":      { "scale": 15, "oX": 50, "oZ": 50, "count": 0, "model": null },
+  "merscobj":      { "scale": 15, "oX": 40, "oZ": 50, "count": 0, "model": null },
+  "moderntower":   { "scale": 15, "oX": 80, "oZ": 50, "count": 0, "model": null },
+  "silos":         { "scale": 1,  "oX": 50, "oZ": 50, "count": 0, "model": null },
+  "SciFi_3":       { "scale": 15, "oX": 15, "oZ": 90, "count": 0, "model": null },
+  "scifitower":    { "scale": 15, "oX": 50, "oZ": 80, "count": 0, "model": null },
+  "simlebuilding": { "scale": 15, "oX": 80, "oZ": 20, "count": 0, "model": null },
+  "tallbuilding":  { "scale": 15, "oX": 20, "oZ": 20, "count": 0, "model": null },
+  "tallbuildingb": { "scale": 1,  "oX": 50, "oZ": 50, "count": 0, "model": null },
+  "torus":         { "scale": 1,  "oX": 50, "oZ": 50, "count": 0, "model": null }
+}
