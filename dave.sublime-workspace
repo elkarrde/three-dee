@@ -80,24 +80,55 @@
 	"buffers":
 	[
 		{
-			"contents": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <title>World</title>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0\">\n    <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css\" integrity=\"sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO\" crossorigin=\"anonymous\">\n    <link rel=\"stylesheet\" href=\"./css/dat.gui.css\">\n    <link rel=\"stylesheet\" href=\"./css/main.css\">\n  </head>\n  <body>\n    <header>\n      <nav class=\"navbar navbar-dark bg-dark\">\n        <span class=\"navbar-text\">\n          <h5>\n            <strong>DaVE</strong> &nbsp; <small>Datacenter Visualization Environment</small>\n          </h5>\n        </span>\n        <span class=\"navbar-text pull-right\">\n          <span class=\"info-user pl-0 pr-2\">\n            <span class=\"js-username pr-2\"><em>Logged out</em></span>\n          </span>\n          <span class=\"info-time px-2\">\n            <span class=\"js-time\">&middot;</span>\n          </span>\n          <span class=\"info-actions pl-2 pr-0\">\n            <button class=\"btn btn-outline-danger btn-sm mr-1 js-btn-logout hide\" type=\"button\">Log out</button>\n            <button class=\"btn btn-outline-success btn-sm mr-1 js-btn-login\" type=\"button\">Log in</button>\n            <button class=\"btn btn-outline-primary btn-sm mr-0 js-btn-stats\" type=\"button\">Stats</button>\n          </span>\n        </span>\n      </nav> \n    </header>\n\n    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js\" integrity=\"sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=\" crossorigin=\"anonymous\"></script>\n    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js\" integrity=\"sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49\" crossorigin=\"anonymous\"></script>\n    <script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js\" integrity=\"sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy\" crossorigin=\"anonymous\"></script>\n\n    <script src=\"./js/three.js\"></script>\n    <script src=\"./js/controls/OrbitControls.js\"></script>\n    <script src=\"./js/objects/Reflector.js\"></script>\n    <script src=\"./js/loaders/MTLLoader.js\"></script>\n    <script src=\"./js/loaders/OBJLoader.js\"></script>\n    <script src=\"./js/WebGL.js\"></script>\n    <script src=\"./js/stats.js\"></script>\n    <script src=\"./js/libs/dat.gui.min.js\"></script>\n    <script src=\"./js/moment.min.js\"></script>\n    <script src=\"./js/Chart.min.js\"></script>\n    <script src=\"./js/chartjs-plugin-streaming.min.js\"></script>\n\n    <script>\n      if (WEBGL.isWebGLAvailable() === false) {\n        document.body.appendChild(WEBGL.getWebGLErrorMessage());\n      }\n\n      var scene, camera, renderer, mesh, groundMirror, grid, mrrFadeout, spotLight;\n      var vport, vpcam, vprend\n      var sqSize = 100\n      var subSqSize = sqSize / 5\n      var globalObjects = []\n      var noClickObjects = ['Ground', 'Grid', 'FadeoutMrr', 'GndMirror', 'GndMrr']\n      var posMap = []\n      var posX0 = -10\n      var posZ0 = -10\n      var cPosX = -10\n      var cPosZ = -10\n      var maxX = 8\n      var maxZ = 8\n      var stepX = 1\n      var stepZ = 2\n      var count = 0\n\n      var cT, cTi\n\n      var dirLights = []\n      var hemiLights = []\n      var ghLights = []\n      var ambiLight\n\n      var raycaster = new THREE.Raycaster();\n      var mouse = new THREE.Vector2();\n\n      function dec2hex(i) {\n        var result = \"0x000000\";\n        if (i >= 0 && i <= 15) { result = \"0x00000\" + i.toString(16); }\n        else if (i >= 16 && i <= 255) { result = \"0x0000\" + i.toString(16); }\n        else if (i >= 256 && i <= 4095) { result = \"0x000\" + i.toString(16); }\n        else if (i >= 4096 && i <= 65535) { result = \"0x00\" + i.toString(16); }\n        else if (i >= 65535 && i <= 1048575) { result = \"0x0\" + i.toString(16); }\n        else if (i >= 1048575 ) { result = '0x' + i.toString(16); }\n        if (result.length == 8) { return result; }\n      }\n      var deg2rad = function(degree) { return degree * (Math.PI / 180); }\n\n      var modelsMap = {\n        '1stbuilding':   { scale: 15, oX: 20, oZ: 20, count: 0, model: null, lX: 0,  lY: 35, lZ: 9  },\n        '2squerbuild':   { scale: 15, oX: 65, oZ: 50, count: 0, model: null, lX: 0,  lY: 37, lZ: 2  },\n        'aqua':          { scale: 0.5, oX: 80, oZ: 40, count: 0, model: null, lX: 0, lY: 60, lZ: 0  },\n        '3base':         { scale: 15, oX: 45, oZ: 45, count: 0, model: null, lX: 5,  lY: 40, lZ: 5  },\n        'basictall':     { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 300, lZ: 0 },\n        'bigbmw':        { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 125, lZ: 0 }, //\n        'bmw':           { scale: 15, oX: 50, oZ: 75, count: 0, model: null, lX: 0,  lY: 50, lZ: 0  }, //\n        'bmwbigf':       { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 30, lZ: 0  },\n        'buildings1':    { scale: 15, oX: 55, oZ: 75, count: 0, model: null, lX: 22, lY: 35, lZ: 1  },\n        'castle':        { scale: 0.5, oX: 50, oZ: 50, count: 0, model: null, lX: 0, lY: 35, lZ: 0  },\n        'cube_trans':    { scale: 15, oX: 50, oZ: 50, count: 0, model: null, lX: -1, lY: 40, lZ: 1  },\n        'lastnode':      { scale: 15, oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 35, lZ: 2  },\n        'lighttower':    { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 120, lZ: 0 },\n        'longsilos':     { scale: 1,  oX: 50, oZ: 70, count: 0, model: null, lX: 0,  lY: 65,  lZ: 0 },\n        'ltrans':        { scale: 0.5, oX: 80, oZ: 80, count: 0, model: null, lX: 0,  lY: 50, lZ: 0 },\n        'merscobj':      { scale: 15, oX: 40, oZ: 50, count: 0, model: null, lX: 10, lY: 37, lZ: 2, doubleSided: true },\n        'moderntower':   { scale: 15, oX: 80, oZ: 50, count: 0, model: null, lX: 0,  lY: 70, lZ: 0  },\n        'prison':        { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 25, lZ: 0  },\n        'SciFi_3':       { scale: 15, oX: 15, oZ: 90, count: 0, model: null, lX: 0,  lY: 55, lZ: -7 },\n        'scifitower':    { scale: 15, oX: 50, oZ: 80, count: 0, model: null, lX: 0,  lY: 50, lZ: 0  }, //\n        'silos':         { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 75, lZ: 0  },\n        'silostrans':    { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 65, lZ: 0  },\n        'simple':        { scale: 15, oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 27, lZ: 2  },\n        'simlebuilding': { scale: 15, oX: 80, oZ: 20, count: 0, model: null, lX: 0,  lY: 40, lZ: 2  },\n        'tallbuilding':  { scale: 15, oX: 20, oZ: 20, count: 0, model: null, lX: 0,  lY: 50, lZ: 0  },\n        'tallbuildingb': { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 90, lZ: 0  },\n        'tallfix':       { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 90, lZ: 0  },\n        'torus':         { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 60, lZ: 0  },\n        'transtower':    { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 210, lZ: 0 }\n      }\n      var logoMap = [\n        { name: \"Apache_kafka\", scale: 2,  oX: 2,  oZ: 0, model: null, count: 0},\n        { name: \"centos\",       scale: 6,  oX: 2,  oZ: 3, model: null, count: 0},\n        { name: \"clickhouse\",   scale: 10, oX: 30, oZ: 0, model: null, count: 0},\n        { name: \"elastic\",      scale: 3,  oX: 0,  oZ: 0, model: null, count: 0},\n        { name: \"flink\",        scale: 5,  oX: 0,  oZ: 0, model: null, count: 0},\n        { name: \"git\",          scale: 5,  oX: 0,  oZ: 6, model: null, count: 0},\n        { name: \"Prometheus\",   scale: 12, oX: 0,  oZ: 0, model: null, count: 0},\n        { name: \"spark\",        scale: 5,  oX: 0,  oZ: 0, model: null, count: 0},\n        { name: \"ubuntu\",       scale: 4,  oX: 0,  oZ: 0, model: null, count: 0},\n        { name: \"zepelin\",      scale: 6,  oX: 0,  oZ: 2, model: null, count: 0},\n        { name: \"Zoo\",          scale: 9,  oX: 35, oZ: 0, model: null, count: 0}\n      ]\n\n      var userAdapter = {\n        doLogin: function() {\n          var username = prompt('Enter your username:')\n          this.data.name = username.trim()\n          this.data.active = true\n          localStorage.setItem('user', JSON.stringify(this.data))\n          this.updateUi()\n        },\n        doLogout: function() {\n          this.data.name = null\n          this.data.active = false\n          localStorage.removeItem('user')\n          this.updateUi()\n        },\n        updateUi: function() {\n          if (this.data.active) {\n            $('.js-username').html('@' + this.data.name)\n            $('.js-btn-login').addClass('hide')\n            $('.js-btn-logout').removeClass('hide')\n          } else {\n            $('.js-username').html('<em>Logged out</em>')\n            $('.js-btn-login').removeClass('hide')\n            $('.js-btn-logout').addClass('hide')\n          }\n        },\n        init: function() {\n          if (localStorage.getItem('user') !== null) {\n            var tmpUser = JSON.parse(localStorage.getItem('user'))\n            this.data.name = tmpUser.name\n            this.data.active = true\n          }\n          this.updateUi()\n        },\n        data: {\n          name: null,\n          active: false\n        }\n      }\n\n      $(function() {\n        Object.getOwnPropertyNames(modelsMap).forEach(function(model) {\n          $('#typeSelect').append('<option value=\"' + model + '\">' + model + '</option>')\n        })\n\n        $('#addBtn').click(function() {\n          var mdl = $('#typeSelect').val()\n          if (cPosX <= maxX) {\n            cPosX += count === 0? 0 : stepX\n          } else {\n            cPosX = posX0\n            cPosZ += stepZ\n          }\n          var sqOffset = { x: cPosX, z: cPosZ }\n          addModel(scene, mdl, logoMap[rnd(0, logoMap.length - 1)], sqOffset)\n\n          if (modelsMap[mdl].count) {\n            $('.js-object-list tbody').find('.js-count-' + mdl).find('.js-num').html(modelsMap[mdl].count)\n          } else {\n            $('.js-object-list tbody').append('<tr class=\"js-count-' + mdl + '\"><td>' + mdl + '</td><td class=\"js-num\">1</td></tr>')\n          }\n          count++\n        })\n        $('#addBtnMulti').click(function() {\n          var count = prompt('Number: ')\n          $('#addBtn').trigger('click')\n          setTimeout(function() {\n            for (var i = 0; i < count; i++) {\n              $('#addBtn').trigger('click')\n            }\n          }, 50, --count)\n        })\n\n        $('.js-btn-stats').click(function() {\n          $(stats.domElement).toggleClass('hide')\n        })\n\n        $('.js-btn-load').click(function() {\n          dataAdapter.load()\n        })\n\n        userAdapter.init()\n        $('.js-btn-login').click(function() {\n          userAdapter.doLogin()\n        })\n        $('.js-btn-logout').click(function() {\n          userAdapter.doLogout()\n        })\n\n        cTi = setInterval(function() {\n          cT = new Date()\n          $('.js-time').html(cT.toLocaleTimeString('hr'))\n        }, 500)\n\n        $('.dg.ac').css('right', '30rem')\n\n        $('#console').text('neven@Neven-E580:~/Code/DT-demo (master)\\r\\n[' + (new Date()).toLocaleTimeString('hr') + '] $ ')\n\n        var ctx = document.getElementById('graph').getContext('2d');\n        var chart = new Chart(ctx, {\n          type: 'line',\n          data: {\n            datasets: [{\n              data: [],\n              label: 'Load',\n              borderColor: 'rgb(239, 0, 0)',\n              backgroundColor: 'rgba(239, 0, 0, 0.5)',\n            }]\n          },\n          options: {\n            scales: {\n              xAxes: [{\n                type: 'realtime',\n                realtime: {\n                  delay: 2000,\n                  onRefresh: function(chart) {\n                    chart.data.datasets.forEach(function(dataset) {\n                      dataset.data.push({\n                        x: Date.now(),\n                        y: Math.random()\n                      });\n                    });\n                  }\n                }\n              }]\n            }\n          }\n        });\n\n        $('#scene').append(vprend.domElement);\n      })\n\n      var dataAdapter = {\n        // url: 'http://173.249.3.78:29200/df_arch/doc/_search',\n        url: '/data/response-demo.json',\n        load: function() {\n          $.ajax({\n            url: this.url,\n            crossDomain: true,\n            method: 'get',\n            dataType: 'json'\n          }).done(function(res) {\n            var hits = res.hits.hits\n            $('#loadBtn').addClass('hide')\n            hits.forEach(function(itm) {\n              placeModels(scene, itm._source)\n            })\n          })\n        }\n      }\n\n      function placeModels(scene, cellData) {\n        var location = cellData.LocationIn3d\n        var objArray = cellData.Services\n\n        var posX = -5 * sqSize + parseInt(location[0], 10) * sqSize\n        var posZ = -5 * sqSize + parseInt(location[1], 10) * sqSize\n\n        var geometry = new THREE.BoxBufferGeometry(sqSize, 1, sqSize)\n        var material = new THREE.MeshPhongMaterial({ color: 0x010101 })\n        var base = new THREE.Mesh(geometry, material)\n        base.position.x = posX + sqSize / 2\n        base.position.z = posZ + sqSize / 2\n        base.userData.name = 'CellBase'\n        base.opacity = 0.25\n\n        var cell = new THREE.Group()\n        cell.add(base)\n        var sqOffset = {\n          x: -5 + location[0],\n          z: -5 + location[1]\n        }\n\n        var ic = 0\n        objArray.forEach(function(obj) {\n          console.log('OBJ', obj)\n          var mdlArr = Object.getOwnPropertyNames(modelsMap)\n          var objModel = mdlArr[rnd(0, mdlArr.length - 1)]\n          var logoModel = obj.Logo\n          addModel(cell, objModel, logoModel, sqOffset)\n          ic++\n        })\n\n        scene.add(cell)\n      }\n\n      var stats = new Stats()\n      $(stats.domElement).css('top', '3rem').css('right', 0).css('left', '')\n      stats.showPanel(0)\n      document.body.appendChild(stats.dom)\n      $(stats.domElement).addClass('hide')\n\n      function createObject(scene, objName, params, callback) {\n        var loader = new THREE.MTLLoader()\n\n        var objPath = './res/obj/'\n        if (modelsMap[objName] && modelsMap[objName].hasOwnProperty('doubleSided')) { loader.setMaterialOptions({ side: THREE.DoubleSide }) }\n        loader.load(\n          objPath + objName + '.mtl',\n          function (materials) {\n            materials.preload();\n            new THREE.OBJLoader()\n              .setMaterials(materials).load(objPath + objName + '.obj', function (object) {\n                callback(object, params)\n              },\n              function (xhr) {\n                // do nothing\n              },\n              function (err) {\n                console.error('An error happened while loading MTL object.', err);\n              }\n            )\n          }\n        )\n      }\n\n      function onDocumentMouseUp(event) {\n        if (event.button === 0) {\n          var lMap = event.path.filter(function(x) { return $(x)[0].id === 'objttip' })\n          if (lMap.length > 0) {\n            event.preventDefault()\n          } else {\n            mouse.x = (event.clientX / renderer.domElement.clientWidth) * 2 - 1\n            mouse.y = -(event.clientY / renderer.domElement.clientHeight) * 2 + 1\n            raycaster.setFromCamera(mouse, camera)\n\n            var intersects = raycaster.intersectObjects(scene.children, true)\n            if (intersects.length >= 1) {\n              spotLight.position.set(camera.position)\n\n              if (noClickObjects.indexOf(intersects[0].object.name) === -1) {\n                console.log('Clicked object type: ' + intersects[0].object.geometry.name, intersects[0])\n                $('#objttip').css('left', event.x + 50).css('top', event.y).removeClass('hide')\n                $('.obj-panel').removeClass('hide')\n                $('.obj-panel .obj-dist').text(intersects[0].distance)\n                $('.obj-panel .obj-type').text(intersects[0].object.parent.userData.type)\n                $('.obj-panel .obj-uuid').text(intersects[0].object.uuid)\n                spotLight.target = intersects[0].object.parent\n              } else {\n                $('.obj-panel').addClass('hide')\n              }\n            } else {\n              $('#objttip').addClass('hide')\n            }\n          }\n        }\n      }\n      document.addEventListener('mouseup', onDocumentMouseUp, false)\n\n      function onDocumentMouseMove(evt) {\n        if (evt.buttons === 1 && evt.button === 0) { // drag!\n          var lMap = evt.path.filter(function(x) { return $(x)[0].id === 'objttip' })\n          if (lMap.length > 0) {\n            $('#objttip').css('left', evt.x - 15).css('top', evt.y - 15)\n            evt.preventDefault()\n          }\n        }\n      }\n      document.addEventListener('mousemove', onDocumentMouseMove, false)\n\n      function rnd(min, max) {\n        return Math.floor(Math.random() * max) + min\n      }\n\n      function setupWorld() {\n        camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 8000);\n        camera.position.set(1000, 1000, 1000);\n        camera.translateX(500)\n        camera.translateZ(1000)\n\n        scene = new THREE.Scene();\n        scene.background = new THREE.Color(0x000000);\n        scene.fog = new THREE.Fog(0x000000, 1000, 8000);\n\n        // ground\n        ground = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshPhongMaterial({ color: 0x333333, depthWrite: true }));\n        ground.name = 'Ground'\n        ground.rotation.x = -Math.PI / 2;\n        ground.receiveShadow = false;\n        ground.opacity = 0.8\n        scene.add(ground);\n\n        var geometry = new THREE.PlaneBufferGeometry(2000, 2000);\n        geometry.name = 'GndMirror'\n        groundMirror = new THREE.Reflector(geometry, {\n          clipBias: 0.8,\n          textureWidth: window.innerWidth * window.devicePixelRatio,\n          textureHeight: window.innerHeight * window.devicePixelRatio,\n          color: 0x848484,\n          recursion: 1\n        });\n        groundMirror.name = 'GndMrr'\n        groundMirror.position.y = 0.5;\n        groundMirror.rotateX(-Math.PI / 2);\n        scene.add(groundMirror);\n\n        mrrFadeout = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshLambertMaterial({ color: 0x000300, opacity : 0.85 , transparent: true }))\n        mrrFadeout.name = 'FadeoutMrr'\n        mrrFadeout.position.y = 0.85\n        mrrFadeout.rotateX(-Math.PI / 2)\n        scene.add(mrrFadeout)\n\n        grid = new THREE.GridHelper(2000, 20, 0xffffff, 0xffffff); //0x3bff7f\n        grid.name = 'Grid'\n        grid.material.opacity = 1;\n        grid.material.transparent = true;\n        grid.position.y = 0.2;\n        scene.add(grid);\n\n        var subGrid = new THREE.GridHelper(2000, 100, 0x449960, 0x449960);\n        subGrid.name = 'SubGrid'\n        subGrid.material.opacity = 0.75;\n        subGrid.material.transparent = true;\n        subGrid.position.y = 0.05;\n        scene.add(subGrid);\n\n        // hemiLight - main, central\n        hemiLights.push(addHemiLight(scene, {\n          color: 0xffffff,\n          groundColor: 0xaaaaaa,\n          intensity: 1,\n          coords: { x: 0, y: 1000, z: 0 }\n        }))\n        // hemiLight - bordering\n        hemiLights.push(addHemiLight(scene, {\n          color: 0xffffff,\n          groundColor: 0xaaaaaa,\n          intensity: 1,\n          coords: { x: 500, y: 1000, z: 500 }\n        }))\n        hemiLights.push(addHemiLight(scene, {\n          color: 0xffffff,\n          groundColor: 0xaaaaaa,\n          intensity: 1,\n          coords: { x: 500, y: 1000, z: -500 }\n        }))\n        hemiLights.push(addHemiLight(scene, {\n          color: 0xffffff,\n          groundColor: 0xaaaaaa,\n          intensity: 1,\n          coords: { x: -500, y: 1000, z: -500 }\n        }))\n        hemiLights.push(addHemiLight(scene, {\n          color: 0xffffff,\n          groundColor: 0xaaaaaa,\n          intensity: 1,\n          coords: { x: -500, y: 1000, z: 500 }\n        }))\n\n        ambiLight = new THREE.AmbientLight(0xa0a0a0, 2)\n        scene.add(ambiLight)\n      }\n\n      function setupView(domElm) {\n        vpcam = new THREE.PerspectiveCamera(45, domElm.width() / domElm.height(), 1, 1000);\n        vpcam.position.set(500, 250, 500);\n        vpcam.translateX(250)\n        vpcam.translateZ(500)\n\n        vport = new THREE.Scene();\n        vport.background = new THREE.Color(0x000000);\n        vport.fog = new THREE.Fog(0x000000, 500, 1000);\n\n        // ground\n        var vgnd = new THREE.Mesh(new THREE.PlaneBufferGeometry(500, 500), new THREE.MeshPhongMaterial({ color: 0x333333, depthWrite: true }));\n        vgnd.name = 'Ground'\n        vgnd.rotation.x = -Math.PI / 2;\n        vgnd.receiveShadow = false;\n        vgnd.opacity = 0.8\n        vport.add(vgnd);\n\n        addHemiLight(vport, {\n          color: 0xffffff,\n          groundColor: 0xaaaaaa,\n          intensity: 5,\n          coords: { x: 0, y: 500, z: 0 }\n        })\n        var ambilight = new THREE.AmbientLight(0xa0a0a0, 3)\n        vport.add(ambilight)\n      }\n\n      function addHemiLight(scene, params) {\n        var hemiLight = new THREE.HemisphereLight(params.color, params.groundColor, params.intensity)\n        var hlHelper = new THREE.HemisphereLightHelper(hemiLight, 50, 0xffff00)\n        hemiLight.position.set(params.coords.x, params.coords.y, params.coords.z);\n        scene.add(hemiLight);\n        scene.add(hlHelper);\n\n        return hemiLight\n      }\n      function addDirLight(scene, params) {\n        var dirLight = new THREE.DirectionalLight(params.color, params.intensity)\n        dirLight.position.set(params.coords.x, params.coords.y, params.coords.z)\n        dirLight.castShadow = false\n        dirLight.target.position.set(params.coords.x, 0, params.coords.z)\n        scene.add(dirLight)\n        scene.add(dirLight.target)\n\n        var dlHelper = new THREE.DirectionalLightHelper(dirLight, 10, 0x0088ff)\n        scene.add(dlHelper)\n\n        return dirLight\n      }\n      function addSpotLight(scene, params) {\n        var spotLight = new THREE.SpotLight(params.color, params.intensity)\n        spotLight.position.set(params.coords.x, params.coords.y, params.coords.z)\n        spotLight.castShadow = false\n        spotLight.angle = Math.PI / 4;\n        spotLight.penumbra = 0.05;\n        spotLight.decay = 2;\n        spotLight.distance = 200;\n        scene.add(spotLight)\n\n        var slHelper = new THREE.SpotLightHelper(spotLight, 10, 0x0000ff)\n        scene.add(slHelper)\n\n        return spotLight\n      }\n\n      function addModel(scene, model, logoModel, sqOffset) {\n        if (modelsMap[model].model) {\n          var mdl = modelsMap[model].model.clone()\n          var oX = 0\n          var oZ = 0\n          if (sqOffset && typeof sqOffset === 'object') {\n            oX = sqSize * sqOffset.x\n            oZ = sqSize * sqOffset.z\n          }\n          mdl.position.x = oX + modelsMap[model].oX\n          mdl.position.z = oZ + modelsMap[model].oZ\n          modelsMap[model].count++\n\n          var group = new THREE.Group();\n            var group = new THREE.Group();\n            var tmpLogoObj = logoMap.find(function(itm) { return logoMap.indexOf(itm.name) > -1 })\n            var logoObj = tmpLogoObj? tmpLoboObj.name : logoModel // logoMap[rnd(0, logoMap.length)]\n            var logo = null\n            try {\n              logo = logoObj.model.clone()\n            } catch(e) {\n              console.warn('Could not load logo object:', logoObj, logoModel, e)\n            }\n          if (logo) {\n            logo.position.x = mdl.position.x + modelsMap[model].lX + logoObj.oX\n            logo.position.y = modelsMap[model].lY\n            logo.position.z = mdl.position.z + modelsMap[model].lZ + logoObj.oZ\n            group.add(logo)\n          }\n          group.add(mdl)\n\n          scene.add(group)\n        } else {\n          createObject(scene, model, sqOffset, function(obj, sqOffset) {\n            obj.scale.set(modelsMap[model].scale, modelsMap[model].scale, modelsMap[model].scale)\n            var oX = 0\n            var oZ = 0\n            if (sqOffset && typeof sqOffset === 'object') {\n              oX = sqSize * sqOffset.x\n              oZ = sqSize * sqOffset.z\n            }\n            obj.position.x = oX + modelsMap[model].oX\n            obj.position.z = oZ + modelsMap[model].oZ\n            obj.userData.type = model\n            modelsMap[model].count = 1\n            modelsMap[model].model = obj\n\n            var group = new THREE.Group();\n            var tmpLogoObj = logoMap.find(function(itm) { return logoMap.indexOf(itm.name) > -1 })\n            var logoObj = tmpLogoObj? tmpLoboObj.name : logoModel // logoMap[rnd(0, logoMap.length)]\n            var logo = null\n            try {\n              logo = logoObj.model.clone()\n            } catch(e) {\n              console.warn('Could not load logo object:', logoObj, logoModel, e)\n            }\n            if (logo) {\n              logo.position.x = obj.position.x + modelsMap[model].lX + logoObj.oX\n              logo.position.y = modelsMap[model].lY\n              logo.position.z = obj.position.z + modelsMap[model].lZ + logoObj.oZ\n              group.add(logo)\n            }\n            group.add(obj)\n\n            scene.add(group);\n          })\n        }\n      }\n\n      function initLogos() {\n        logoMap.forEach(function(logo) {\n          var sqOffset = {}\n          createObject(scene, 'logos/' + logo.name, sqOffset, function(obj, sqOffset) {\n            obj.scale.set(logo.scale, logo.scale, logo.scale)\n            obj.position.x = 10000\n            obj.position.z = 10000\n            obj.position.y = 10000\n            obj.userData.mode = 'logo'\n            obj.userData.type = logo.name\n            logo.count = 0\n            logo.model = obj\n            scene.add(obj);\n          })\n        })\n      }\n\n      function init() {\n        setupWorld()\n        initLogos()\n        setupView($('#scene'))\n\n        /*\n        dirLights[0] = addDirLight(scene, {\n          color: 0xffffff,\n          intensity: 3,\n          coords: { x: -200, y: 1000, z: 200 }\n        })\n        dirLights[1] = addDirLight(scene, {\n          color: 0xffffff,\n          intensity: 3,\n          coords: { x: 800, y: 1000, z: 600 }\n        })\n        dirLights[2] = addDirLight(scene, {\n          color: 0xffffff,\n          intensity: 3,\n          coords: { x: -450, y: 1000, z: -450 }\n        })\n\n        dirLights[0].position.set(500, 1000, 500)\n        dirLights[1].position.set(0, 1000, 500)\n        dirLights[2].position.set(-500, 1000, -500)\n        */\n\n        spotLight = addSpotLight(scene, {\n          color: 0xffffff,\n          intensity: 3,\n          coords: { x: -450, y: 1000, z: -450 }\n        })\n\n        renderer = new THREE.WebGLRenderer({ antialias: true });\n        renderer.setPixelRatio(window.devicePixelRatio);\n        renderer.setSize(window.innerWidth, window.innerHeight - 34);\n        renderer.shadowMap.enabled = false;\n        document.body.appendChild(renderer.domElement);\n\n        vprend = new THREE.WebGLRenderer({ antialias: true });\n        vprend.setPixelRatio(window.devicePixelRatio);\n        vprend.setSize($('#scene').width(), $('#scene').height());\n        vprend.shadowMap.enabled = false;\n\n        var controls = new THREE.OrbitControls(camera, renderer.domElement);\n        controls.target.set(100, 100, 100);\n        controls.maxPolarAngle = Math.PI / 2\n        controls.update();\n\n        var vcon = new THREE.OrbitControls(vpcam, vprend.domElement);\n        vcon.target.set(100, 100, 100);\n        vcon.maxPolarAngle = Math.PI / 2\n        vcon.update();\n\n        window.addEventListener('resize', onWindowResize, false);\n      }\n\n      function onWindowResize() {\n        camera.aspect = window.innerWidth / window.innerHeight;\n        camera.updateProjectionMatrix();\n        renderer.setSize(window.innerWidth, window.innerHeight);\n      }\n      function animate() {\n        stats.begin()\n        stats.end()\n        requestAnimationFrame(animate);\n        renderer.render(scene, camera);\n        vprend.render(vport, vpcam);\n      }\n\n      init();\n      animate();\n\n      // DAT.GUI Related Stuff\n      var gui = new dat.GUI();\n\n      var gOptions = {\n        grid: {\n          visible: true,\n          color: 0xffffff\n        },\n        ground: {\n          visible: true,\n          color: 0x000300,\n          reflectivity: 0.85\n        },\n        lights: {\n          hemi: [],\n          ambi: {\n            visible: true,\n            color: 0xa0a0a0,\n            intensity: 2\n          }\n        },\n        sidebars: {\n          width: 20,\n          startColor: 0x477f38,\n          endColor: 0x000000,\n          startOpacity: 80,\n          endOpacity: 0,\n        },\n        mkGrad: function() {\n          var sc = dec2hex(this.sidebars.startColor).substr(2)\n          var scR = parseInt(sc.substr(0, 2), 16)\n          var scG = parseInt(sc.substr(2, 2), 16)\n          var scB = parseInt(sc.substr(4, 2), 16)\n          var se = dec2hex(this.sidebars.endColor).substr(2)\n          var seR = parseInt(se.substr(0, 2), 16)\n          var seG = parseInt(se.substr(2, 2), 16)\n          var seB = parseInt(se.substr(4, 2), 16)\n          var oS = this.sidebars.startOpacity / 100\n          var oE = this.sidebars.endOpacity / 100\n          $('.side-left').css('background', '-webkit-gradient(linear, left center, right center, from(rgba(' + scR + ', ' + scG + ', ' + scB + ', ' + oS + ')), to(rgba(' + seR + ', ' + seG + ', ' + seB + ', ' + oE + ')))')\n          $('.side-right').css('background', '-webkit-gradient(linear, right center, left center, from(rgba(' + scR + ', ' + scG + ', ' + scB + ', ' + oS + ')), to(rgba(' + seR + ', ' + seG + ', ' + seB + ', ' + oE + ')))')\n        },\n      };\n      var cGl = {}\n      for (var ghc = 0; ghc < hemiLights.length; ghc++) {\n        gOptions.lights.hemi[ghc] = {\n          index: ghc,\n          visible: false,\n          color: 0xffffff,\n          intensity: 1,\n          positionX: 0,\n          positionY: 1000,\n          positionZ: 0\n        }\n        cGl[ghc] = ghc\n      }\n\n      /*\n      var gCamera = gui.addFolder('Camera');\n      gCamera.add(camera.position, 'x', -5000, 5000).name('X').listen()\n      gCamera.add(camera.position, 'y', -5000, 5000).name('Y').listen()\n      gCamera.add(camera.position, 'z', -5000, 5000).name('Z').listen()\n      */\n\n      var gGrid = gui.addFolder('Grid');\n      gGrid.add(grid, 'visible').name('Visible').listen()\n      gGrid.addColor(gOptions.grid, 'color').name('Color').onChange(function() {\n        grid.material.color.setHex(dec2hex(gOptions.grid.color))\n      })\n\n      var gGround = gui.addFolder('Ground');\n      gGround.add(mrrFadeout, 'visible').name('Visible').listen()\n      gGround.addColor(gOptions.ground, 'color').name('Color').onChange(function() {\n        mrrFadeout.material.color.setHex(dec2hex(gOptions.ground.color))\n      })\n      gGround.add(mrrFadeout.material, 'opacity', 0.25, 1).name('Matte').listen()\n\n\n      ghAmbiLight = gui.addFolder('Ambient light')\n      ghAmbiLight.add(gOptions.lights.ambi, 'visible').name('Visibility').onChange(function() {\n        ambiLight.visible = gOptions.lights.ambi.visible;\n      });\n      ghAmbiLight.addColor(gOptions.lights.ambi, 'color').name('Color').onChange(function() {\n        ambiLight.color.setHex(dec2hex(gOptions.lights.ambi.color));\n      })\n      ghAmbiLight.add(gOptions.lights.ambi, 'intensity', 1, 20).name('Intensity').onChange(function() {\n        ambiLight.intensity = gOptions.lights.ambi.intensity;\n      });\n\n      for (var ghc = 0; ghc < hemiLights.length; ghc++) {\n        hemiLights[ghc].visible = false; // They say that girl ya know she act too tough tough tough\n\n        ghLights[ghc] = gui.addFolder('HemisphereLight #' + (ghc + 1))\n        ghLights[ghc].add(gOptions.lights.hemi[ghc], 'visible').name('Visibility').onChange(function() {\n          hemiLights[this.object.index].visible = gOptions.lights.hemi[this.object.index].visible;\n        });\n        ghLights[ghc].addColor(gOptions.lights.hemi[ghc], 'color').name('Color').onChange(function() {\n          hemiLights[this.object.index].color.setHex(dec2hex(gOptions.lights.hemi[this.object.index].color));\n        })\n        ghLights[ghc].add(gOptions.lights.hemi[ghc], 'intensity', 1, 20).name('Intensity').onChange(function() {\n          hemiLights[this.object.index].intensity = gOptions.lights.hemi[this.object.index].intensity;\n        });\n        ghLights[ghc].add(gOptions.lights.hemi[ghc], 'positionX', -1000, 1000).name('Position X').onChange(function() {\n          hemiLights[this.object.index].position.x = gOptions.lights.hemi[this.object.index].positionX;\n        });\n        ghLights[ghc].add(gOptions.lights.hemi[ghc], 'positionY', -1000, 1000).name('Position Y').onChange(function() {\n          hemiLights[this.object.index].position.y = gOptions.lights.hemi[this.object.index].positionY;\n        });\n        ghLights[ghc].add(gOptions.lights.hemi[ghc], 'positionZ', -1000, 1000).name('Position Z').onChange(function() {\n          hemiLights[this.object.index].position.z = gOptions.lights.hemi[this.object.index].positionZ;\n        });\n      }\n\n      var gSbars = gui.addFolder('Sidebars')\n      gSbars.add(gOptions.sidebars, 'width', 10, 30).onChange(function() {\n        $('.side').css('width', gOptions.sidebars.width + 'rem')\n      })\n      gSbars.addColor(gOptions.sidebars, 'startColor').onChange(function() {\n        gOptions.mkGrad()\n      })\n      gSbars.add(gOptions.sidebars, 'startOpacity', 0, 100).onChange(function() {\n        gOptions.mkGrad()\n      })\n      gSbars.addColor(gOptions.sidebars, 'endColor').onChange(function() {\n        gOptions.mkGrad()\n      })\n      gSbars.add(gOptions.sidebars, 'endOpacity', 0, 100).onChange(function() {\n        gOptions.mkGrad()\n      })\n\n    </script>\n\n    <div class=\"holder side side-left info-panel\">\n      <div class=\"container type-form mb-4\">\n        <h5>New object</h5>\n        <form>\n          <div class=\"form-group\">\n            <label for=\"typeSelect\">Model type</label>\n            <select class=\"form-control\" id=\"typeSelect\">\n            </select>\n          </div>\n          <button id=\"addBtn\" type=\"button\" class=\"btn btn-primary\">Add</button>\n          <button id=\"addBtnMulti\" type=\"button\" class=\"btn btn-outline-light \">Add multiple</button>\n          <br>\n          <button id=\"loadBtn\" type=\"button\" class=\"btn btn-info mt-2 js-btn-load\">Fetch JSON</button>\n        </form>\n      </div>\n      <div class=\"container type-table my-4\">\n        <h5>Objects count</h5>\n        <table class=\"table mw90 w90 w-overflow js-object-list\">\n          <thead>\n            <tr>\n              <th>Object</th>\n              <th>Count</th>\n            </tr>\n          </thead>\n          <tbody>\n          </tbody>\n        </table>\n      </div>\n    </div>\n\n    <div class=\"holder side side-right info-panel obj-panel\">\n      <div class=\"container type-list mb-4\">\n        <h5>Object info</h5>\n        <dl class=\"card-text\">\n          <dt>Type</dt>\n          <dd class=\"obj-type\">&middot;</dd>\n          <dt>UUID</dt>\n          <dd class=\"obj-uuid\">&middot;</dd>\n          <dt>Distance</dt>\n          <dd class=\"obj-dist\">&middot;</dd>\n        </dl>\n      </div>\n      <div class=\"container type-console my-4\">\n        <h5>Console</h5>\n        <textarea name=\"console\" id=\"console\" cols=\"40\" rows=\"10\" class=\"console w100 w-overflow\"></textarea>\n      </div>\n      <div class=\"container type-graph my-4\">\n        <h5>Graph</h5>\n        <canvas id=\"graph\"></canvas>\n      </div>\n      <div class=\"container type-scene my-4\">\n        <h5>Model</h5>\n        <div id=\"scene\"></div>\n      </div>\n    </div>\n\n    <aside id=\"objttip\" class=\"info-panel ttp-panel hide\">\n      <div class=\"container\">\n        Lorem ipsum dolor sit amet, nunc integer.\n      </div>\n    </aside>\n\n  </body>\n</html>\n",
 			"file": "code/index.html",
-			"file_size": 35952,
-			"file_write_time": 131909200961057180,
 			"settings":
 			{
-				"buffer_size": 35953,
+				"buffer_size": 36336,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "TODO 01/19\n---\n- [ ] 0. refactoring\n- [ ] 1. GUI - sidebarovi lijevi i desni, zrcalno simetrični, tri placeholdera za interakciju i štošta: [1h]\n    - [ ] 1. 3D view [3h]\n    - [ ] 2. klik-odabir što se prikazuje u okvirima sidebara\n    - [ ] 3. nešto - graf, text, tablica (odabire su kroz popup)\n- [ ] 2. Postavljanje podloge svijeta\n- [ ] 3. Istraživanje okoliša svijeta\n- [ ] 4. pozicioniranje i definiranje cjevovoda [4h]\n    - [ ] 1. odlučit kako uopće dati tu informaciju - veza izmedju bloka tog i tog\n    - [ ] 2. animiranje toka podataka [?]\n    - [ ] 3. click handler i tooltip na klikanje na cjevovod [2h]\n    - [ ] 4. spojne točke na cjevovodu + click handler [2h]\n    ",
-			"file": "todo_2019-01.md",
-			"file_size": 700,
-			"file_write_time": 131909199237434855,
+			"file": "src/js/helpers/globalHelpers.js",
 			"settings":
 			{
-				"buffer_size": 682,
+				"buffer_size": 663,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/js/helpers/sceneHelpers.js",
+			"settings":
+			{
+				"buffer_size": 1686,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/js/helpers/userAdapter.js",
+			"settings":
+			{
+				"buffer_size": 1019,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/js/main.js",
+			"settings":
+			{
+				"buffer_size": 0,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "todo_2019-01.md",
+			"settings":
+			{
+				"buffer_size": 678,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -152,10 +183,16 @@
 	"expanded_folders":
 	[
 		"/C/Users/Neven/Code/DT-demo",
-		"/C/Users/Neven/Code/DT-demo/code"
+		"/C/Users/Neven/Code/DT-demo/src",
+		"/C/Users/Neven/Code/DT-demo/src/js",
+		"/C/Users/Neven/Code/DT-demo/src/js/helpers"
 	],
 	"file_history":
 	[
+		"/C/Users/Neven/Code/DT-demo/src/js/dom-gui.js",
+		"/C/Users/Neven/Code/DT-demo/src/css/global.scss",
+		"/C/Users/Neven/Code/DT-demo/src/js/dat-gui.js",
+		"/C/Users/Neven/Code/DT-demo/dave.sublime-project",
 		"/C/Users/Neven/Code/DT-resources/lists-of-smth.md",
 		"/C/Users/Neven/Code/DT-demo/code/data/response-demo.json",
 		"/C/Users/Neven/Desktop/todo.md",
@@ -253,6 +290,11 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"[md_text",
+			"[md text",
+			"Ljiljanka",
+			"grid.",
+			"objttip"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -270,7 +312,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 5,
 			"sheets":
 			[
 				{
@@ -279,23 +321,24 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 35953,
+						"buffer_size": 36336,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1487,
-								1487
+								19426,
+								19426
 							]
 						],
 						"settings":
 						{
+							"remove_trailing_whitespace_on_save": true,
 							"syntax": "Packages/HTML/HTML.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2416.8,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -303,23 +346,136 @@
 				},
 				{
 					"buffer": 1,
-					"file": "todo_2019-01.md",
+					"file": "src/js/helpers/globalHelpers.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 682,
+						"buffer_size": 663,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								682,
-								682
+								0,
+								663
 							]
 						],
 						"settings":
 						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/js/helpers/sceneHelpers.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1686,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1686,
+								971
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 70.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/js/helpers/userAdapter.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1019,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								294,
+								294
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/js/main.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "todo_2019-01.md",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 678,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								365,
+								365
+							]
+						],
+						"settings":
+						{
+							"remove_trailing_whitespace_on_save": true,
 							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
 						},
 						"translation.x": 0.0,
@@ -371,7 +527,7 @@
 	"project": "dave.sublime-project",
 	"replace":
 	{
-		"height": 73.0
+		"height": 48.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -409,7 +565,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 172.0,
+	"side_bar_width": 202.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
