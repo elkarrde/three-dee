@@ -33,12 +33,12 @@ body { background-color: #000; }
 .side-left {
   float: left;
   left: 0;
-  background: linear-gradient(to right, rgba(71, 127, 56, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(to right, rgba(0, 151, 178, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
 }
 .side-right {
   float: right;
   right: 0;
-  background: linear-gradient(to left, rgba(71, 127, 56, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(to left, rgba(0, 151, 178, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
 }
 canvas {
   width: 100vw;
