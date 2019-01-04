@@ -53,7 +53,7 @@
         document.body.appendChild(WEBGL.getWebGLErrorMessage());
       }
 
-      var scene, camera, renderer, mesh, groundMirror, grid, mrrFadeout, spotLight, gndTexture;
+      var scene, camera, renderer, mesh, groundMirror, grid, mrrFadeout, spotLight, gndTexture, sky;
       var vport, vpcam, vprend
       var sqSize = 100
       var subSqSize = sqSize / 5
@@ -288,6 +288,7 @@
       }
 
       gndTexture = new THREE.TextureLoader().load('./res/obj/hexagon.png')
+      sky = new THREE.TextureLoader().load('./res/obj/pexels-photo-1205301.jpg')
 
       function placeModels(scene, cellData) {
         var location = cellData.LocationIn3d
@@ -413,7 +414,7 @@
         scene.fog = new THREE.Fog(0x000000, 1000, 8000);
 
         // ground
-        ground = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshPhongMaterial({ map: gndTexture, depthWrite: true }));
+        ground = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshPhongMaterial({ color: 0xffffff, map: gndTexture, depthWrite: true }));
         ground.name = 'Ground'
         ground.rotation.x = -Math.PI / 2;
         ground.receiveShadow = false;
@@ -434,7 +435,7 @@
         groundMirror.rotateX(-Math.PI / 2);
         scene.add(groundMirror);
 
-        mrrFadeout = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshBasicMaterial({ map: gndTexture, opacity : 0.85 , transparent: true }))
+        mrrFadeout = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshBasicMaterial({ color: 0xffffff, map: gndTexture, opacity : 0.85 , transparent: true }))
         mrrFadeout.name = 'FadeoutMrr'
         mrrFadeout.position.y = 0.85
         mrrFadeout.rotateX(-Math.PI / 2)
@@ -455,6 +456,8 @@
         subGrid.position.y = 0.05;
         subGrid.visible = false;
         scene.add(subGrid);
+
+        scene.background = sky
 
         // hemiLight - main, central
         hemiLights.push(addHemiLight(scene, {
