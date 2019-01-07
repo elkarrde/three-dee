@@ -177,6 +177,9 @@
       }
 
       $(function() {
+        init();
+        animate();
+
         Object.getOwnPropertyNames(modelsMap).forEach(function(model) {
           $('#typeSelect').append('<option value="' + model + '">' + model + '</option>')
         })
@@ -367,8 +370,6 @@
 
             var intersects = raycaster.intersectObjects(scene.children, true)
             if (intersects.length >= 1) {
-              // spotLight.position.set(camera.position)
-
               if (noClickObjects.indexOf(intersects[0].object.name) === -1) {
                 console.log('Clicked object type: ' + intersects[0].object.geometry.name, intersects[0])
                 // $('#objttip').css('left', event.x + 50).css('top', event.y).removeClass('hide')
@@ -376,7 +377,8 @@
                 $('.obj-panel .obj-dist').text(intersects[0].distance)
                 $('.obj-panel .obj-type').text(intersects[0].object.parent.userData.type)
                 $('.obj-panel .obj-uuid').text(intersects[0].object.uuid)
-                // spotLight.target = intersects[0].object.parent
+
+                // intersects[0].object.parent
               } else {
                 $('.obj-panel').addClass('hide')
               }
@@ -497,22 +499,30 @@
       }
 
       function setupView(domElm) {
-        vpcam = new THREE.PerspectiveCamera(45, domElm.width() / domElm.height(), 1, 1000);
+        console.log('Xv', $(domElm).width(), $(domElm).height())
+        vpcam = new THREE.PerspectiveCamera(45, $(domElm).width() / $(domElm).height(), 1, 4000);
         vpcam.position.set(500, 250, 500);
         vpcam.translateX(250)
         vpcam.translateZ(500)
 
         vport = new THREE.Scene();
-        vport.background = new THREE.Color(0x050505);
-        vport.fog = new THREE.Fog(0x050505, 500, 1000);
+        vport.background = new THREE.Color(0x000000);
+        vport.fog = new THREE.Fog(0x000000, 500, 5000);
 
-        // ground
-        var vgnd = new THREE.Mesh(new THREE.PlaneBufferGeometry(500, 500), new THREE.MeshPhongMaterial({ color: 0x333333, depthWrite: true }));
-        vgnd.name = 'Ground'
+        var vgnd = new THREE.Mesh(new THREE.PlaneBufferGeometry(500, 500), new THREE.MeshPhongMaterial({ color: 0x000609, depthWrite: true }));
+        vgnd.name = 'vGround'
         vgnd.rotation.x = -Math.PI / 2;
         vgnd.receiveShadow = false;
         vgnd.opacity = 0.8
         vport.add(vgnd);
+
+        var vgrid = new THREE.GridHelper(2000, 20, 0xffffff, 0xffffff); //0x3bff7f
+        vgrid.name = 'vGrid'
+        vgrid.material.opacity = 1;
+        vgrid.material.transparent = true;
+        vgrid.position.y = 0.5;
+        vgrid.visible = false;
+        vport.add(vgrid);
 
         addHemiLight(vport, {
           color: 0xffffff,
@@ -520,8 +530,8 @@
           intensity: 5,
           coords: { x: 0, y: 500, z: 0 }
         })
-        var ambilight = new THREE.AmbientLight(0xa0a0a0, 3)
-        vport.add(ambilight)
+        var vambilight = new THREE.AmbientLight(0xffffff, 3)
+        vport.add(vambilight)
       }
 
       function addHemiLight(scene, params) {
@@ -651,7 +661,7 @@
       function init() {
         setupWorld()
         initLogos()
-        setupView($('#scene'))
+        setupView(document.getElementById('scene'))
 
         /*
         dirLights[0] = addDirLight(scene, {
@@ -675,11 +685,13 @@
         dirLights[2].position.set(-500, 1000, -500)
         */
 
+        /*
         spotLight = addSpotLight(scene, {
           color: 0xffffff,
           intensity: 3,
           coords: { x: -450, y: 1000, z: -450 }
         })
+        */
 
         renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setPixelRatio(window.devicePixelRatio);
@@ -687,15 +699,16 @@
         renderer.shadowMap.enabled = false;
         document.body.appendChild(renderer.domElement);
 
-        vprend = new THREE.WebGLRenderer({ antialias: true });
-        vprend.setPixelRatio(window.devicePixelRatio);
-        vprend.setSize($('#scene').width(), $('#scene').height());
-        vprend.shadowMap.enabled = false;
-
         var controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.target.set(100, 100, 100);
         controls.maxPolarAngle = Math.PI / 2
         controls.update();
+
+        vprend = new THREE.WebGLRenderer({ antialias: true });
+        vprend.setPixelRatio(window.devicePixelRatio);
+        vprend.setSize($('#scene').width(), $('#scene').height());
+        vprend.shadowMap.enabled = false;
+        document.body.appendChild(vprend.domElement)
 
         var vcon = new THREE.OrbitControls(vpcam, vprend.domElement);
         vcon.target.set(100, 100, 100);
@@ -717,9 +730,6 @@
         renderer.render(scene, camera);
         vprend.render(vport, vpcam);
       }
-
-      init();
-      animate();
 
       // DAT.GUI Related Stuff
       var gui = new dat.GUI();
@@ -785,6 +795,7 @@
       gCamera.add(camera.position, 'z', -5000, 5000).name('Z').listen()
       */
 
+      /*
       var gGrid = gui.addFolder('Grid');
       gGrid.add(grid, 'visible').name('Visible').listen()
       //gGrid.add(subGrid, 'visible').name('Detail visible').listen()
@@ -810,7 +821,9 @@
       ghAmbiLight.add(gOptions.lights.ambi, 'intensity', 1, 20).name('Intensity').onChange(function() {
         ambiLight.intensity = gOptions.lights.ambi.intensity;
       });
+      */
 
+      /*
       for (var ghc = 0; ghc < hemiLights.length; ghc++) {
         hemiLights[ghc].visible = false; // They say that girl ya know she act too tough tough tough
 
@@ -834,7 +847,9 @@
           hemiLights[this.object.index].position.z = gOptions.lights.hemi[this.object.index].positionZ;
         });
       }
+      */
 
+      /*
       var gSbars = gui.addFolder('Sidebars')
       gSbars.add(gOptions.sidebars, 'width', 10, 30).onChange(function() {
         $('.side').css('width', gOptions.sidebars.width + 'rem')
@@ -851,6 +866,7 @@
       gSbars.add(gOptions.sidebars, 'endOpacity', 0, 100).onChange(function() {
         gOptions.mkGrad()
       })
+      */
 
     </script>
 
@@ -869,6 +885,12 @@
           <button id="loadBtn" type="button" class="btn btn-info mt-2 js-btn-load">Fetch JSON</button>
         </form>
       </div>
+
+      <div class="container type-scene my-4">
+        <h5>Model</h5>
+        <div id="scene"></div>
+      </div>
+
       <div class="container type-table my-4">
         <h5>Objects count</h5>
         <table class="table mw90 w90 w-overflow js-object-list">
@@ -903,10 +925,6 @@
       <div class="container type-graph my-4">
         <h5>Graph</h5>
         <canvas id="graph"></canvas>
-      </div>
-      <div class="container type-scene my-4">
-        <h5>Model</h5>
-        <div id="scene"></div>
       </div>
     </div>
 
