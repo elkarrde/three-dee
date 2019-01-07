@@ -288,7 +288,7 @@
       }
 
       gndTexture = new THREE.TextureLoader().load('./res/obj/hexagon.png')
-      sky = new THREE.TextureLoader().load('./res/obj/pexels-photo-1205301.jpg')
+      sky = new THREE.TextureLoader().load('./res/obj/3d-landscape-grid-in-motion_F0-min.png')
 
       function placeModels(scene, cellData) {
         var location = cellData.LocationIn3d
@@ -492,7 +492,7 @@
           coords: { x: -500, y: 1000, z: 500 }
         }))
 
-        ambiLight = new THREE.AmbientLight(0xa0a0a0, 2)
+        ambiLight = new THREE.AmbientLight(0xffffff, 5)
         scene.add(ambiLight)
       }
 
@@ -503,8 +503,8 @@
         vpcam.translateZ(500)
 
         vport = new THREE.Scene();
-        vport.background = new THREE.Color(0x000000);
-        vport.fog = new THREE.Fog(0x000000, 500, 1000);
+        vport.background = new THREE.Color(0x050505);
+        vport.fog = new THREE.Fog(0x050505, 500, 1000);
 
         // ground
         var vgnd = new THREE.Mesh(new THREE.PlaneBufferGeometry(500, 500), new THREE.MeshPhongMaterial({ color: 0x333333, depthWrite: true }));
@@ -738,8 +738,8 @@
           hemi: [],
           ambi: {
             visible: true,
-            color: 0xa0a0a0,
-            intensity: 2
+            color: 0xffffff,
+            intensity: 5
           }
         },
         sidebars: {

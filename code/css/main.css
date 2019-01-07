@@ -78,7 +78,7 @@ header .navbar h5 { color: #eee; }
 }
 
 #graph { 
-  background: rgba(0, 0, 0, 0.5); 
+  background: rgba(0, 0, 0, 0.75); 
   border: 1px dotted #888;
 }
 #graph:focus { border: 1px solid #FFF; }
