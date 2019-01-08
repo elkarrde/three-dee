@@ -98,7 +98,7 @@
       var modelsMap = {
         '1stbuilding':   { scale: 15, oX: 20, oZ: 20, count: 0, model: null, lX: 0,  lY: 35, lZ: 9  },
         '2squerbuild':   { scale: 15, oX: 65, oZ: 50, count: 0, model: null, lX: 0,  lY: 37, lZ: 2  },
-        //'aqua':          { scale: 0.5, oX: 80, oZ: 40, count: 0, model: null, lX: 0, lY: 60, lZ: 0  },
+        'aqua':          { scale: 0.5, oX: 80, oZ: 40, count: 0, model: null, lX: 0, lY: 60, lZ: 0  },
         '3base':         { scale: 15, oX: 45, oZ: 45, count: 0, model: null, lX: 5,  lY: 40, lZ: 5  },
         'basictall':     { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 300, lZ: 0 },
         //'bigbmw':        { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 125, lZ: 0 }, //
@@ -415,6 +415,8 @@
             mouse.y = -(event.clientY / renderer.domElement.clientHeight) * 2 + 1
             raycaster.setFromCamera(mouse, camera)
 
+            console.log('CLKx', event.clientX, event.clientY, mouse.x, mouse.y)
+
             var intersects = raycaster.intersectObjects(scene.children, true)
             if (intersects.length >= 1) {
               if (noClickObjects.indexOf(intersects[0].object.name) === -1) {
@@ -439,6 +441,7 @@
       }
       document.addEventListener('mouseup', onDocumentMouseUp, false)
 
+      /*
       function onDocumentMouseMove(evt) {
         if (evt.buttons === 1 && evt.button === 0) { // drag!
           var lMap = evt.path.filter(function(x) { return $(x)[0].id === 'objttip' })
@@ -449,6 +452,7 @@
         }
       }
       document.addEventListener('mousemove', onDocumentMouseMove, false)
+      */
 
       function rnd(min, max) {
         return Math.floor(Math.random() * max) + min
@@ -492,12 +496,12 @@
         mrrFadeout.rotateX(-Math.PI / 2)
         scene.add(mrrFadeout)
 
-        grid = new THREE.GridHelper(2000, 20, 0xffffff, 0xffffff); //0x3bff7f
+        grid = new THREE.GridHelper(1940, 35, 0xffffff, 0xffffff); //0x3bff7f
         grid.name = 'Grid'
         grid.material.opacity = 1;
         grid.material.transparent = true;
-        grid.position.y = 0.2;
-        grid.visible = false;
+        grid.position.y = 1;
+        grid.visible = true;
         scene.add(grid);
 
         var subGrid = new THREE.GridHelper(2000, 100, 0x449960, 0x449960);
@@ -896,14 +900,16 @@
       gGrid.addColor(gOptions.grid, 'color').name('Color').onChange(function() {
         grid.material.color.setHex(dec2hex(gOptions.grid.color))
       })
+      */
 
+      /*
       var gGround = gui.addFolder('Ground');
       gGround.add(mrrFadeout, 'visible').name('Visible').listen()
       gGround.addColor(gOptions.ground, 'color').name('Color').onChange(function() {
         mrrFadeout.material.color.setHex(dec2hex(gOptions.ground.color))
       })
       gGround.add(mrrFadeout.material, 'opacity', 0.25, 1).name('Matte').listen()
-
+      */
 
       ghAmbiLight = gui.addFolder('Ambient light')
       ghAmbiLight.add(gOptions.lights.ambi, 'visible').name('Visibility').onChange(function() {
@@ -915,9 +921,7 @@
       ghAmbiLight.add(gOptions.lights.ambi, 'intensity', 1, 20).name('Intensity').onChange(function() {
         ambiLight.intensity = gOptions.lights.ambi.intensity;
       });
-      */
 
-      /*
       for (var ghc = 0; ghc < hemiLights.length; ghc++) {
         hemiLights[ghc].visible = false; // They say that girl ya know she act too tough tough tough
 
@@ -941,9 +945,7 @@
           hemiLights[this.object.index].position.z = gOptions.lights.hemi[this.object.index].positionZ;
         });
       }
-      */
 
-      /*
       var gSbars = gui.addFolder('Sidebars')
       gSbars.add(gOptions.sidebars, 'width', 10, 30).onChange(function() {
         $('.side').css('width', gOptions.sidebars.width + 'rem')
@@ -960,7 +962,6 @@
       gSbars.add(gOptions.sidebars, 'endOpacity', 0, 100).onChange(function() {
         gOptions.mkGrad()
       })
-      */
 
     </script>
 
