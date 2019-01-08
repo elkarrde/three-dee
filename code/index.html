@@ -185,6 +185,10 @@
 
         Object.getOwnPropertyNames(modelsMap).forEach(function(model) {
           $('#typeSelect').append('<option value="' + model + '">' + model + '</option>')
+          $('#typeSelectM').append('<option value="' + model + '">' + model + '</option>')
+        })
+        logoMap.forEach(function(logo) {
+          $('#logoSelectM').append('<option value="' + logo.name + '">' + logo.name + '</option>')
         })
 
         $('#addBtn').click(function() {
@@ -271,6 +275,32 @@
           }
         });
 
+        $('#buildForm').submit(function(e) {
+          e.preventDefault()
+          var loc = $('#inputLoc').val().trim().match(/(\d{1,}),(\d{1,})/i)
+          var obj = $('#typeSelectM').val()
+          var logo = $('#logoSelectM').val()
+
+          var outloc = [0, 0]
+          if (loc instanceof Array) {
+            outloc = [loc[1], loc[2]]
+          }
+
+          var data = {
+            LocationIn3d: outloc,
+            Services: [
+              {
+                Name: 'Builder object',
+                Logo: logo,
+                Model: obj,
+                LocationIn3dTile: [1, 1]
+              }
+            ]
+          }
+          placeModels(scene, data)
+          return false;
+        });
+
         $('#scene').append(vprend.domElement);
       })
 
@@ -323,6 +353,9 @@
           console.log('OBJ', obj)
           var mdlArr = Object.getOwnPropertyNames(modelsMap)
           var objModel = mdlArr[rnd(0, mdlArr.length - 1)]
+          if (obj.Model) {
+            objModel = obj.Model
+          }
           var logoModel = obj.Logo
           addModel(cell, objModel, logoModel, sqOffset)
           ic++
@@ -518,15 +551,26 @@
         vgnd.opacity = 0.8
         vport.add(vgnd);
 
-        /*
-        var vgrid = new THREE.GridHelper(500, 20, 0xffffff, 0xffffff); //0x3bff7f
-        vgrid.name = 'vGrid'
-        vgrid.material.opacity = 1;
-        vgrid.material.transparent = true;
-        vgrid.position.y = 0.5;
-        vgrid.visible = false;
-        vport.add(vgrid);
-        */
+        var vpGeo = new THREE.PlaneBufferGeometry(500, 500);
+        vpGeo.name = 'vGndMirror'
+        vpGMrr = new THREE.Reflector(vpGeo, {
+          clipBias: 0.8,
+          textureWidth: $(domElm).width() * window.devicePixelRatio,
+          textureHeight: $(domElm).height() * window.devicePixelRatio,
+          color: 0x848484,
+          recursion: 1
+        });
+        vpGMrr.name = 'vGndMrr'
+        vpGMrr.position.y = 0.5;
+        vpGMrr.rotateX(-Math.PI / 2);
+        vport.add(vpGMrr);
+
+        vMrrFadeout = new THREE.Mesh(new THREE.PlaneBufferGeometry(500, 500), new THREE.MeshBasicMaterial({ color: 0x3f93ab, opacity : 0.9 , transparent: true }))
+        vMrrFadeout.name = 'vFadeoutMrr'
+        vMrrFadeout.position.y = 0.85
+        vMrrFadeout.rotateX(-Math.PI / 2)
+        vport.add(vMrrFadeout)
+
         var vpsky = new THREE.TextureLoader().load('./res/backgrounds/48113.jpg')
         vport.background = vpsky
 
@@ -614,15 +658,16 @@
           modelsMap[model].count++
 
           var group = new THREE.Group();
-            var group = new THREE.Group();
-            var tmpLogoObj = logoMap.find(function(itm) { return logoMap.indexOf(itm.name) > -1 })
-            var logoObj = tmpLogoObj? tmpLoboObj.name : logoModel // logoMap[rnd(0, logoMap.length)]
-            var logo = null
-            try {
-              logo = logoObj.model.clone()
-            } catch(e) {
-              console.warn('Could not load logo object:', logoObj, logoModel, e)
-            }
+          //var tmpLogoObj = logoMap.find(function(itm) { return logoMap.indexOf(itm.name) > -1 })
+          //var logoObj = tmpLogoObj? tmpLoboObj.name : logoModel // logoMap[rnd(0, logoMap.length)]
+          var tmpLogoObj = logoMap.find(function(itm) { return itm.name == logoModel })
+          var logoObj = tmpLogoObj? tmpLogoObj : logoMap[rnd(0, logoMap.length)]
+          var logo = null
+          try {
+            logo = logoObj.model.clone()
+          } catch(e) {
+            console.warn('Could not load logo object:', logoObj, logoModel, e)
+          }
           if (logo) {
             logo.position.x = mdl.position.x + modelsMap[model].lX + logoObj.oX
             logo.position.y = modelsMap[model].lY
@@ -648,8 +693,9 @@
             modelsMap[model].model = obj
 
             var group = new THREE.Group();
-            var tmpLogoObj = logoMap.find(function(itm) { return logoMap.indexOf(itm.name) > -1 })
-            var logoObj = tmpLogoObj? tmpLoboObj.name : logoModel // logoMap[rnd(0, logoMap.length)]
+            //var tmpLogoObj = logoMap.find(function(itm) { return logoMap.indexOf(itm.name) > -1 })
+            var tmpLogoObj = logoMap.find(function(itm) { return itm.name == logoModel })
+            var logoObj = tmpLogoObj? tmpLogoObj : logoMap[rnd(0, logoMap.length)]
             var logo = null
             try {
               logo = logoObj.model.clone()
@@ -663,6 +709,7 @@
               group.add(logo)
             }
             group.add(obj)
+            console.log('XE', obj, logo)
 
             scene.add(group);
           })
@@ -913,9 +960,11 @@
             </select>
           </div>
           <button id="addBtn" type="button" class="btn btn-primary">Add</button>
-          <button id="addBtnMulti" type="button" class="btn btn-outline-light ">Add multiple</button>
+          <button id="addBtnMulti" type="button" class="btn btn-outline-light mx-2">Add multiple</button>
+          <button id="buildBtn" type="button" class="btn btn-outline-success js-btn-build" data-toggle="modal" data-target=".builder-modal-lg">Build</button>
           <br>
           <button id="loadBtn" type="button" class="btn btn-info mt-2 js-btn-load">Fetch JSON</button>
+          <br>          
         </form>
       </div>
 
@@ -966,6 +1015,41 @@
         Lorem ipsum dolor sit amet, nunc integer.
       </div>
     </aside>
+
+    <aside class="modal fade builder-modal-lg" tabindex="-1" role="dialog" aria-labelledby="builder" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <form id="buildForm">
+            <div class="form-group row">
+              <label for="inputLoc" class="col-sm-2 col-form-label">Location</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputLoc" placeholder="e.g. 3,7" required>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="typeSelectM" class="col-sm-2 col-form-label">Type</label>
+              <div class="col-sm-10">
+                <select class="form-control" id="typeSelectM">
+                </select>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="logoSelectM" class="col-sm-2 col-form-label">Logo</label>
+              <div class="col-sm-10">
+                <select class="form-control" id="logoSelectM">
+                </select>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary">Place</button>
+              </div>
+            </div>            
+          </form>
+        </div>
+      </div>
+    </aside>
+
 
   </body>
 </html>

@@ -92,3 +92,5 @@ header .navbar h5 { color: #eee; }
   width: 100%;
   height: 100%;
 }
+
+.builder-modal-lg .modal-content { padding: 2rem 2rem 0.5rem; }
