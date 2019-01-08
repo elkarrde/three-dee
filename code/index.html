@@ -98,12 +98,12 @@
       var modelsMap = {
         '1stbuilding':   { scale: 15, oX: 20, oZ: 20, count: 0, model: null, lX: 0,  lY: 35, lZ: 9  },
         '2squerbuild':   { scale: 15, oX: 65, oZ: 50, count: 0, model: null, lX: 0,  lY: 37, lZ: 2  },
-        'aqua':          { scale: 0.5, oX: 80, oZ: 40, count: 0, model: null, lX: 0, lY: 60, lZ: 0  },
+        //'aqua':          { scale: 0.5, oX: 80, oZ: 40, count: 0, model: null, lX: 0, lY: 60, lZ: 0  },
         '3base':         { scale: 15, oX: 45, oZ: 45, count: 0, model: null, lX: 5,  lY: 40, lZ: 5  },
         'basictall':     { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 300, lZ: 0 },
-        'bigbmw':        { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 125, lZ: 0 }, //
+        //'bigbmw':        { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 125, lZ: 0 }, //
         'bmw':           { scale: 15, oX: 50, oZ: 75, count: 0, model: null, lX: 0,  lY: 50, lZ: 0  }, //
-        'bmwbigf':       { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 30, lZ: 0  },
+        //'bmwbigf':       { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 30, lZ: 0  },
         'buildings1':    { scale: 15, oX: 55, oZ: 75, count: 0, model: null, lX: 22, lY: 35, lZ: 1  },
         'castle':        { scale: 0.5, oX: 50, oZ: 50, count: 0, model: null, lX: 0, lY: 35, lZ: 0  },
         'cube_trans':    { scale: 15, oX: 50, oZ: 50, count: 0, model: null, lX: -1, lY: 40, lZ: 1  },
@@ -235,6 +235,16 @@
           userAdapter.doLogout()
         })
 
+        $('#shInfo').click(function() {
+          $('.obj-panel').removeClass('hide')
+        })
+        $('#shConsole').click(function() {
+          $('.obj-panel').removeClass('hide')
+        })
+        $('#shGraph').click(function() {
+          $('.obj-panel').removeClass('hide')
+        })
+
         cTi = setInterval(function() {
           cT = new Date()
           $('.js-time').html(cT.toLocaleTimeString('hr'))
@@ -298,6 +308,7 @@
             ]
           }
           placeModels(scene, data)
+          $('.builder-modal-lg').modal('hide')
           return false;
         });
 
@@ -344,8 +355,8 @@
         var cell = new THREE.Group()
         cell.add(base)
         var sqOffset = {
-          x: -5 + location[0],
-          z: -5 + location[1]
+          x: -5 + parseInt(location[0], 10),
+          z: -5 + parseInt(location[1], 10)
         }
 
         var ic = 0
@@ -409,7 +420,7 @@
               if (noClickObjects.indexOf(intersects[0].object.name) === -1) {
                 console.log('Clicked object type: ' + intersects[0].object.geometry.name, intersects[0])
                 // $('#objttip').css('left', event.x + 50).css('top', event.y).removeClass('hide')
-                $('.obj-panel').removeClass('hide')
+                //$('.obj-panel').removeClass('hide')
                 $('.obj-panel .obj-dist').text(intersects[0].distance)
                 $('.obj-panel .obj-type').text(intersects[0].object.parent.userData.type)
                 $('.obj-panel .obj-uuid').text(intersects[0].object.uuid)
@@ -636,12 +647,15 @@
         vpcam.lookAt(destScene.position)
         vportEmpty = false
 
+        $('.js-ctl').removeClass('hide')
+
         vpobj = destModel
       }
       function clearInspector(destScene) {
         var rmObj = destScene.getObjectByName('selected')
         destScene.remove(rmObj)
         vportEmpty = true
+        $('.js-ctl').addClass('hide')
       }
 
       function addModel(scene, model, logoModel, sqOffset) {
@@ -964,13 +978,18 @@
           <button id="buildBtn" type="button" class="btn btn-outline-success js-btn-build" data-toggle="modal" data-target=".builder-modal-lg">Build</button>
           <br>
           <button id="loadBtn" type="button" class="btn btn-info mt-2 js-btn-load">Fetch JSON</button>
-          <br>          
+          <br>
         </form>
       </div>
 
       <div class="container type-scene my-4">
         <h5>Model</h5>
         <div id="scene"></div>
+        <aside class="my-3 hide js-ctl">
+          <button id="shInfo" type="button" class="btn btn-outline-light btn-sm mx-1">Info</button>
+          <button id="shConsole" type="button" class="btn btn-outline-light btn-sm mx-1">Console</button>
+          <button id="shGraph" type="button" class="btn btn-outline-light btn-sm mx-1">Graph</button>
+        </aside>
       </div>
 
       <div class="container type-table my-4">
@@ -988,7 +1007,7 @@
       </div>
     </div>
 
-    <div class="holder side side-right info-panel obj-panel">
+    <div class="holder side side-right info-panel obj-panel hide">
       <div class="container type-list mb-4">
         <h5>Object info</h5>
         <dl class="card-text">
@@ -1044,7 +1063,7 @@
               <div class="col-sm-10">
                 <button type="submit" class="btn btn-primary">Place</button>
               </div>
-            </div>            
+            </div>
           </form>
         </div>
       </div>
