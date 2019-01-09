@@ -43,6 +43,7 @@
     <script src="./js/loaders/OBJLoader.js"></script>
     <script src="./js/WebGL.js"></script>
     <script src="./js/stats.js"></script>
+    <script src="./js/GPUParticleSystem.js"></script>
     <script src="./js/libs/dat.gui.min.js"></script>
     <script src="./js/moment.min.js"></script>
     <script src="./js/Chart.min.js"></script>
@@ -53,7 +54,7 @@
         document.body.appendChild(WEBGL.getWebGLErrorMessage());
       }
 
-      var scene, camera, renderer, mesh, groundMirror, grid, mrrFadeout, spotLight, gndTexture, sky;
+      var scene, camera, renderer, mesh, groundMirror, grid, mrrFadeout, spotLight, gndTexture, sky, particleSystem, controls;
       var vport, vpcam, vprend, vpobj
       var sqSize = 100
       var subSqSize = sqSize / 5
@@ -69,7 +70,28 @@
       var stepX = 1
       var stepZ = 2
       var count = 0
-      var rotation
+      var rotation, link, clock = new THREE.Clock(), tick = 0
+
+      var ptxOptions = {
+        position: new THREE.Vector3(637, 1, 373),
+        positionRandomness: 1,
+        velocity: new THREE.Vector3(),
+        velocityRandomness: 5,
+        color: 0x1bf7f9,
+        colorRandomness: 1,
+        turbulence: 10,
+        lifetime: 10,
+        size: 1,
+        sizeRandomness: 10
+      };
+
+      var spawnerOptions = {
+        spawnRate: 3260,
+        horizontalSpeed: 1.2,
+        verticalSpeed: 1.4,
+        timeScale: 1
+      }
+
 
       var vportEmpty = true
 
@@ -501,7 +523,7 @@
         grid.material.opacity = 1;
         grid.material.transparent = true;
         grid.position.y = 1;
-        grid.visible = true;
+        grid.visible = false;
         scene.add(grid);
 
         var subGrid = new THREE.GridHelper(2000, 100, 0x449960, 0x449960);
@@ -549,6 +571,32 @@
 
         ambiLight = new THREE.AmbientLight(0xffffff, 5)
         scene.add(ambiLight)
+
+        particleSystem = new THREE.GPUParticleSystem({
+          maxParticles: 250000
+        });
+        scene.add(particleSystem);
+
+        var linkShp = new THREE.Shape()
+        linkShp.moveTo(638 - 2, 373)
+        linkShp.lineTo(638 - 2, 627)
+        linkShp.lineTo(638 + 2, 627)
+        linkShp.lineTo(638 + 2, 373)
+        linkShp.lineTo(638 - 2, 373)
+
+        var exs = {
+          steps: 1,
+          depth: 2,
+          bevelEnabled: false
+        }
+
+        var lGeo = new THREE.ExtrudeGeometry(linkShp, exs)
+        var lMat = new THREE.MeshBasicMaterial({ color: 0xffffff }) //1bf7f9
+        link = new THREE.Mesh(lGeo, lMat)
+        link.position.x = 0
+        link.position.y = 1
+        link.position.z = 0
+        link.rotation.x = Math.PI / 2
       }
 
       function setupView(domElm) {
@@ -593,7 +641,8 @@
           color: 0xffffff,
           groundColor: 0xaaaaaa,
           intensity: 5,
-          coords: { x: 0, y: 250, z: 0 }
+          coords: { x: 0, y: 250, z: 0 },
+          helper: false
         })
         var vambilight = new THREE.AmbientLight(0xffffff, 3)
         vport.add(vambilight)
@@ -601,10 +650,12 @@
 
       function addHemiLight(scene, params) {
         var hemiLight = new THREE.HemisphereLight(params.color, params.groundColor, params.intensity)
-        var hlHelper = new THREE.HemisphereLightHelper(hemiLight, 50, 0xffff00)
         hemiLight.position.set(params.coords.x, params.coords.y, params.coords.z);
         scene.add(hemiLight);
-        scene.add(hlHelper);
+        if (params.helper !== false) {
+          var hlHelper = new THREE.HemisphereLightHelper(hemiLight, 50, 0xffff00)
+          scene.add(hlHelper);
+        }
 
         return hemiLight
       }
@@ -693,7 +744,6 @@
             group.add(logo)
           }
           group.add(mdl)
-
           scene.add(group)
         } else {
           createObject(scene, model, sqOffset, function(obj, sqOffset) {
@@ -727,11 +777,28 @@
               group.add(logo)
             }
             group.add(obj)
-            console.log('XE', obj, logo)
-
             scene.add(group);
+            // console.log('XE', obj, logo)
           })
         }
+      }
+
+      function setConns() {
+        addModel(scene, 'lighttower', 'ubuntu', { x: 6, z: 3 })
+        addModel(scene, 'silos', 'elastic', { x: 6, z: 6 })
+
+        setTimeout(function() {
+          var mt = modelsMap.lighttower.model
+          var ms = modelsMap.silos.model
+
+          mt.position.x = 638
+          mt.position.z = 373
+
+          ms.position.x = 638
+          ms.position.z = 627
+
+          scene.add(link)
+        }, 500)
       }
 
       function initLogos() {
@@ -755,6 +822,10 @@
         setupWorld()
         initLogos()
         setupView(document.getElementById('scene'))
+
+        setTimeout(function() {
+          setConns()
+        }, 1000)
 
         /*
         dirLights[0] = addDirLight(scene, {
@@ -792,7 +863,7 @@
         renderer.shadowMap.enabled = false;
         document.body.appendChild(renderer.domElement);
 
-        var controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.target.set(100, 100, 100);
         controls.maxPolarAngle = Math.PI / 2
         controls.update();
@@ -811,6 +882,10 @@
         window.addEventListener('resize', onWindowResize, false);
       }
 
+      ptxOptions.position.z = 373
+      var dir = 1
+      var speed = 2
+
       function onWindowResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
@@ -823,8 +898,41 @@
           vpobj.rotation.y += 0.01
         }
 
+        var delta = clock.getDelta() * spawnerOptions.timeScale;
+        tick += delta;
+        if (tick < 0) { tick = 0 }
+        if (delta > 0) {
+          /*
+          ptxOptions.position.x = Math.sin(tick * spawnerOptions.horizontalSpeed) * 20
+          ptxOptions.position.y = Math.sin(tick * spawnerOptions.verticalSpeed) * 10
+          ptxOptions.position.z = Math.sin(tick * spawnerOptions.horizontalSpeed + spawnerOptions.verticalSpeed) * 5
+          */
+          ptxOptions.position.x = 637
+          ptxOptions.position.y = 5
+
+          if (ptxOptions.position.z == 373) {
+            dir = 1
+          }
+          if (ptxOptions.position.z == 627) {
+            dir = -1
+          }
+          ptxOptions.position.z += (dir * speed)
+          console.log('P', ptxOptions.position.z)
+
+          for (var x = 0; x < spawnerOptions.spawnRate * delta; x ++) {
+            // Yep, that's really it. Spawning particles is super cheap, and once you spawn them, the rest of
+            // their lifecycle is handled entirely on the GPU, driven by a time uniform updated below
+            particleSystem.spawnParticle(ptxOptions)
+          }
+        }
+        particleSystem.update(tick);
+
         stats.end()
         requestAnimationFrame(animate);
+
+        stats.update()
+        controls.update()
+
         renderer.render(scene, camera);
         vprend.render(vport, vpcam);
       }
@@ -887,13 +995,6 @@
       }
 
       /*
-      var gCamera = gui.addFolder('Camera');
-      gCamera.add(camera.position, 'x', -5000, 5000).name('X').listen()
-      gCamera.add(camera.position, 'y', -5000, 5000).name('Y').listen()
-      gCamera.add(camera.position, 'z', -5000, 5000).name('Z').listen()
-      */
-
-      /*
       var gGrid = gui.addFolder('Grid');
       gGrid.add(grid, 'visible').name('Visible').listen()
       //gGrid.add(subGrid, 'visible').name('Detail visible').listen()
@@ -945,6 +1046,19 @@
           hemiLights[this.object.index].position.z = gOptions.lights.hemi[this.object.index].positionZ;
         });
       }
+
+      ghParticle = gui.addFolder('Particles')
+      ghParticle.add(ptxOptions, 'velocityRandomness', 0, 3);
+      ghParticle.add(ptxOptions, 'positionRandomness', 0, 3);
+      ghParticle.add(ptxOptions, 'size', 1, 20);
+      ghParticle.add(ptxOptions, 'sizeRandomness', 0, 25);
+      ghParticle.add(ptxOptions, 'colorRandomness', 0, 1);
+      ghParticle.add(ptxOptions, 'lifetime', .1, 10);
+      ghParticle.add(ptxOptions, 'turbulence', 0, 1);
+
+      ghParticle.add( spawnerOptions, 'spawnRate', 10, 30000);
+      ghParticle.add( spawnerOptions, 'timeScale', - 1, 1);
+
 
       var gSbars = gui.addFolder('Sidebars')
       gSbars.add(gOptions.sidebars, 'width', 10, 30).onChange(function() {
