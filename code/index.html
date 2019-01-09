@@ -42,9 +42,9 @@
     <script src="./js/loaders/MTLLoader.js"></script>
     <script src="./js/loaders/OBJLoader.js"></script>
     <script src="./js/WebGL.js"></script>
-    <script src="./js/stats.js"></script>
-    <script src="./js/GPUParticleSystem.js"></script>
+    <script src="./js/libs/stats.min.js"></script>
     <script src="./js/libs/dat.gui.min.js"></script>
+    <script src="./js/GPUParticleSystem.js"></script>
     <script src="./js/moment.min.js"></script>
     <script src="./js/Chart.min.js"></script>
     <script src="./js/chartjs-plugin-streaming.min.js"></script>
@@ -70,7 +70,7 @@
       var stepX = 1
       var stepZ = 2
       var count = 0
-      var rotation, link, clock = new THREE.Clock(), tick = 0
+      var rotation, link, traffic, clock = new THREE.Clock(), tick = 0
 
       var ptxOptions = {
         position: new THREE.Vector3(637, 1, 373),
@@ -94,7 +94,6 @@
 
 
       var vportEmpty = true
-
       var cT, cTi
 
       var dirLights = []
@@ -161,45 +160,6 @@
         { name: "zepelin",      scale: 6,  oX: 0,  oZ: 2, model: null, count: 0},
         { name: "Zoo",          scale: 9,  oX: 35, oZ: 0, model: null, count: 0}
       ]
-
-      var userAdapter = {
-        doLogin: function() {
-          var username = prompt('Enter your username:')
-          this.data.name = username.trim()
-          this.data.active = true
-          localStorage.setItem('user', JSON.stringify(this.data))
-          this.updateUi()
-        },
-        doLogout: function() {
-          this.data.name = null
-          this.data.active = false
-          localStorage.removeItem('user')
-          this.updateUi()
-        },
-        updateUi: function() {
-          if (this.data.active) {
-            $('.js-username').html('@' + this.data.name)
-            $('.js-btn-login').addClass('hide')
-            $('.js-btn-logout').removeClass('hide')
-          } else {
-            $('.js-username').html('<em>Logged out</em>')
-            $('.js-btn-login').removeClass('hide')
-            $('.js-btn-logout').addClass('hide')
-          }
-        },
-        init: function() {
-          if (localStorage.getItem('user') !== null) {
-            var tmpUser = JSON.parse(localStorage.getItem('user'))
-            this.data.name = tmpUser.name
-            this.data.active = true
-          }
-          this.updateUi()
-        },
-        data: {
-          name: null,
-          active: false
-        }
-      }
 
       $(function() {
         init();
@@ -597,6 +557,25 @@
         link.position.y = 1
         link.position.z = 0
         link.rotation.x = Math.PI / 2
+
+        var trafGeo = new THREE.BoxGeometry(5, 5, 5)
+        var trafMat = new THREE.MeshBasicMaterial({ color: 0xffff00 })
+        var trafMesh = new THREE.Mesh(trafGeo, trafMat)
+        traffic = new THREE.Group()
+
+        var tmpMesh1 = trafMesh.clone()
+        tmpMesh1.position.z = 7
+        var tmpMesh2 = trafMesh.clone()
+        tmpMesh2.position.z = 14
+        traffic.add(trafMesh)
+        traffic.add(tmpMesh1)
+        traffic.add(tmpMesh2)
+
+        traffic.position.x = 0
+        traffic.position.y = 1
+        traffic.position.z = 0
+
+        scene.add(traffic)
       }
 
       function setupView(domElm) {
@@ -799,6 +778,27 @@
 
           scene.add(link)
         }, 500)
+
+        addModel(scene, 'moderntower', 'ubuntu', { x: 6, z: 3 })
+        addModel(scene, 'cube_trans', 'elastic', { x: 6, z: 6 })
+
+        setTimeout(function() {
+          var mtx = modelsMap.moderntower.model
+          var mcx = modelsMap.cube_trans.model
+
+          mtx.position.x = 362
+          mtx.position.z = 373
+
+          mcx.position.x = 362
+          mcx.position.z = 627
+
+          var link2 = link.clone()
+          link2.position.x = -276
+
+          traffic.position.x = 362
+          traffic.position.z = 388
+          scene.add(link2)
+        }, 500)
       }
 
       function initLogos() {
@@ -902,20 +902,11 @@
         tick += delta;
         if (tick < 0) { tick = 0 }
         if (delta > 0) {
-          /*
-          ptxOptions.position.x = Math.sin(tick * spawnerOptions.horizontalSpeed) * 20
-          ptxOptions.position.y = Math.sin(tick * spawnerOptions.verticalSpeed) * 10
-          ptxOptions.position.z = Math.sin(tick * spawnerOptions.horizontalSpeed + spawnerOptions.verticalSpeed) * 5
-          */
           ptxOptions.position.x = 637
           ptxOptions.position.y = 5
 
-          if (ptxOptions.position.z == 373) {
-            dir = 1
-          }
-          if (ptxOptions.position.z == 627) {
-            dir = -1
-          }
+          if (ptxOptions.position.z <= 373) { dir = 1 }
+          if (ptxOptions.position.z >= 627) { dir = -1 }
           ptxOptions.position.z += (dir * speed)
 
           for (var x = 0; x < spawnerOptions.spawnRate * delta; x ++) {
@@ -925,6 +916,10 @@
           }
         }
         particleSystem.update(tick);
+
+        //if (ptxOptions.position.z <= 373) { dir = 1 }
+        //if (ptxOptions.position.z >= 627) { dir = -1 }
+        traffic.position.z += (dir * speed)
 
         stats.end()
         requestAnimationFrame(animate);
@@ -963,6 +958,9 @@
           endColor: 0x000000,
           startOpacity: 80,
           endOpacity: 0,
+        },
+        particle: {
+          speed: 2
         },
         mkGrad: function() {
           var sc = dec2hex(this.sidebars.startColor).substr(2)
@@ -1055,9 +1053,12 @@
       ghParticle.add(ptxOptions, 'lifetime', .1, 10);
       ghParticle.add(ptxOptions, 'turbulence', 0, 1);
 
-      ghParticle.add( spawnerOptions, 'spawnRate', 10, 30000);
-      ghParticle.add( spawnerOptions, 'timeScale', - 1, 1);
+      ghParticle.add(spawnerOptions, 'spawnRate', 10, 30000);
+      ghParticle.add(spawnerOptions, 'timeScale', - 1, 1);
 
+      ghParticle.add(gOptions.particle, 'speed', 1, 10).onChange(function() {
+        speed = gOptions.particle.speed
+      })
 
       var gSbars = gui.addFolder('Sidebars')
       gSbars.add(gOptions.sidebars, 'width', 10, 30).onChange(function() {
@@ -1077,6 +1078,9 @@
       })
 
     </script>
+    <script src="./js/helpers/userAdapter.js"></script>
+
+
 
     <div class="holder side side-left info-panel">
       <div class="container type-form mb-4">

@@ -24,6 +24,7 @@ var userAdapter = {
     }
   },
   init: function() {
+    console.log('DIS', this)
     if (localStorage.getItem('user') !== null) {
       var tmpUser = JSON.parse(localStorage.getItem('user'))
       this.data.name = tmpUser.name
