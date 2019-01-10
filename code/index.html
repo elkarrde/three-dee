@@ -92,6 +92,11 @@
         timeScale: 1
       }
 
+      var gridX = [], gridZ = []
+      var gOx = 0
+      var gOz = 0
+
+      var mtx
 
       var vportEmpty = true
       var cT, cTi
@@ -574,6 +579,10 @@
         traffic.position.z = 0
 
         scene.add(traffic)
+
+        var mtG = new THREE.BoxGeometry(5, 5, 5)
+        var mtT = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+        mtx = new THREE.Mesh(mtG, mtT)
       }
 
       function setupView(domElm) {
@@ -762,10 +771,6 @@
               group.add(logo)
             }
             group.add(obj)
-
-            // var box = new THREE.BoxHelper(obj, 0xffff00)
-            // scene.add(box)
-
             scene.add(group);
             // console.log('XE', obj, logo)
           })
@@ -837,6 +842,25 @@
         setTimeout(function() {
           setConns()
         }, 1000)
+
+        gOx = -915
+        gOz = -873
+        gSx = 55.2
+        gSz = 49.7
+        var fX = 0
+        var fZ = 0
+
+        for (var gi = 0; gi < 36; gi++) {
+          var tmp = mtx.clone()
+          if (gi >= 17) { fX = 7 } else { fX = 0 }
+          if (gi >= 18) { fZ = 5 } else { fZ = 0 }
+          tmp.position.x = gOx + (gi * gSx) + fX
+          tmp.position.z = gOz + (gi * gSz) + fZ
+          gridX.push(gOx + (gi * gSx))
+          gridZ.push(gOz + (gi * gSz))
+          scene.add(tmp)
+        }
+
 
         /*
         dirLights[0] = addDirLight(scene, {
