@@ -963,7 +963,7 @@
         if (tick < 0) { tick = 0 }
         if (delta > 0) {
           ptxOptions.position.x = 637
-          ptxOptions.position.y = 5
+          ptxOptions.position.y = 50
 
           if (ptxOptions.position.z <= 373) { dir = 1 }
           if (ptxOptions.position.z >= 627) { dir = -1 }
@@ -1110,13 +1110,13 @@
       ghParticle.add(ptxOptions, 'size', 1, 20);
       ghParticle.add(ptxOptions, 'sizeRandomness', 0, 25);
       ghParticle.add(ptxOptions, 'colorRandomness', 0, 1);
-      ghParticle.add(ptxOptions, 'lifetime', .1, 10);
+      ghParticle.add(ptxOptions, 'lifetime', .1, 20);
       ghParticle.add(ptxOptions, 'turbulence', 0, 1);
 
       ghParticle.add(spawnerOptions, 'spawnRate', 10, 30000);
-      ghParticle.add(spawnerOptions, 'timeScale', - 1, 1);
+      ghParticle.add(spawnerOptions, 'timeScale', -1, 10);
 
-      ghParticle.add(gOptions.particle, 'speed', 1, 10).onChange(function() {
+      ghParticle.add(gOptions.particle, 'speed', 1, 100).onChange(function() {
         speed = gOptions.particle.speed
       })
 
