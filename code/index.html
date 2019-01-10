@@ -122,9 +122,7 @@
         'aqua':          { scale: 0.5, oX: 80, oZ: 40, count: 0, model: null, lX: 0, lY: 60, lZ: 0  },
         '3base':         { scale: 15, oX: 45, oZ: 45, count: 0, model: null, lX: 5,  lY: 40, lZ: 5  },
         'basictall':     { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 300, lZ: 0 },
-        //'bigbmw':        { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 125, lZ: 0 }, //
-        'bmw':           { scale: 15, oX: 50, oZ: 75, count: 0, model: null, lX: 0,  lY: 50, lZ: 0  }, //
-        //'bmwbigf':       { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 30, lZ: 0  },
+        'bmw':           { scale: 15, oX: 50, oZ: 75, count: 0, model: null, lX: 0,  lY: 50, lZ: 0  },
         'buildings1':    { scale: 15, oX: 55, oZ: 75, count: 0, model: null, lX: 22, lY: 35, lZ: 1  },
         'castle':        { scale: 0.5, oX: 50, oZ: 50, count: 0, model: null, lX: 0, lY: 35, lZ: 0  },
         'cube_trans':    { scale: 15, oX: 50, oZ: 50, count: 0, model: null, lX: -1, lY: 40, lZ: 1  },
@@ -136,7 +134,7 @@
         'moderntower':   { scale: 15, oX: 80, oZ: 50, count: 0, model: null, lX: 0,  lY: 70, lZ: 0  },
         'prison':        { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 25, lZ: 0  },
         'SciFi_3':       { scale: 15, oX: 15, oZ: 90, count: 0, model: null, lX: 0,  lY: 55, lZ: -7 },
-        'scifitower':    { scale: 15, oX: 50, oZ: 80, count: 0, model: null, lX: 0,  lY: 50, lZ: 0  }, //
+        'scifitower':    { scale: 15, oX: 50, oZ: 80, count: 0, model: null, lX: 0,  lY: 50, lZ: 0  },
         'silos':         { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 75, lZ: 0  },
         'silostrans':    { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 65, lZ: 0  },
         'simple':        { scale: 15, oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 27, lZ: 2  },
@@ -413,7 +411,7 @@
                 setInspector(sObj, vport)
               } else {
                 $('.obj-panel').addClass('hide')
-                clearInspector(vport)
+                // clearInspector(vport)
               }
             } else {
               // $('#objttip').addClass('hide')
@@ -683,6 +681,14 @@
 
         $('.js-ctl').removeClass('hide')
 
+        var box = new THREE.Box3().setFromObject(destModel)
+        var t = new THREE.Vector3()
+        t.x = (box.max.x + box.min.x) / 2
+        t.y = (box.max.y + box.min.y) / 2
+        t.z = (box.max.z + box.min.z) / 2
+        vpcam.position.y = box.max.y
+        vpcam.lookAt(t)
+
         vpobj = destModel
       }
       function clearInspector(destScene) {
@@ -718,7 +724,7 @@
           }
           if (logo) {
             logo.position.x = mdl.position.x + modelsMap[model].lX + logoObj.oX
-            logo.position.y = modelsMap[model].lY
+            logo.position.y = modelsMap[model].lY + 15
             logo.position.z = mdl.position.z + modelsMap[model].lZ + logoObj.oZ
             group.add(logo)
           }
@@ -751,11 +757,15 @@
             }
             if (logo) {
               logo.position.x = obj.position.x + modelsMap[model].lX + logoObj.oX
-              logo.position.y = modelsMap[model].lY
+              logo.position.y = modelsMap[model].lY + 15
               logo.position.z = obj.position.z + modelsMap[model].lZ + logoObj.oZ
               group.add(logo)
             }
             group.add(obj)
+
+            // var box = new THREE.BoxHelper(obj, 0xffff00)
+            // scene.add(box)
+
             scene.add(group);
             // console.log('XE', obj, logo)
           })
@@ -811,6 +821,7 @@
             obj.position.y = 10000
             obj.userData.mode = 'logo'
             obj.userData.type = logo.name
+            obj.rotateX(-Math.PI / 2);
             logo.count = 0
             logo.model = obj
             scene.add(obj);
