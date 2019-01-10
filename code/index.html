@@ -1,53 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
   <head>
     <title>World</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="./css/dat.gui.css">
-    <link rel="stylesheet" href="./css/main.css">
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0'>
+    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css' integrity='sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO' crossorigin='anonymous'>
+    <link rel='stylesheet' href='./css/dat.gui.css'>
+    <link rel='stylesheet' href='./css/main.css'>
   </head>
   <body>
     <header>
-      <nav class="navbar navbar-dark bg-dark">
-        <span class="navbar-text">
+      <nav class='navbar navbar-dark bg-dark'>
+        <span class='navbar-text'>
           <h5>
             <strong>DaVE</strong> &nbsp; <small>Datacenter Visualization Environment</small>
           </h5>
         </span>
-        <span class="navbar-text pull-right">
-          <span class="info-user pl-0 pr-2">
-            <span class="js-username pr-2"><em>Logged out</em></span>
+        <span class='navbar-text pull-right'>
+          <span class='info-user pl-0 pr-2'>
+            <span class='js-username pr-2'><em>Logged out</em></span>
           </span>
-          <span class="info-time px-2">
-            <span class="js-time">&middot;</span>
+          <span class='info-time px-2'>
+            <span class='js-time'>&middot;</span>
           </span>
-          <span class="info-actions pl-2 pr-0">
-            <button class="btn btn-outline-danger btn-sm mr-1 js-btn-logout hide" type="button">Log out</button>
-            <button class="btn btn-outline-success btn-sm mr-1 js-btn-login" type="button">Log in</button>
-            <button class="btn btn-outline-primary btn-sm mr-0 js-btn-stats" type="button">Stats</button>
+          <span class='info-actions pl-2 pr-0'>
+            <button class='btn btn-outline-danger btn-sm mr-1 js-btn-logout hide' type='button'>Log out</button>
+            <button class='btn btn-outline-success btn-sm mr-1 js-btn-login' type='button'>Log in</button>
+            <button class='btn btn-outline-primary btn-sm mr-0 js-btn-stats' type='button'>Stats</button>
           </span>
         </span>
       </nav>
     </header>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js' integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=' crossorigin='anonymous'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js' integrity='sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49' crossorigin='anonymous'></script>
+    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js' integrity='sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy' crossorigin='anonymous'></script>
 
-    <script src="./js/three.js"></script>
-    <script src="./js/controls/OrbitControls.js"></script>
-    <script src="./js/objects/Reflector.js"></script>
-    <script src="./js/loaders/MTLLoader.js"></script>
-    <script src="./js/loaders/OBJLoader.js"></script>
-    <script src="./js/WebGL.js"></script>
-    <script src="./js/libs/stats.min.js"></script>
-    <script src="./js/libs/dat.gui.min.js"></script>
-    <script src="./js/GPUParticleSystem.js"></script>
-    <script src="./js/moment.min.js"></script>
-    <script src="./js/Chart.min.js"></script>
-    <script src="./js/chartjs-plugin-streaming.min.js"></script>
+    <script src='./js/three.js'></script>
+    <script src='./js/controls/OrbitControls.js'></script>
+    <script src='./js/objects/Reflector.js'></script>
+    <script src='./js/loaders/MTLLoader.js'></script>
+    <script src='./js/loaders/OBJLoader.js'></script>
+    <script src='./js/WebGL.js'></script>
+    <script src='./js/libs/stats.min.js'></script>
+    <script src='./js/libs/dat.gui.min.js'></script>
+    <script src='./js/GPUParticleSystem.js'></script>
+    <script src='./js/moment.min.js'></script>
+    <script src='./js/Chart.min.js'></script>
+    <script src='./js/chartjs-plugin-streaming.min.js'></script>
 
     <script>
       if (WEBGL.isWebGLAvailable() === false) {
@@ -74,22 +74,22 @@
 
       var ptxOptions = {
         position: new THREE.Vector3(637, 1, 373),
-        positionRandomness: 0.25,
+        positionRandomness: 0.44, //0.25,
         velocity: new THREE.Vector3(),
-        velocityRandomness: 0.11,
+        velocityRandomness: 0.18, //0.11,
         color: 0x1bf7f9,
         colorRandomness: 0.5,
-        turbulence: 0.01,
-        lifetime: 1,
-        size: 3,
-        sizeRandomness: 0.05
+        turbulence: 0.02, //0.01,
+        lifetime: 1.7, //1,
+        size: 5, //3,
+        sizeRandomness: 4.3 //0.05
       };
 
       var spawnerOptions = {
-        spawnRate: 640,
+        spawnRate: 1100, //640,
         horizontalSpeed: 1.5,
         verticalSpeed: 1,
-        timeScale: 1
+        timeScale: 10 //1
       }
 
       var gridX = [], gridZ = []
@@ -110,12 +110,12 @@
       var mouse = new THREE.Vector2();
 
       function dec2hex(i) {
-        var result = "0x000000";
-        if (i >= 0 && i <= 15) { result = "0x00000" + i.toString(16); }
-        else if (i >= 16 && i <= 255) { result = "0x0000" + i.toString(16); }
-        else if (i >= 256 && i <= 4095) { result = "0x000" + i.toString(16); }
-        else if (i >= 4096 && i <= 65535) { result = "0x00" + i.toString(16); }
-        else if (i >= 65535 && i <= 1048575) { result = "0x0" + i.toString(16); }
+        var result = '0x000000';
+        if (i >= 0 && i <= 15) { result = '0x00000' + i.toString(16); }
+        else if (i >= 16 && i <= 255) { result = '0x0000' + i.toString(16); }
+        else if (i >= 256 && i <= 4095) { result = '0x000' + i.toString(16); }
+        else if (i >= 4096 && i <= 65535) { result = '0x00' + i.toString(16); }
+        else if (i >= 65535 && i <= 1048575) { result = '0x0' + i.toString(16); }
         else if (i >= 1048575 ) { result = '0x' + i.toString(16); }
         if (result.length == 8) { return result; }
       }
@@ -150,26 +150,21 @@
         'torus':         { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 60, lZ: 0  },
         'transtower':    { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 210, lZ: 0 }
       }
-      var logoMap = [
-        { name: "Apache_kafka", scale: 2,  oX: 2,  oZ: 0, model: null, count: 0},
-        { name: "centos",       scale: 6,  oX: 2,  oZ: 3, model: null, count: 0},
-        { name: "clickhouse",   scale: 10, oX: 30, oZ: 0, model: null, count: 0},
-        { name: "elastic",      scale: 3,  oX: 0,  oZ: 0, model: null, count: 0},
-        { name: "flink",        scale: 5,  oX: 0,  oZ: 0, model: null, count: 0},
-        { name: "git",          scale: 5,  oX: 0,  oZ: 6, model: null, count: 0},
-        { name: "Prometheus",   scale: 12, oX: 0,  oZ: 0, model: null, count: 0},
-        { name: "spark",        scale: 5,  oX: 0,  oZ: 0, model: null, count: 0},
-        { name: "ubuntu",       scale: 4,  oX: 0,  oZ: 0, model: null, count: 0},
-        { name: "zepelin",      scale: 6,  oX: 0,  oZ: 2, model: null, count: 0},
-        { name: "Zoo",          scale: 9,  oX: 35, oZ: 0, model: null, count: 0}
-      ]
+      var logoMap = {
+        'Apache_kafka': { scale: 2,  oX: 2,  oZ: 0, model: null, count: 0},
+        'centos':       { scale: 6,  oX: 2,  oZ: 3, model: null, count: 0},
+        'clickhouse':   { scale: 10, oX: 30, oZ: 0, model: null, count: 0},
+        'elastic':      { scale: 3,  oX: 0,  oZ: 0, model: null, count: 0},
+        'flink':        { scale: 5,  oX: 0,  oZ: 0, model: null, count: 0},
+        'git':          { scale: 5,  oX: 0,  oZ: 6, model: null, count: 0},
+        'Prometheus':   { scale: 12, oX: 0,  oZ: 0, model: null, count: 0},
+        'spark':        { scale: 5,  oX: 0,  oZ: 0, model: null, count: 0},
+        'ubuntu':       { scale: 4,  oX: 0,  oZ: 0, model: null, count: 0},
+        'zepelin':      { scale: 6,  oX: 0,  oZ: 2, model: null, count: 0},
+        'Zoo':          { scale: 9,  oX: 35, oZ: 0, model: null, count: 0}
+      }
 
       var modelsMap = {
-        'lighttower':  { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 120, lZ: 0 },
-        'silos':       { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 75, lZ: 0  },
-        'moderntower': { scale: 15, oX: 80, oZ: 50, count: 0, model: null, lX: 0,  lY: 70, lZ: 0  },
-        'cube_trans':  { scale: 15, oX: 50, oZ: 50, count: 0, model: null, lX: -1, lY: 40, lZ: 1  },
-
         'Castle_a': { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
         'Cube_a':   { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
         'Round_a':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
@@ -186,7 +181,12 @@
         'Cube_s':   { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
         'Round_s':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
         'Silos_s':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
-        'Tower_s':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 }
+        'Tower_s':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
+
+        'lighttower':  { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 120, lZ: 0 },
+        'silos':       { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 75, lZ: 0  },
+        'moderntower': { scale: 15, oX: 80, oZ: 50, count: 0, model: null, lX: 0,  lY: 70, lZ: 0  },
+        'cube_trans':  { scale: 15, oX: 50, oZ: 50, count: 0, model: null, lX: -1, lY: 40, lZ: 1  }
       }
 
       $(function() {
@@ -197,8 +197,8 @@
           $('#typeSelect').append('<option value="' + model + '">' + model + '</option>')
           $('#typeSelectM').append('<option value="' + model + '">' + model + '</option>')
         })
-        logoMap.forEach(function(logo) {
-          $('#logoSelectM').append('<option value="' + logo.name + '">' + logo.name + '</option>')
+        Object.getOwnPropertyNames(logoMap).forEach(function(logo) {
+          $('#logoSelectM').append('<option value="' + logo + '">' + logo + '</option>')
         })
 
         $('#addBtn').click(function() {
@@ -210,7 +210,10 @@
             cPosZ += stepZ
           }
           var sqOffset = { x: cPosX, z: cPosZ }
-          addModel(scene, mdl, logoMap[rnd(0, logoMap.length - 1)], sqOffset)
+          var tlgo = Object.getOwnPropertyNames(logoMap)
+          var trl = rnd(0, tlgo.length - 1)
+          var lgo = logoMap[tlgo[trl]]
+          addModel(scene, mdl, lgo, sqOffset)
 
           if (modelsMap[mdl].count) {
             $('.js-object-list tbody').find('.js-count-' + mdl).find('.js-num').html(modelsMap[mdl].count)
@@ -600,7 +603,7 @@
         traffic.add(tmpMesh2)
 
         traffic.position.x = 0
-        traffic.position.y = 1
+        traffic.position.y = 5
         traffic.position.z = 0
 
         scene.add(traffic)
@@ -716,12 +719,17 @@
         $('.js-ctl').removeClass('hide')
 
         var box = new THREE.Box3().setFromObject(destModel)
+        vpcam.position.x = box.max.x * 5
+        vpcam.position.y = box.max.y - 5
+        vpcam.position.z = box.max.z * 7.5
+
         var t = new THREE.Vector3()
         t.x = (box.max.x + box.min.x) / 2
         t.y = (box.max.y + box.min.y) / 2
         t.z = (box.max.z + box.min.z) / 2
-        vpcam.position.y = box.max.y
         vpcam.lookAt(t)
+
+        console.log('VCam', vpcam.position, t)
 
         vpobj = destModel
       }
@@ -746,10 +754,13 @@
           modelsMap[model].count++
 
           var group = new THREE.Group();
-          //var tmpLogoObj = logoMap.find(function(itm) { return logoMap.indexOf(itm.name) > -1 })
-          //var logoObj = tmpLogoObj? tmpLoboObj.name : logoModel // logoMap[rnd(0, logoMap.length)]
-          var tmpLogoObj = logoMap.find(function(itm) { return itm.name == logoModel })
-          var logoObj = tmpLogoObj? tmpLogoObj : logoMap[rnd(0, logoMap.length)]
+
+          var tmpLogoObj = logoMap[logoModel]
+          var tlgo = Object.getOwnPropertyNames(logoMap)
+          var trl = rnd(0, tlgo.length - 1)
+          var lgo = logoMap[tlgo[trl]]
+          var logoObj = tmpLogoObj? tmpLogoObj : lgo
+
           var logo = null
           try {
             logo = logoObj.model.clone()
@@ -757,9 +768,10 @@
             console.warn('Could not load logo object:', logoObj, logoModel, e)
           }
           if (logo) {
-            logo.position.x = mdl.position.x + modelsMap[model].lX + logoObj.oX
-            logo.position.y = modelsMap[model].lY + 15
-            logo.position.z = mdl.position.z + modelsMap[model].lZ + logoObj.oZ
+            var box = new THREE.Box3().setFromObject(mdl)
+            logo.position.x = mdl.position.x + (box.max.x - box.min.x) / 2
+            logo.position.y = box.max.y + 15
+            logo.position.z = mdl.position.z + (box.max.z - box.min.z) / 2
             group.add(logo)
           }
           group.add(mdl)
@@ -781,8 +793,18 @@
 
             var group = new THREE.Group();
             //var tmpLogoObj = logoMap.find(function(itm) { return logoMap.indexOf(itm.name) > -1 })
-            var tmpLogoObj = logoMap.find(function(itm) { return itm.name == logoModel })
-            var logoObj = tmpLogoObj? tmpLogoObj : logoMap[rnd(0, logoMap.length)]
+            //var tmpLogoObj = logoMap.find(function(itm) { return itm.name == logoModel })
+            //var logoObj = tmpLogoObj? tmpLogoObj : logoMap[rnd(0, logoMap.length)]
+
+            var tmpLogoObj = logoMap[logoModel]
+
+            var tlgo = Object.getOwnPropertyNames(logoMap)
+            var trl = rnd(0, tlgo.length - 1)
+            var lgo = logoMap[tlgo[trl]]
+
+            var logoObj = tmpLogoObj? tmpLogoObj : lgo
+            console.log('LO', logoModel, tmpLogoObj)
+
             var logo = null
             try {
               logo = logoObj.model.clone()
@@ -790,9 +812,13 @@
               console.warn('Could not load logo object:', logoObj, logoModel, e)
             }
             if (logo) {
-              logo.position.x = obj.position.x + modelsMap[model].lX + logoObj.oX
-              logo.position.y = modelsMap[model].lY + 15
-              logo.position.z = obj.position.z + modelsMap[model].lZ + logoObj.oZ
+              var box = new THREE.Box3().setFromObject(obj)
+              logo.position.x = obj.position.x + (box.max.x - box.min.x) / 2
+              logo.position.y = box.max.y + 15
+              logo.position.z = obj.position.z + (box.max.z - box.min.z) / 2
+              //logo.position.x = obj.position.x + modelsMap[model].lX + logoObj.oX
+              //logo.position.y = modelsMap[model].lY + 15
+              //logo.position.z = obj.position.z + modelsMap[model].lZ + logoObj.oZ
               group.add(logo)
             }
             group.add(obj)
@@ -819,16 +845,14 @@
           scene.add(link)
         }, 2000)
 
-        addModel(scene, 'moderntower', 'ubuntu', { x: 6, z: 3 })
-        addModel(scene, 'cube_trans', 'elastic', { x: 6, z: 6 })
+        addModel(scene, 'moderntower', 'centos', { x: 3, z: 3 })
+        addModel(scene, 'cube_trans', 'git', { x: 3, z: 6 })
 
         setTimeout(function() {
-          var mtx = modelsMap.moderntower.model
+          var mwx = modelsMap.moderntower.model
           var mcx = modelsMap.cube_trans.model
-
-          mtx.position.x = 362
-          mtx.position.z = 373
-
+          mwx.position.x = 362
+          mwx.position.z = 373
           mcx.position.x = 362
           mcx.position.z = 627
 
@@ -842,18 +866,19 @@
       }
 
       function initLogos() {
-        logoMap.forEach(function(logo) {
+        Object.getOwnPropertyNames(logoMap).forEach(function(logo) {
           var sqOffset = {}
-          createObject(scene, 'logos/' + logo.name, sqOffset, function(obj, sqOffset) {
-            obj.scale.set(logo.scale, logo.scale, logo.scale)
+          var logoObj = logoMap[logo]
+          createObject(scene, 'logos/' + logo, sqOffset, function(obj, sqOffset) {
+            obj.scale.set(logoObj.scale, logoObj.scale, logoObj.scale)
             obj.position.x = 10000
             obj.position.z = 10000
             obj.position.y = 10000
             obj.userData.mode = 'logo'
-            obj.userData.type = logo.name
-            obj.rotateX(-Math.PI / 2);
-            logo.count = 0
-            logo.model = obj
+            obj.userData.type = logoObj.name
+            obj.rotateX(Math.PI / 2);
+            logoObj.count = 0
+            logoObj.model = obj
             scene.add(obj);
           })
         })
@@ -868,19 +893,17 @@
           setConns()
         }, 1000)
 
-        gOx = -915
-        gOz = -873
-        gSx = 55.2
-        gSz = 49.7
+        gOx = -1000 //-915
+        gOz = -1000 //-873
+        gSx = 50
+        gSz = 50
         var fX = 0
         var fZ = 0
 
-        for (var gi = 0; gi < 36; gi++) {
+        for (var gi = 0; gi <= 40; gi++) {
           var tmp = mtx.clone()
-          if (gi >= 17) { fX = 7 } else { fX = 0 }
-          if (gi >= 18) { fZ = 5 } else { fZ = 0 }
-          tmp.position.x = gOx + (gi * gSx) + fX
-          tmp.position.z = gOz + (gi * gSz) + fZ
+          tmp.position.x = gOx + (gi * gSx)
+          tmp.position.z = gOz + (gi * gSz)
           gridX.push(gOx + (gi * gSx))
           gridZ.push(gOz + (gi * gSz))
           scene.add(tmp)
@@ -943,8 +966,9 @@
       }
 
       ptxOptions.position.z = 373
+      ptxOptions.position.y = 5
       var dir = 1
-      var speed = 2
+      var speed = 12
 
       function onWindowResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
@@ -963,10 +987,8 @@
         if (tick < 0) { tick = 0 }
         if (delta > 0) {
           ptxOptions.position.x = 637
-          ptxOptions.position.y = 50
 
-          if (ptxOptions.position.z <= 373) { dir = 1 }
-          if (ptxOptions.position.z >= 627) { dir = -1 }
+          if (ptxOptions.position.z >= 627) { ptxOptions.position.z = 373 }
           ptxOptions.position.z += (dir * speed)
 
           for (var x = 0; x < spawnerOptions.spawnRate * delta; x ++) {
@@ -977,8 +999,7 @@
         }
         particleSystem.update(tick);
 
-        //if (ptxOptions.position.z <= 373) { dir = 1 }
-        //if (ptxOptions.position.z >= 627) { dir = -1 }
+        if (traffic.position.z >= 627) { traffic.position.z = 373 }
         traffic.position.z += (dir * speed)
 
         stats.end()
@@ -1020,7 +1041,8 @@
           endOpacity: 0,
         },
         particle: {
-          speed: 2
+          speed: 12,
+          posY: 5
         },
         mkGrad: function() {
           var sc = dec2hex(this.sidebars.startColor).substr(2)
@@ -1110,7 +1132,7 @@
       ghParticle.add(ptxOptions, 'size', 1, 20);
       ghParticle.add(ptxOptions, 'sizeRandomness', 0, 25);
       ghParticle.add(ptxOptions, 'colorRandomness', 0, 1);
-      ghParticle.add(ptxOptions, 'lifetime', .1, 20);
+      ghParticle.add(ptxOptions, 'lifetime', 0.1, 20);
       ghParticle.add(ptxOptions, 'turbulence', 0, 1);
 
       ghParticle.add(spawnerOptions, 'spawnRate', 10, 30000);
@@ -1118,6 +1140,9 @@
 
       ghParticle.add(gOptions.particle, 'speed', 1, 100).onChange(function() {
         speed = gOptions.particle.speed
+      })
+      ghParticle.add(gOptions.particle, 'posY', 1, 200).onChange(function() {
+        ptxOptions.position.y = gOptions.particle.posY
       })
 
       var gSbars = gui.addFolder('Sidebars')
@@ -1138,41 +1163,41 @@
       })
 
     </script>
-    <script src="./js/helpers/userAdapter.js"></script>
+    <script src='./js/helpers/userAdapter.js'></script>
 
 
 
-    <div class="holder side side-left info-panel">
-      <div class="container type-form mb-4">
+    <div class='holder side side-left info-panel'>
+      <div class='container type-form mb-4'>
         <h5>New object</h5>
         <form>
-          <div class="form-group">
-            <label for="typeSelect">Model type</label>
-            <select class="form-control" id="typeSelect">
+          <div class='form-group'>
+            <label for='typeSelect'>Model type</label>
+            <select class='form-control' id='typeSelect'>
             </select>
           </div>
-          <button id="addBtn" type="button" class="btn btn-primary">Add</button>
-          <button id="addBtnMulti" type="button" class="btn btn-outline-light mx-2">Add multiple</button>
-          <button id="buildBtn" type="button" class="btn btn-outline-success js-btn-build" data-toggle="modal" data-target=".builder-modal-lg">Build</button>
+          <button id='addBtn' type='button' class='btn btn-primary'>Add</button>
+          <button id='addBtnMulti' type='button' class='btn btn-outline-light mx-2'>Add multiple</button>
+          <button id='buildBtn' type='button' class='btn btn-outline-success js-btn-build' data-toggle='modal' data-target='.builder-modal-lg'>Build</button>
           <br>
-          <button id="loadBtn" type="button" class="btn btn-info mt-2 js-btn-load">Fetch JSON</button>
+          <button id='loadBtn' type='button' class='btn btn-info mt-2 js-btn-load'>Fetch JSON</button>
           <br>
         </form>
       </div>
 
-      <div class="container type-scene my-4">
+      <div class='container type-scene my-4'>
         <h5>Model</h5>
-        <div id="scene"></div>
-        <aside class="my-3 hide js-ctl">
-          <button id="shInfo" type="button" class="btn btn-outline-light btn-sm mx-1">Info</button>
-          <button id="shConsole" type="button" class="btn btn-outline-light btn-sm mx-1">Console</button>
-          <button id="shGraph" type="button" class="btn btn-outline-light btn-sm mx-1">Graph</button>
+        <div id='scene'></div>
+        <aside class='my-3 hide js-ctl'>
+          <button id='shInfo' type='button' class='btn btn-outline-light btn-sm mx-1'>Info</button>
+          <button id='shConsole' type='button' class='btn btn-outline-light btn-sm mx-1'>Console</button>
+          <button id='shGraph' type='button' class='btn btn-outline-light btn-sm mx-1'>Graph</button>
         </aside>
       </div>
 
-      <div class="container type-table my-4">
+      <div class='container type-table my-4'>
         <h5>Objects count</h5>
-        <table class="table mw90 w90 w-overflow js-object-list">
+        <table class='table mw90 w90 w-overflow js-object-list'>
           <thead>
             <tr>
               <th>Object</th>
@@ -1185,61 +1210,61 @@
       </div>
     </div>
 
-    <div class="holder side side-right info-panel obj-panel hide">
-      <div class="container type-list mb-4">
+    <div class='holder side side-right info-panel obj-panel hide'>
+      <div class='container type-list mb-4'>
         <h5>Object info</h5>
-        <dl class="card-text">
+        <dl class='card-text'>
           <dt>Type</dt>
-          <dd class="obj-type">&middot;</dd>
+          <dd class='obj-type'>&middot;</dd>
           <dt>UUID</dt>
-          <dd class="obj-uuid">&middot;</dd>
+          <dd class='obj-uuid'>&middot;</dd>
           <dt>Distance</dt>
-          <dd class="obj-dist">&middot;</dd>
+          <dd class='obj-dist'>&middot;</dd>
         </dl>
       </div>
-      <div class="container type-console my-4">
+      <div class='container type-console my-4'>
         <h5>Console</h5>
-        <textarea name="console" id="console" cols="40" rows="10" class="console w100 w-overflow"></textarea>
+        <textarea name='console' id='console' cols='40' rows='10' class='console w100 w-overflow'></textarea>
       </div>
-      <div class="container type-graph my-4">
+      <div class='container type-graph my-4'>
         <h5>Graph</h5>
-        <canvas id="graph"></canvas>
+        <canvas id='graph'></canvas>
       </div>
     </div>
 
-    <aside id="objttip" class="info-panel ttp-panel hide">
-      <div class="container">
+    <aside id='objttip' class='info-panel ttp-panel hide'>
+      <div class='container'>
         Lorem ipsum dolor sit amet, nunc integer.
       </div>
     </aside>
 
-    <aside class="modal fade builder-modal-lg" tabindex="-1" role="dialog" aria-labelledby="builder" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <form id="buildForm">
-            <div class="form-group row">
-              <label for="inputLoc" class="col-sm-2 col-form-label">Location</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputLoc" placeholder="e.g. 3,7" required>
+    <aside class='modal fade builder-modal-lg' tabindex='-1' role='dialog' aria-labelledby='builder' aria-hidden='true'>
+      <div class='modal-dialog modal-lg'>
+        <div class='modal-content'>
+          <form id='buildForm'>
+            <div class='form-group row'>
+              <label for='inputLoc' class='col-sm-2 col-form-label'>Location</label>
+              <div class='col-sm-10'>
+                <input type='text' class='form-control' id='inputLoc' placeholder='e.g. 3,7' required>
               </div>
             </div>
-            <div class="form-group row">
-              <label for="typeSelectM" class="col-sm-2 col-form-label">Type</label>
-              <div class="col-sm-10">
-                <select class="form-control" id="typeSelectM">
+            <div class='form-group row'>
+              <label for='typeSelectM' class='col-sm-2 col-form-label'>Type</label>
+              <div class='col-sm-10'>
+                <select class='form-control' id='typeSelectM'>
                 </select>
               </div>
             </div>
-            <div class="form-group row">
-              <label for="logoSelectM" class="col-sm-2 col-form-label">Logo</label>
-              <div class="col-sm-10">
-                <select class="form-control" id="logoSelectM">
+            <div class='form-group row'>
+              <label for='logoSelectM' class='col-sm-2 col-form-label'>Logo</label>
+              <div class='col-sm-10'>
+                <select class='form-control' id='logoSelectM'>
                 </select>
               </div>
             </div>
-            <div class="form-group row">
-              <div class="col-sm-10">
-                <button type="submit" class="btn btn-primary">Place</button>
+            <div class='form-group row'>
+              <div class='col-sm-10'>
+                <button type='submit' class='btn btn-primary'>Place</button>
               </div>
             </div>
           </form>
