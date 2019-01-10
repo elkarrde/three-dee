@@ -121,7 +121,7 @@
       }
       var deg2rad = function(degree) { return degree * (Math.PI / 180); }
 
-      var modelsMap = {
+      var OLDmodelsMap = {
         '1stbuilding':   { scale: 15, oX: 20, oZ: 20, count: 0, model: null, lX: 0,  lY: 35, lZ: 9  },
         '2squerbuild':   { scale: 15, oX: 65, oZ: 50, count: 0, model: null, lX: 0,  lY: 37, lZ: 2  },
         'aqua':          { scale: 0.5, oX: 80, oZ: 40, count: 0, model: null, lX: 0, lY: 60, lZ: 0  },
@@ -163,6 +163,31 @@
         { name: "zepelin",      scale: 6,  oX: 0,  oZ: 2, model: null, count: 0},
         { name: "Zoo",          scale: 9,  oX: 35, oZ: 0, model: null, count: 0}
       ]
+
+      var modelsMap = {
+        'lighttower':  { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 120, lZ: 0 },
+        'silos':       { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 75, lZ: 0  },
+        'moderntower': { scale: 15, oX: 80, oZ: 50, count: 0, model: null, lX: 0,  lY: 70, lZ: 0  },
+        'cube_trans':  { scale: 15, oX: 50, oZ: 50, count: 0, model: null, lX: -1, lY: 40, lZ: 1  },
+
+        'Castle_a': { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
+        'Cube_a':   { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
+        'Round_a':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
+        'Silos_a':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
+        'Tower_a':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
+        
+        'Castle_c': { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
+        'Cube_c':   { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
+        'Round_c':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
+        'Silos_c':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
+        'Tower_c':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
+
+        'Castle_s': { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
+        'Cube_s':   { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
+        'Round_s':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
+        'Silos_s':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
+        'Tower_s':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 }
+      }
 
       $(function() {
         init();
