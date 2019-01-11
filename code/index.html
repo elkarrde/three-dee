@@ -479,8 +479,8 @@
         camera.translateZ(1000)
 
         scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x000000);
-        scene.fog = new THREE.Fog(0x000000, 1000, 8000);
+        scene.background = new THREE.Color(0xdddddd);
+        scene.fog = new THREE.Fog(0xdddddd, 1000, 8000);
 
         // ground
         ground = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshPhongMaterial({ color: 0xffffff, map: gndTexture, depthWrite: true }));
