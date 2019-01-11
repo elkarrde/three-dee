@@ -509,7 +509,7 @@
         mrrFadeout.rotateX(-Math.PI / 2)
         scene.add(mrrFadeout)
 
-        grid = new THREE.GridHelper(1940, 35, 0xffffff, 0xffffff); //0x3bff7f
+        grid = new THREE.GridHelper(1800, 33, 0x01d7d7, 0x01d7d7); //0x3bff7f
         grid.name = 'Grid'
         grid.material.opacity = 1;
         grid.material.transparent = true;
@@ -900,15 +900,16 @@
         var fX = 0
         var fZ = 0
 
+        var markers = new THREE.Group()
         for (var gi = 0; gi <= 40; gi++) {
           var tmp = mtx.clone()
           tmp.position.x = gOx + (gi * gSx)
           tmp.position.z = gOz + (gi * gSz)
           gridX.push(gOx + (gi * gSx))
           gridZ.push(gOz + (gi * gSz))
-          scene.add(tmp)
+          markers.add(tmp)
         }
-
+        scene.add(markers)
 
         /*
         dirLights[0] = addDirLight(scene, {
@@ -1018,7 +1019,10 @@
       var gOptions = {
         grid: {
           visible: false,
-          color: 0xffffff
+          color: 0x01d7d7
+        },
+        markers: {
+          visible: true
         },
         ground: {
           visible: true,
@@ -1073,14 +1077,17 @@
         cGl[ghc] = ghc
       }
 
-      /*
       var gGrid = gui.addFolder('Grid');
-      gGrid.add(grid, 'visible').name('Visible').listen()
+      gGrid.add(gOptions.grid, 'visible').name('Visible').onChange(function() {
+        grid.visible = gOptions.grid.visible
+      })
       //gGrid.add(subGrid, 'visible').name('Detail visible').listen()
       gGrid.addColor(gOptions.grid, 'color').name('Color').onChange(function() {
         grid.material.color.setHex(dec2hex(gOptions.grid.color))
       })
-      */
+      gGrid.add(gOptions.markers, 'visible').name('Markers').onChange(function() {
+        markers.visible = gOptions.markers.visible
+      })
 
       /*
       var gGround = gui.addFolder('Ground');
@@ -1141,7 +1148,7 @@
       ghParticle.add(gOptions.particle, 'speed', 1, 100).onChange(function() {
         speed = gOptions.particle.speed
       })
-      ghParticle.add(gOptions.particle, 'posY', 1, 200).onChange(function() {
+      ghParticle.add(gOptions.particle, 'posY', 1, 200).name('Position Y').onChange(function() {
         ptxOptions.position.y = gOptions.particle.posY
       })
 
