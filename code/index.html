@@ -56,8 +56,11 @@
 
       var scene, camera, renderer, mesh, groundMirror, grid, mrrFadeout, spotLight, gndTexture, sky, particleSystem, controls;
       var vport, vpcam, vprend, vpobj
-      var sqSize = 100
-      var subSqSize = sqSize / 5
+      var sqSize = 40
+
+      var gridDist = 40
+      var gridBox = 200
+
       var globalObjects = []
       var noClickObjects = ['Ground', 'Grid', 'FadeoutMrr', 'GndMirror', 'GndMrr']
       var posMap = []
@@ -70,7 +73,7 @@
       var stepX = 1
       var stepZ = 2
       var count = 0
-      var rotation, link, traffic, clock = new THREE.Clock(), tick = 0
+      var rotation, earthMesh, link, traffic, clock = new THREE.Clock(), tick = 0
 
       var ptxOptions = {
         position: new THREE.Vector3(637, 1, 373),
@@ -91,12 +94,6 @@
         verticalSpeed: 1,
         timeScale: 10 //1
       }
-
-      var gridX = [], gridZ = []
-      var gOx = 0
-      var gOz = 0
-
-      var mtx
 
       var vportEmpty = true
       var cT, cTi
@@ -163,7 +160,6 @@
         'zepelin':      { scale: 6,  oX: 0,  oZ: 2, model: null, count: 0},
         'Zoo':          { scale: 9,  oX: 35, oZ: 0, model: null, count: 0}
       }
-
       var modelsMap = {
         'Castle_a': { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
         'Cube_a':   { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
@@ -347,17 +343,18 @@
         }
       }
 
-      gndTexture = new THREE.TextureLoader().load('./res/obj/hexagon.png')
-      //sky = new THREE.TextureLoader().load('./res/backgrounds/abstract-digital-blue-grid.jpg')
+      gndTexture = new THREE.TextureLoader().load('./res/obj/Grid_t1.jpg')
       sky = new THREE.TextureLoader().load('./res/backgrounds/digitaltransformation.png')
 
       function placeModels(scene, cellData) {
         var location = cellData.LocationIn3d
         var objArray = cellData.Services
+        var cell = new THREE.Group()
 
         var posX = -5 * sqSize + parseInt(location[0], 10) * sqSize
         var posZ = -5 * sqSize + parseInt(location[1], 10) * sqSize
 
+        /*
         var geometry = new THREE.BoxBufferGeometry(sqSize, 1, sqSize)
         var material = new THREE.MeshPhongMaterial({ color: 0x010101 })
         var base = new THREE.Mesh(geometry, material)
@@ -365,9 +362,9 @@
         base.position.z = posZ + sqSize / 2
         base.userData.name = 'CellBase'
         base.opacity = 0.25
+        */
 
-        var cell = new THREE.Group()
-        cell.add(base)
+        // cell.add(base)
         var sqOffset = {
           x: -5 + parseInt(location[0], 10),
           z: -5 + parseInt(location[1], 10)
@@ -479,8 +476,8 @@
         camera.translateZ(1000)
 
         scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xdddddd);
-        scene.fog = new THREE.Fog(0xdddddd, 1000, 8000);
+        scene.background = new THREE.Color(0x02070f);
+        scene.fog = new THREE.Fog(0x02070f, 1000, 8000);
 
         // ground
         ground = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshPhongMaterial({ color: 0xffffff, map: gndTexture, depthWrite: true }));
@@ -489,6 +486,13 @@
         ground.receiveShadow = false;
         ground.opacity = 0.8
         scene.add(ground);
+
+        var plane = new THREE.Mesh(new THREE.PlaneBufferGeometry(6000, 6000), new THREE.MeshPhongMaterial({ color: 0x02070f, depthWrite: true }));
+        plane.name = 'Plane'
+        plane.rotation.x = -Math.PI / 2;
+        plane.receiveShadow = false;
+        plane.opacity = 1
+        scene.add(plane);
 
         var geometry = new THREE.PlaneBufferGeometry(2000, 2000);
         geometry.name = 'GndMirror'
@@ -561,7 +565,7 @@
           coords: { x: -500, y: 1000, z: 500 }
         }))
 
-        ambiLight = new THREE.AmbientLight(0xffffff, 5)
+        ambiLight = new THREE.AmbientLight(0xffffff, 1)
         scene.add(ambiLight)
 
         particleSystem = new THREE.GPUParticleSystem({
@@ -570,11 +574,11 @@
         scene.add(particleSystem);
 
         var linkShp = new THREE.Shape()
-        linkShp.moveTo(638 - 2, 373)
-        linkShp.lineTo(638 - 2, 627)
-        linkShp.lineTo(638 + 2, 627)
-        linkShp.lineTo(638 + 2, 373)
-        linkShp.lineTo(638 - 2, 373)
+        linkShp.moveTo(500 - 2, 500)
+        linkShp.lineTo(500 - 2, 620)
+        linkShp.lineTo(500 + 2, 620)
+        linkShp.lineTo(500 + 2, 500)
+        linkShp.lineTo(500 - 2, 500)
 
         var exs = {
           steps: 1,
@@ -583,7 +587,7 @@
         }
 
         var lGeo = new THREE.ExtrudeGeometry(linkShp, exs)
-        var lMat = new THREE.MeshBasicMaterial({ color: 0xffffff }) //1bf7f9
+        var lMat = new THREE.MeshBasicMaterial({ color: 0x1bf7f9 }) //1bf7f9
         link = new THREE.Mesh(lGeo, lMat)
         link.position.x = 0
         link.position.y = 1
@@ -609,9 +613,16 @@
 
         scene.add(traffic)
 
-        var mtG = new THREE.BoxGeometry(5, 5, 5)
-        var mtT = new THREE.MeshBasicMaterial({ color: 0xff0000 })
-        mtx = new THREE.Mesh(mtG, mtT)
+        //SKY
+        var skyGeometry = new THREE.SphereBufferGeometry(3000, 100, 100);
+        var skyMaterial = new THREE.MeshPhongMaterial({
+          map: sky,
+          shading: THREE.FlatShading
+        });
+        skyMaterial.side = THREE.BackSide;
+        earthMesh = new THREE.Mesh(skyGeometry, skyMaterial);
+
+        scene.add(earthMesh);
       }
 
       function setupView(domElm) {
@@ -747,11 +758,11 @@
           var oX = 0
           var oZ = 0
           if (sqOffset && typeof sqOffset === 'object') {
-            oX = sqSize * sqOffset.x
-            oZ = sqSize * sqOffset.z
+            oX = -1000 + sqSize * sqOffset.x
+            oZ = -1000 + sqSize * sqOffset.z
           }
-          mdl.position.x = oX + modelsMap[model].oX
-          mdl.position.z = oZ + modelsMap[model].oZ
+          mdl.position.x = oX// + modelsMap[model].oX
+          mdl.position.z = oZ// + modelsMap[model].oZ
           modelsMap[model].count++
 
           var group = new THREE.Group();
@@ -770,9 +781,9 @@
           }
           if (logo) {
             var box = new THREE.Box3().setFromObject(mdl)
-            logo.position.x = mdl.position.x + (box.max.x - box.min.x) / 2
+            logo.position.x = mdl.position.x + ((box.max.x - box.min.x) / 2)
             logo.position.y = box.max.y + 15
-            logo.position.z = mdl.position.z + (box.max.z - box.min.z) / 2
+            logo.position.z = mdl.position.z + ((box.max.z - box.min.z) / 2)
             group.add(logo)
           }
           group.add(mdl)
@@ -783,11 +794,11 @@
             var oX = 0
             var oZ = 0
             if (sqOffset && typeof sqOffset === 'object') {
-              oX = sqSize * sqOffset.x
-              oZ = sqSize * sqOffset.z
+              oX = -1000 + sqSize * sqOffset.x
+              oZ = -1000 + sqSize * sqOffset.z
             }
-            obj.position.x = oX + modelsMap[model].oX
-            obj.position.z = oZ + modelsMap[model].oZ
+            obj.position.x = oX// + modelsMap[model].oX
+            obj.position.z = oZ// + modelsMap[model].oZ
             obj.userData.type = model
             modelsMap[model].count = 1
             modelsMap[model].model = obj
@@ -814,9 +825,9 @@
             }
             if (logo) {
               var box = new THREE.Box3().setFromObject(obj)
-              logo.position.x = obj.position.x + (box.max.x - box.min.x) / 2
+              logo.position.x = obj.position.x + ((box.max.x - box.min.x) / 2)
               logo.position.y = box.max.y + 15
-              logo.position.z = obj.position.z + (box.max.z - box.min.z) / 2
+              logo.position.z = obj.position.z + ((box.max.z - box.min.z) / 2)
               //logo.position.x = obj.position.x + modelsMap[model].lX + logoObj.oX
               //logo.position.y = modelsMap[model].lY + 15
               //logo.position.z = obj.position.z + modelsMap[model].lZ + logoObj.oZ
@@ -829,39 +840,43 @@
         }
       }
 
+      function getPosCoords(sqOffset) {
+        var oX = 0
+        var oZ = 0
+        if (sqOffset && typeof sqOffset === 'object') {
+          oX = -1000 + sqSize * sqOffset.x
+          oZ = -1000 + sqSize * sqOffset.z
+        }
+
+        return { x: oX, z: oZ }
+      }
+
       function setConns() {
-        addModel(scene, 'lighttower', 'ubuntu', { x: 6, z: 3 })
-        addModel(scene, 'silos', 'elastic', { x: 6, z: 6 })
+        addModel(scene, 'lighttower', 'ubuntu',  { x: 6, z: 6 })
+        addModel(scene, 'silos',      'elastic', { x: 6, z: 9 })
 
         setTimeout(function() {
           var mt = modelsMap.lighttower.model
           var ms = modelsMap.silos.model
-
-          mt.position.x = 638
-          mt.position.z = 373
-
-          ms.position.x = 638
-          ms.position.z = 627
+          link.position.x = -1260
+          link.position.z = -1260
 
           scene.add(link)
         }, 2000)
 
-        addModel(scene, 'moderntower', 'centos', { x: 3, z: 3 })
-        addModel(scene, 'cube_trans', 'git', { x: 3, z: 6 })
+        addModel(scene, 'moderntower', 'centos', { x: 9, z: 6 })
+        addModel(scene, 'cube_trans',  'git',    { x: 9, z: 9 })
 
         setTimeout(function() {
           var mwx = modelsMap.moderntower.model
           var mcx = modelsMap.cube_trans.model
-          mwx.position.x = 362
-          mwx.position.z = 373
-          mcx.position.x = 362
-          mcx.position.z = 627
 
           var link2 = link.clone()
-          link2.position.x = -276
+          link2.position.x = -1140
+          link2.position.z = -1260
 
-          traffic.position.x = 362
-          traffic.position.z = 388
+          traffic.position.x = -640
+          traffic.position.z = -640
           scene.add(link2)
         }, 2000)
       }
@@ -893,24 +908,6 @@
         setTimeout(function() {
           setConns()
         }, 1000)
-
-        gOx = -1000 //-915
-        gOz = -1000 //-873
-        gSx = 50
-        gSz = 50
-        var fX = 0
-        var fZ = 0
-
-        var markers = new THREE.Group()
-        for (var gi = 0; gi <= 40; gi++) {
-          var tmp = mtx.clone()
-          tmp.position.x = gOx + (gi * gSx)
-          tmp.position.z = gOz + (gi * gSz)
-          gridX.push(gOx + (gi * gSx))
-          gridZ.push(gOz + (gi * gSz))
-          markers.add(tmp)
-        }
-        scene.add(markers)
 
         /*
         dirLights[0] = addDirLight(scene, {
@@ -967,7 +964,7 @@
         window.addEventListener('resize', onWindowResize, false);
       }
 
-      ptxOptions.position.z = 373
+      ptxOptions.position.z = -720
       ptxOptions.position.y = 5
       var dir = 1
       var speed = 12
@@ -988,9 +985,9 @@
         tick += delta;
         if (tick < 0) { tick = 0 }
         if (delta > 0) {
-          ptxOptions.position.x = 637
+          ptxOptions.position.x = -760
 
-          if (ptxOptions.position.z >= 627) { ptxOptions.position.z = 373 }
+          if (ptxOptions.position.z >= -640) { ptxOptions.position.z = -760 }
           ptxOptions.position.z += (dir * speed)
 
           for (var x = 0; x < spawnerOptions.spawnRate * delta; x ++) {
@@ -1001,7 +998,7 @@
         }
         particleSystem.update(tick);
 
-        if (traffic.position.z >= 627) { traffic.position.z = 373 }
+        if (traffic.position.z >= -640) { traffic.position.z = -760 }
         traffic.position.z += (dir * speed)
 
         stats.end()
@@ -1035,7 +1032,7 @@
           ambi: {
             visible: true,
             color: 0xffffff,
-            intensity: 5
+            intensity: 1
           }
         },
         sidebars: {
@@ -1106,7 +1103,7 @@
       ghAmbiLight.addColor(gOptions.lights.ambi, 'color').name('Color').onChange(function() {
         ambiLight.color.setHex(dec2hex(gOptions.lights.ambi.color));
       })
-      ghAmbiLight.add(gOptions.lights.ambi, 'intensity', 1, 20).name('Intensity').onChange(function() {
+      ghAmbiLight.add(gOptions.lights.ambi, 'intensity', 0.1, 20).name('Intensity').onChange(function() {
         ambiLight.intensity = gOptions.lights.ambi.intensity;
       });
 
