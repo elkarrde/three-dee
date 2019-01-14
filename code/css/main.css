@@ -93,4 +93,9 @@ header .navbar h5 { color: #eee; }
   height: 100%;
 }
 
+.dg.ac .cr.color .c input { 
+  margin: 0; 
+  height: 26px;
+}
+
 .builder-modal-lg .modal-content { padding: 2rem 2rem 0.5rem; }

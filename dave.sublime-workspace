@@ -4,6 +4,26 @@
 		"selected_items":
 		[
 			[
+				"gro",
+				"Group"
+			],
+			[
+				"Th",
+				"THREE"
+			],
+			[
+				"doLo",
+				"doLogout"
+			],
+			[
+				"model",
+				"modelsMap"
+			],
+			[
+				"client",
+				"clientX"
+			],
+			[
 				"pos",
 				"posZ"
 			],
@@ -48,10 +68,6 @@
 				"groundMirror"
 			],
 			[
-				"gro",
-				"groundMirror"
-			],
-			[
 				"trans",
 				"translateY"
 			],
@@ -83,9 +99,18 @@
 			"file": "code/index.html",
 			"settings":
 			{
-				"buffer_size": 36340,
+				"buffer_size": 49257,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "code/js/helpers/userAdapter.js",
+			"settings":
+			{
+				"buffer_size": 1047,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
 			}
 		},
 		{
@@ -107,15 +132,6 @@
 			}
 		},
 		{
-			"file": "src/js/helpers/userAdapter.js",
-			"settings":
-			{
-				"buffer_size": 1019,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "src/js/main.js",
 			"settings":
 			{
@@ -125,21 +141,12 @@
 			}
 		},
 		{
-			"file": "todo_2019-01.md",
+			"file": "todo-190111.md",
 			"settings":
 			{
-				"buffer_size": 678,
+				"buffer_size": 642,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "code/css/main.css",
-			"settings":
-			{
-				"buffer_size": 1766,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
 			}
 		}
 	],
@@ -193,17 +200,24 @@
 	[
 		"/C/Users/Neven/Code/DT-demo",
 		"/C/Users/Neven/Code/DT-demo/code",
-		"/C/Users/Neven/Code/DT-demo/code/css",
-		"/C/Users/Neven/Code/DT-demo/src",
-		"/C/Users/Neven/Code/DT-demo/src/js",
-		"/C/Users/Neven/Code/DT-demo/src/js/helpers"
+		"/C/Users/Neven/Code/DT-demo/code/js",
+		"/C/Users/Neven/Code/DT-demo/code/js/helpers"
 	],
 	"file_history":
 	[
+		"/C/Users/Neven/Code/DT-demo/todo_2019-01.md",
+		"/C/Users/Neven/Code/DT-demo/dist/index.html",
+		"/C/Users/Neven/Code/DT-demo/dist/js/helpers/userAdapter.module.js",
+		"/C/Users/Neven/Code/DT-demo/server.js",
+		"/C/Users/Neven/Code/DT-demo/code/js/helpers/userAdapter.module.js",
+		"/C/Users/Neven/Code/DT-demo/dist/js/helpers/userAdapter.mjs",
+		"/C/Users/Neven/Code/DT-demo/code/index.html",
+		"/C/Users/Neven/Code/DT-demo/src/js/helpers/userAdapter.js",
+		"/C/Users/Neven/Code/DT-demo/dave.sublime-project",
+		"/C/Users/Neven/Code/DT-demo/code/css/main.css",
 		"/C/Users/Neven/Code/DT-demo/src/js/dom-gui.js",
 		"/C/Users/Neven/Code/DT-demo/src/css/global.scss",
 		"/C/Users/Neven/Code/DT-demo/src/js/dat-gui.js",
-		"/C/Users/Neven/Code/DT-demo/dave.sublime-project",
 		"/C/Users/Neven/Code/DT-resources/lists-of-smth.md",
 		"/C/Users/Neven/Code/DT-demo/code/data/response-demo.json",
 		"/C/Users/Neven/Desktop/todo.md",
@@ -222,7 +236,6 @@
 		"/C/Users/Neven/Code/DT-demo/code/res/tallbuildingb.mtl",
 		"/C/Users/Neven/Code/DT-demo/code/res/obj/moderntower.mtl",
 		"/C/Users/Neven/Code/DT-demo/code/res/obj/tallbuilding.mtl",
-		"/C/Users/Neven/Code/DT-demo/server.js",
 		"/C/Users/Neven/Code/DT-demo/code/res/obj/lastnode.mtl",
 		"/C/Users/Neven/Code/DT-demo/code/res/obj/merscobj.mtl",
 		"/C/Users/Neven/Code/DT-demo/code/res/obj/floordots.mtl",
@@ -301,6 +314,31 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"particleSystem",
+			"pxtOptio",
+			"depthWrite",
+			"mtx",
+			"Randomness",
+			"'LO'",
+			"addModel",
+			"Inspector",
+			"traffic",
+			"mtx",
+			"Conn",
+			"initLo",
+			"logo",
+			"\"",
+			"positionRa",
+			"ptxO",
+			"init",
+			"rotate",
+			"traffic",
+			"velocityRandomness",
+			"controls",
+			"sqOffset",
+			"addSpotLight",
+			"ambiL",
+			"ambientlight",
 			"[md_text",
 			"[md text",
 			"Ljiljanka",
@@ -313,6 +351,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"'"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -323,7 +362,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 5,
 			"sheets":
 			[
 				{
@@ -332,31 +371,58 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 36340,
+						"buffer_size": 49257,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								11620,
-								11620
+								20530,
+								20530
 							]
 						],
 						"settings":
 						{
-							"remove_trailing_whitespace_on_save": true,
 							"syntax": "Packages/HTML/HTML.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 3752.0,
+						"translation.y": 3120.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
+					"file": "code/js/helpers/userAdapter.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1047,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1047,
+								1047
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
 					"file": "src/js/helpers/globalHelpers.js",
 					"semi_transient": false,
 					"settings":
@@ -384,7 +450,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 3,
 					"file": "src/js/helpers/sceneHelpers.js",
 					"semi_transient": false,
 					"settings":
@@ -405,38 +471,10 @@
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 70.0,
+						"translation.y": 54.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "src/js/helpers/userAdapter.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1019,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								294,
-								294
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
@@ -464,64 +502,35 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
 					"buffer": 5,
-					"file": "todo_2019-01.md",
+					"file": "todo-190111.md",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 678,
+						"buffer_size": 642,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								365,
-								365
+								637,
+								637
 							]
 						],
 						"settings":
 						{
-							"remove_trailing_whitespace_on_save": true,
 							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "code/css/main.css",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1766,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								609,
-								609
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 153.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]

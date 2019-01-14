@@ -41,6 +41,8 @@
     <script src='./js/objects/Reflector.js'></script>
     <script src='./js/loaders/MTLLoader.js'></script>
     <script src='./js/loaders/OBJLoader.js'></script>
+    <script src='./js/loaders/FBXLoader.js'></script>
+    <script src='./js/loaders/GLTFLoader.js'></script>
     <script src='./js/WebGL.js'></script>
     <script src='./js/libs/stats.min.js'></script>
     <script src='./js/libs/dat.gui.min.js'></script>
@@ -54,7 +56,7 @@
         document.body.appendChild(WEBGL.getWebGLErrorMessage());
       }
 
-      var scene, camera, renderer, mesh, groundMirror, grid, mrrFadeout, spotLight, gndTexture, sky, particleSystem, controls;
+      var scene, camera, renderer, mesh, groundMirror, grid, mrrFadeout, spotLight, gndTexture, plnTexture, sky, particleSystem, controls, plane;
       var vport, vpcam, vprend, vpobj
       var sqSize = 40
 
@@ -73,7 +75,9 @@
       var stepX = 1
       var stepZ = 2
       var count = 0
-      var rotation, earthMesh, link, traffic, clock = new THREE.Clock(), tick = 0
+      var rotation, earthMesh, link, traffic
+      var logos = [], models = []
+      var clock = new THREE.Clock(), tick = 0
 
       var ptxOptions = {
         position: new THREE.Vector3(637, 1, 373),
@@ -82,8 +86,8 @@
         velocityRandomness: 0.18, //0.11,
         color: 0x1bf7f9,
         colorRandomness: 0.5,
-        turbulence: 0.02, //0.01,
-        lifetime: 1.7, //1,
+        turbulence: 1.02, //0.01,
+        lifetime: 10, //1,
         size: 5, //3,
         sizeRandomness: 4.3 //0.05
       };
@@ -103,8 +107,8 @@
       var ghLights = []
       var ambiLight
 
-      var raycaster = new THREE.Raycaster();
-      var mouse = new THREE.Vector2();
+      var raycaster = new THREE.Raycaster()
+      var mouse = new THREE.Vector2()
 
       function dec2hex(i) {
         var result = '0x000000';
@@ -148,42 +152,45 @@
         'transtower':    { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 210, lZ: 0 }
       }
       var logoMap = {
-        'Apache_kafka': { scale: 2,  oX: 2,  oZ: 0, model: null, count: 0},
-        'centos':       { scale: 6,  oX: 2,  oZ: 3, model: null, count: 0},
-        'clickhouse':   { scale: 10, oX: 30, oZ: 0, model: null, count: 0},
-        'elastic':      { scale: 3,  oX: 0,  oZ: 0, model: null, count: 0},
-        'flink':        { scale: 5,  oX: 0,  oZ: 0, model: null, count: 0},
-        'git':          { scale: 5,  oX: 0,  oZ: 6, model: null, count: 0},
-        'Prometheus':   { scale: 12, oX: 0,  oZ: 0, model: null, count: 0},
-        'spark':        { scale: 5,  oX: 0,  oZ: 0, model: null, count: 0},
-        'ubuntu':       { scale: 4,  oX: 0,  oZ: 0, model: null, count: 0},
-        'zepelin':      { scale: 6,  oX: 0,  oZ: 2, model: null, count: 0},
-        'Zoo':          { scale: 9,  oX: 35, oZ: 0, model: null, count: 0}
+        'Apache_kafka': { scale: 2,  oX: 2,  oZ: 0, model: null, map: [], count: 0},
+        'centos':       { scale: 6,  oX: 2,  oZ: 3, model: null, map: [], count: 0},
+        'clickhouse':   { scale: 10, oX: 30, oZ: 0, model: null, map: [], count: 0},
+        'elastic':      { scale: 3,  oX: 0,  oZ: 0, model: null, map: [], count: 0},
+        'flink':        { scale: 5,  oX: 0,  oZ: 0, model: null, map: [], count: 0},
+        'git':          { scale: 5,  oX: 0,  oZ: 6, model: null, map: [], count: 0},
+        'Prometheus':   { scale: 12, oX: 0,  oZ: 0, model: null, map: [], count: 0},
+        'spark':        { scale: 5,  oX: 0,  oZ: 0, model: null, map: [], count: 0},
+        'ubuntu':       { scale: 4,  oX: 0,  oZ: 0, model: null, map: [], count: 0},
+        'zepelin':      { scale: 6,  oX: 0,  oZ: 2, model: null, map: [], count: 0},
+        'Zoo':          { scale: 9,  oX: 35, oZ: 0, model: null, map: [], count: 0}
       }
       var modelsMap = {
-        'Castle_a': { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
-        'Cube_a':   { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
-        'Round_a':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
-        'Silos_a':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
-        'Tower_a':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
-        
-        'Castle_c': { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
-        'Cube_c':   { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
-        'Round_c':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
-        'Silos_c':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
-        'Tower_c':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
+        'Castle_a': { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
+        'Cube_a':   { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
+        'Round_a':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
+        'Silos_a':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
+        'Tower_a':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
 
-        'Castle_s': { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
-        'Cube_s':   { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
-        'Round_s':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
-        'Silos_s':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
-        'Tower_s':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, lX: 0, lY: 100, lZ: 0 },
+        'Castle_c': { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
+        'Cube_c':   { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
+        'Round_c':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
+        'Silos_c':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
+        'Tower_c':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
 
-        'lighttower':  { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 120, lZ: 0 },
-        'silos':       { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 75, lZ: 0  },
-        'moderntower': { scale: 15, oX: 80, oZ: 50, count: 0, model: null, lX: 0,  lY: 70, lZ: 0  },
-        'cube_trans':  { scale: 15, oX: 50, oZ: 50, count: 0, model: null, lX: -1, lY: 40, lZ: 1  }
+        'Castle_s': { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
+        'Cube_s':   { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
+        'Round_s':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
+        'Silos_s':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
+        'Tower_s':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
+
+        'lighttower':  { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, map: [], lX: 0,  lY: 120, lZ: 0 },
+        'silos':       { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, map: [], lX: 0,  lY: 75, lZ: 0  },
+        'moderntower': { scale: 15, oX: 80, oZ: 50, count: 0, model: null, map: [], lX: 0,  lY: 70, lZ: 0  },
+        'cube_trans':  { scale: 15, oX: 50, oZ: 50, count: 0, model: null, map: [], lX: -1, lY: 40, lZ: 1  }
       }
+
+      logos = Object.getOwnPropertyNames(logoMap)
+      models = Object.getOwnPropertyNames(modelsMap)
 
       $(function() {
         init();
@@ -344,7 +351,14 @@
       }
 
       gndTexture = new THREE.TextureLoader().load('./res/obj/Grid_t1.jpg')
+      plnTexture = new THREE.TextureLoader().load('./res/obj/Grid_t1.jpg')
+      plnTexture.wrapS = plnTexture.wrapT = THREE.RepeatWrapping
+      plnTexture.repeat.set(8, 8)
+
       sky = new THREE.TextureLoader().load('./res/backgrounds/digitaltransformation.png')
+      sky.wrapS = sky.wrapT = THREE.RepeatWrapping
+      sky.offset.set(1500, 1500)
+      sky.repeat.set(5, 5)
 
       function placeModels(scene, cellData) {
         var location = cellData.LocationIn3d
@@ -425,8 +439,7 @@
             mouse.x = (event.clientX / renderer.domElement.clientWidth) * 2 - 1
             mouse.y = -(event.clientY / renderer.domElement.clientHeight) * 2 + 1
             raycaster.setFromCamera(mouse, camera)
-
-            console.log('CLKx', event.clientX, event.clientY, mouse.x, mouse.y)
+            //console.log('CLKx', event.clientX, event.clientY, mouse.x, mouse.y)
 
             var intersects = raycaster.intersectObjects(scene.children, true)
             if (intersects.length >= 1) {
@@ -439,7 +452,11 @@
                 $('.obj-panel .obj-uuid').text(intersects[0].object.uuid)
 
                 var sObj = intersects[0].object.parent
-                setInspector(sObj, vport)
+                try {
+                  setInspector(sObj, vport)
+                } catch(e) {
+                  console.warn('Eek!', sObj, e)
+                }
               } else {
                 $('.obj-panel').addClass('hide')
                 // clearInspector(vport)
@@ -480,18 +497,23 @@
         scene.fog = new THREE.Fog(0x02070f, 1000, 8000);
 
         // ground
-        ground = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshPhongMaterial({ color: 0xffffff, map: gndTexture, depthWrite: true }));
+        ground = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshPhongMaterial({ color: 0x02070f, map: gndTexture, depthWrite: true }));
         ground.name = 'Ground'
         ground.rotation.x = -Math.PI / 2;
         ground.receiveShadow = false;
         ground.opacity = 0.8
         scene.add(ground);
 
-        var plane = new THREE.Mesh(new THREE.PlaneBufferGeometry(6000, 6000), new THREE.MeshPhongMaterial({ color: 0x02070f, depthWrite: true }));
+        plane = new THREE.Mesh(new THREE.PlaneBufferGeometry(16000, 16000), new THREE.MeshPhongMaterial({
+          color: 0x02070f,
+          map: plnTexture,
+          depthWrite: true
+        }));
         plane.name = 'Plane'
         plane.rotation.x = -Math.PI / 2;
         plane.receiveShadow = false;
         plane.opacity = 1
+        plane.position.y = -0.5
         scene.add(plane);
 
         var geometry = new THREE.PlaneBufferGeometry(2000, 2000);
@@ -501,19 +523,23 @@
           textureWidth: window.innerWidth * window.devicePixelRatio,
           textureHeight: window.innerHeight * window.devicePixelRatio,
           color: 0x848484,
-          recursion: 1
+          recursion: 1,
+          map: gndTexture
         });
         groundMirror.name = 'GndMrr'
         groundMirror.position.y = 0.5;
         groundMirror.rotateX(-Math.PI / 2);
+        groundMirror.visible = true
         scene.add(groundMirror);
 
-        mrrFadeout = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshBasicMaterial({ color: 0xffffff, map: gndTexture, opacity : 0.85 , transparent: true }))
+        mrrFadeout = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshBasicMaterial({ color: 0xffffff, map: gndTexture, opacity : 0.85, transparent: true, depthWrite: true }))
         mrrFadeout.name = 'FadeoutMrr'
         mrrFadeout.position.y = 0.85
         mrrFadeout.rotateX(-Math.PI / 2)
+        mrrFadeout.visible = true
         scene.add(mrrFadeout)
 
+        /*
         grid = new THREE.GridHelper(1800, 33, 0x01d7d7, 0x01d7d7); //0x3bff7f
         grid.name = 'Grid'
         grid.material.opacity = 1;
@@ -529,8 +555,8 @@
         subGrid.position.y = 0.05;
         subGrid.visible = false;
         scene.add(subGrid);
-
-        scene.background = sky
+        */
+        //scene.background = sky
 
         // hemiLight - main, central
         hemiLights.push(addHemiLight(scene, {
@@ -610,14 +636,15 @@
         traffic.position.x = 0
         traffic.position.y = 5
         traffic.position.z = 0
+        traffic.visible = false
 
         scene.add(traffic)
 
         //SKY
-        var skyGeometry = new THREE.SphereBufferGeometry(3000, 100, 100);
+        var skyGeometry = new THREE.SphereBufferGeometry(6000, 100, 100);
         var skyMaterial = new THREE.MeshPhongMaterial({
           map: sky,
-          shading: THREE.FlatShading
+          flatShading: true
         });
         skyMaterial.side = THREE.BackSide;
         earthMesh = new THREE.Mesh(skyGeometry, skyMaterial);
@@ -659,6 +686,14 @@
         vMrrFadeout.position.y = 0.85
         vMrrFadeout.rotateX(-Math.PI / 2)
         vport.add(vMrrFadeout)
+
+        var grid = new THREE.GridHelper(500, 10, 0xffffff, 0x66aacc)
+        grid.name = 'vGrid'
+        grid.material.opacity = 1;
+        grid.material.transparent = true;
+        grid.position.y = 0.5;
+        grid.visible = true;
+        vport.add(grid);
 
         var vpsky = new THREE.TextureLoader().load('./res/backgrounds/48113.jpg')
         vport.background = vpsky
@@ -715,7 +750,9 @@
       }
 
       function setInspector(srcModel, destScene) {
-        console.log('Model:', srcModel)
+        console.log('Model:', srcModel.type, srcModel)
+        if (srcModel.type === 'Scene') { return false }
+
         var rmObj = destScene.getObjectByName('selected')
         destScene.remove(rmObj)
 
@@ -755,6 +792,7 @@
       function addModel(scene, model, logoModel, sqOffset) {
         if (modelsMap[model].model) {
           var mdl = modelsMap[model].model.clone()
+          modelsMap[model].map.push(mdl.id)
           var oX = 0
           var oZ = 0
           if (sqOffset && typeof sqOffset === 'object') {
@@ -772,6 +810,7 @@
           var trl = rnd(0, tlgo.length - 1)
           var lgo = logoMap[tlgo[trl]]
           var logoObj = tmpLogoObj? tmpLogoObj : lgo
+          //console.log('LOx', tlgo[trl], logoObj)
 
           var logo = null
           try {
@@ -780,6 +819,7 @@
             console.warn('Could not load logo object:', logoObj, logoModel, e)
           }
           if (logo) {
+            logoMap[tlgo[trl]].map.push(logo.id)
             var box = new THREE.Box3().setFromObject(mdl)
             logo.position.x = mdl.position.x + ((box.max.x - box.min.x) / 2)
             logo.position.y = box.max.y + 15
@@ -802,6 +842,7 @@
             obj.userData.type = model
             modelsMap[model].count = 1
             modelsMap[model].model = obj
+            modelsMap[model].map.push(obj.id)
 
             var group = new THREE.Group();
             //var tmpLogoObj = logoMap.find(function(itm) { return logoMap.indexOf(itm.name) > -1 })
@@ -815,7 +856,7 @@
             var lgo = logoMap[tlgo[trl]]
 
             var logoObj = tmpLogoObj? tmpLogoObj : lgo
-            console.log('LO', logoModel, tmpLogoObj)
+            //console.log('LOz', tlgo[trl], logoObj)
 
             var logo = null
             try {
@@ -824,6 +865,7 @@
               console.warn('Could not load logo object:', logoObj, logoModel, e)
             }
             if (logo) {
+              logoMap[tlgo[trl]].map.push(logo.id)
               var box = new THREE.Box3().setFromObject(obj)
               logo.position.x = obj.position.x + ((box.max.x - box.min.x) / 2)
               logo.position.y = box.max.y + 15
@@ -877,6 +919,7 @@
 
           traffic.position.x = -640
           traffic.position.z = -640
+          traffic.visible = true
           scene.add(link2)
         }, 2000)
       }
@@ -986,10 +1029,8 @@
         if (tick < 0) { tick = 0 }
         if (delta > 0) {
           ptxOptions.position.x = -760
-
           if (ptxOptions.position.z >= -640) { ptxOptions.position.z = -760 }
           ptxOptions.position.z += (dir * speed)
-
           for (var x = 0; x < spawnerOptions.spawnRate * delta; x ++) {
             // Yep, that's really it. Spawning particles is super cheap, and once you spawn them, the rest of
             // their lifecycle is handled entirely on the GPU, driven by a time uniform updated below
@@ -1000,6 +1041,15 @@
 
         if (traffic.position.z >= -640) { traffic.position.z = -760 }
         traffic.position.z += (dir * speed)
+
+        logos.forEach(function(logo) {
+          if (logoMap[logo].map.length > 0) {
+            logoMap[logo].map.forEach(function(logoId) {
+              var obj = scene.getObjectById(logoId)
+              obj.rotation.z = Math.atan2((camera.position.x - obj.position.x), (camera.position.z - obj.position.z))
+            })
+          }
+        })
 
         stats.end()
         requestAnimationFrame(animate);
@@ -1020,12 +1070,15 @@
           color: 0x01d7d7
         },
         markers: {
-          visible: true
+          visible: false
         },
         ground: {
           visible: true,
-          color: 0x000300,
-          reflectivity: 0.85
+          color: 0x02070f
+        },
+        mirror: {
+          visible: true,
+          fadeout: true
         },
         lights: {
           hemi: [],
@@ -1075,26 +1128,19 @@
         cGl[ghc] = ghc
       }
 
-      var gGrid = gui.addFolder('Grid');
-      gGrid.add(gOptions.grid, 'visible').name('Visible').onChange(function() {
-        grid.visible = gOptions.grid.visible
-      })
-      //gGrid.add(subGrid, 'visible').name('Detail visible').listen()
-      gGrid.addColor(gOptions.grid, 'color').name('Color').onChange(function() {
-        grid.material.color.setHex(dec2hex(gOptions.grid.color))
-      })
-      gGrid.add(gOptions.markers, 'visible').name('Markers').onChange(function() {
-        markers.visible = gOptions.markers.visible
-      })
-
-      /*
       var gGround = gui.addFolder('Ground');
-      gGround.add(mrrFadeout, 'visible').name('Visible').listen()
-      gGround.addColor(gOptions.ground, 'color').name('Color').onChange(function() {
-        mrrFadeout.material.color.setHex(dec2hex(gOptions.ground.color))
+      gGround.add(gOptions.mirror, 'visible').name('Mirror visibility').onChange(function() {
+        groundMirror.visible = gOptions.mirror.visible
       })
-      gGround.add(mrrFadeout.material, 'opacity', 0.25, 1).name('Matte').listen()
-      */
+      gGround.add(gOptions.mirror, 'fadeout').name('Fadeout visibility').onChange(function() {
+        mrrFadeout.visible = gOptions.mirror.fadeout
+      })
+      gGround.add(gOptions.ground, 'visible').name('Plane visibility').onChange(function() {
+        plane.visible = gOptions.ground.visible
+      })
+      gGround.addColor(gOptions.ground, 'color').name('Plane color').onChange(function() {
+        plane.material.color.setHex(dec2hex(gOptions.ground.color))
+      })
 
       ghAmbiLight = gui.addFolder('Ambient light')
       ghAmbiLight.add(gOptions.lights.ambi, 'visible').name('Visibility').onChange(function() {
