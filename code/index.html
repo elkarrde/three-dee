@@ -1,56 +1,56 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
   <head>
     <title>World</title>
-    <meta charset='utf-8'>
-    <meta name='viewport' content='width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0'>
-    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css' integrity='sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO' crossorigin='anonymous'>
-    <link rel='stylesheet' href='./css/dat.gui.css'>
-    <link rel='stylesheet' href='./css/main.css'>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/dat.gui.css">
+    <link rel="stylesheet" href="./css/main.css">
   </head>
   <body>
     <header>
-      <nav class='navbar navbar-dark bg-dark'>
-        <span class='navbar-text'>
+      <nav class="navbar navbar-dark bg-dark">
+        <span class="navbar-text">
           <h5>
             <strong>DaVE</strong> &nbsp; <small>Datacenter Visualization Environment</small>
           </h5>
         </span>
-        <span class='navbar-text pull-right'>
-          <span class='info-user pl-0 pr-2'>
-            <span class='js-username pr-2'><em>Logged out</em></span>
+        <span class="navbar-text pull-right">
+          <span class="info-user pl-0 pr-2">
+            <span class="js-username pr-2"><em>Logged out</em></span>
           </span>
-          <span class='info-time px-2'>
-            <span class='js-time'>&middot;</span>
+          <span class="info-time px-2">
+            <span class="js-time">&middot;</span>
           </span>
-          <span class='info-actions pl-2 pr-0'>
-            <button class='btn btn-outline-danger btn-sm mr-1 js-btn-logout hide' type='button'>Log out</button>
-            <button class='btn btn-outline-success btn-sm mr-1 js-btn-login' type='button'>Log in</button>
-            <button class='btn btn-outline-primary btn-sm mr-0 js-btn-stats' type='button'>Stats</button>
+          <span class="info-actions pl-2 pr-0">
+            <button class="btn btn-outline-danger btn-sm mr-1 js-btn-logout hide" type="button">Log out</button>
+            <button class="btn btn-outline-success btn-sm mr-1 js-btn-login" type="button">Log in</button>
+            <button class="btn btn-outline-primary btn-sm mr-0 js-btn-stats" type="button">Stats</button>
           </span>
         </span>
       </nav>
     </header>
 
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js' integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=' crossorigin='anonymous'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js' integrity='sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49' crossorigin='anonymous'></script>
-    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js' integrity='sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy' crossorigin='anonymous'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
-    <script src='./js/three.js'></script>
-    <script src='./js/controls/OrbitControls.js'></script>
-    <script src='./js/objects/Reflector.js'></script>
-    <script src='./js/loaders/MTLLoader.js'></script>
-    <script src='./js/loaders/OBJLoader.js'></script>
-    <script src='./js/loaders/FBXLoader.js'></script>
-    <script src='./js/loaders/GLTFLoader.js'></script>
-    <script src='./js/libs/inflate.min.js'></script>
-    <script src='./js/WebGL.js'></script>
-    <script src='./js/libs/stats.min.js'></script>
-    <script src='./js/libs/dat.gui.min.js'></script>
-    <script src='./js/GPUParticleSystem.js'></script>
-    <script src='./js/moment.min.js'></script>
-    <script src='./js/Chart.min.js'></script>
-    <script src='./js/chartjs-plugin-streaming.min.js'></script>
+    <script src="./js/three.js"></script>
+    <script src="./js/controls/OrbitControls.js"></script>
+    <script src="./js/objects/Reflector.js"></script>
+    <script src="./js/loaders/MTLLoader.js"></script>
+    <script src="./js/loaders/OBJLoader.js"></script>
+    <script src="./js/loaders/FBXLoader.js"></script>
+    <script src="./js/loaders/GLTFLoader.js"></script>
+    <script src="./js/libs/inflate.min.js"></script>
+    <script src="./js/WebGL.js"></script>
+    <script src="./js/libs/stats.min.js"></script>
+    <script src="./js/libs/dat.gui.min.js"></script>
+    <script src="./js/GPUParticleSystem.js"></script>
+    <script src="./js/moment.min.js"></script>
+    <script src="./js/Chart.min.js"></script>
+    <script src="./js/chartjs-plugin-streaming.min.js"></script>
 
     <script>
       if (WEBGL.isWebGLAvailable() === false) {
@@ -67,13 +67,13 @@
       var globalObjects = []
       var noClickObjects = ['Ground', 'Grid', 'FadeoutMrr', 'GndMirror', 'GndMrr']
       var posMap = []
-      var posX0 = -10
-      var posZ0 = -10
-      var cPosX = -10
-      var cPosZ = -10
-      var maxX = 8
-      var maxZ = 8
-      var stepX = 1
+      var posX0 = 0
+      var posZ0 = 0
+      var cPosX = 0
+      var cPosZ = 0
+      var maxX = 50
+      var maxZ = 50
+      var stepX = 2
       var stepZ = 2
       var count = 0
       var rotation, earthMesh, link, traffic, mixer
@@ -153,56 +153,74 @@
         'transtower':    { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, lX: 0,  lY: 210, lZ: 0 }
       }
       var logoMap = {
-        'Apache_kafka': { scale: 2,  oX: 2,  oZ: 0, model: null, map: [], count: 0},
-        'centos':       { scale: 6,  oX: 2,  oZ: 3, model: null, map: [], count: 0},
-        'clickhouse':   { scale: 10, oX: 30, oZ: 0, model: null, map: [], count: 0},
+        'Apache_kafka': { scale: 2,  oX: 0,  oZ: 0, model: null, map: [], count: 0},
+        'centos':       { scale: 6,  oX: 0,  oZ: 0, model: null, map: [], count: 0},
+        'clickhouse':   { scale: 10, oX: 0,  oZ: 0, model: null, map: [], count: 0},
         'elastic':      { scale: 3,  oX: 0,  oZ: 0, model: null, map: [], count: 0},
         'flink':        { scale: 5,  oX: 0,  oZ: 0, model: null, map: [], count: 0},
-        'git':          { scale: 5,  oX: 0,  oZ: 6, model: null, map: [], count: 0},
+        'git':          { scale: 5,  oX: 0,  oZ: 0, model: null, map: [], count: 0},
         'Prometheus':   { scale: 12, oX: 0,  oZ: 0, model: null, map: [], count: 0},
         'spark':        { scale: 5,  oX: 0,  oZ: 0, model: null, map: [], count: 0},
         'ubuntu':       { scale: 4,  oX: 0,  oZ: 0, model: null, map: [], count: 0},
-        'zepelin':      { scale: 6,  oX: 0,  oZ: 2, model: null, map: [], count: 0},
-        'Zoo':          { scale: 9,  oX: 35, oZ: 0, model: null, map: [], count: 0}
+        'zepelin':      { scale: 6,  oX: 0,  oZ: 0, model: null, map: [], count: 0},
+        'Zoo':          { scale: 9,  oX: 0,  oZ: 0, model: null, map: [], count: 0}
       }
       var modelsMap = {
-        'Castle_a': { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
-        'Cube_a':   { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
-        'Round_a':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
-        'Silos_a':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
-        'Tower_a':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
+        'Castle_a': { theme: 'alien', name: 'Castle', scale: 1.3, oX: 0,   oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },
+        'Cube_a':   { theme: 'alien', name: 'Cube',   scale: 1.3, oX: 0,   oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },
+        'Round_a':  { theme: 'alien', name: 'Round',  scale: 0.5, oX: -10, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },
+        'Silos_a':  { theme: 'alien', name: 'Silos',  scale: 0.5, oX: 0,   oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },
+        'Tower_a':  { theme: 'alien', name: 'Tower',  scale: 0.8, oX: 0,   oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },
 
-        'Castle_c': { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
-        'Cube_c':   { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
-        'Round_c':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
-        'Silos_c':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
-        'Tower_c':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
+        'Castle_c': { theme: 'city', name: 'Castle', scale: 1.2, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },
+        'Cube_c':   { theme: 'city', name: 'Cube',   scale: 0.7, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },
+        'Round_c':  { theme: 'city', name: 'Round',  scale: 0.7, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },
+        'Silos_c':  { theme: 'city', name: 'Silos',  scale: 0.5, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },
+        'Tower_c':  { theme: 'city', name: 'Tower',  scale: 0.7, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },
 
-        'Castle_s': { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
-        'Cube_s':   { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
-        'Round_s':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
-        'Silos_s':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
-        'Tower_s':  { scale: 1, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 100, lZ: 0 },
+        'Castle_s': { theme: 'simple', name: 'Castle', scale: 1,   oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },
+        'Cube_s':   { theme: 'simple', name: 'Cube',   scale: 0.3, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },
+        'Round_s':  { theme: 'simple', name: 'Round',  scale: 0.5, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },
+        'Silos_s':  { theme: 'simple', name: 'Silos',  scale: 0.5, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },
+        'Tower_s':  { theme: 'simple', name: 'Tower',  scale: 0.3, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },
 
-        'lighttower':  { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, map: [], lX: 0,  lY: 120, lZ: 0 },
-        'silos':       { scale: 1,  oX: 50, oZ: 50, count: 0, model: null, map: [], lX: 0,  lY: 75, lZ: 0  },
-        'moderntower': { scale: 15, oX: 80, oZ: 50, count: 0, model: null, map: [], lX: 0,  lY: 70, lZ: 0  },
-        'cube_trans':  { scale: 15, oX: 50, oZ: 50, count: 0, model: null, map: [], lX: -1, lY: 40, lZ: 1  }
+        'lighttower':  { theme: 'misc', name: 'Round', scale: 1,  oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },
+        'silos':       { theme: 'misc', name: 'Silos', scale: 1,  oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },
+        'moderntower': { theme: 'misc', name: 'Tower', scale: 15, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },
+        'cube_trans':  { theme: 'misc', name: 'Cube',  scale: 15, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 }
       }
 
       logos = Object.getOwnPropertyNames(logoMap)
       models = Object.getOwnPropertyNames(modelsMap)
+      var activeTheme
+
+      var updateModels = function() {
+        activeTheme = $('#themeSelect').val()
+        $('#typeSelect option').remove()
+        $('#typeSelectM option').remove()
+        models.forEach(function(model) {
+          var modelTheme = modelsMap[model].theme
+          if (activeTheme === modelTheme) {
+            var name = modelsMap[model].name
+            $('#typeSelect').append('<option value="' + model + '">' + name + '</option>')
+            $('#typeSelectM').append('<option value="' + model + '">' + name + '</option>')
+          }
+        })
+      }
+
+      
 
       $(function() {
         init();
         animate();
 
-        Object.getOwnPropertyNames(modelsMap).forEach(function(model) {
-          $('#typeSelect').append('<option value="' + model + '">' + model + '</option>')
-          $('#typeSelectM').append('<option value="' + model + '">' + model + '</option>')
-        })
-        Object.getOwnPropertyNames(logoMap).forEach(function(logo) {
+        activeTheme = $('#themeSelect').val()
+        updateModels()
+        logos.forEach(function(logo) {
           $('#logoSelectM').append('<option value="' + logo + '">' + logo + '</option>')
+        })
+        $('#themeSelect').change(function() {
+          updateModels()
         })
 
         $('#addBtn').click(function() {
@@ -214,7 +232,7 @@
             cPosZ += stepZ
           }
           var sqOffset = { x: cPosX, z: cPosZ }
-          var tlgo = Object.getOwnPropertyNames(logoMap)
+          var tlgo = logos
           var trl = rnd(0, tlgo.length - 1)
           var lgo = logoMap[tlgo[trl]]
           addModel(scene, mdl, lgo, sqOffset)
@@ -234,6 +252,9 @@
               $('#addBtn').trigger('click')
             }
           }, 50, --count)
+        })
+        $('#addBtnAll,#addBtnRnd').click(function() {
+          alert('Not implemented yet.')
         })
 
         $('.js-btn-stats').click(function() {
@@ -369,17 +390,6 @@
         var posX = -5 * sqSize + parseInt(location[0], 10) * sqSize
         var posZ = -5 * sqSize + parseInt(location[1], 10) * sqSize
 
-        /*
-        var geometry = new THREE.BoxBufferGeometry(sqSize, 1, sqSize)
-        var material = new THREE.MeshPhongMaterial({ color: 0x010101 })
-        var base = new THREE.Mesh(geometry, material)
-        base.position.x = posX + sqSize / 2
-        base.position.z = posZ + sqSize / 2
-        base.userData.name = 'CellBase'
-        base.opacity = 0.25
-        */
-
-        // cell.add(base)
         var sqOffset = {
           x: -5 + parseInt(location[0], 10),
           z: -5 + parseInt(location[1], 10)
@@ -446,6 +456,8 @@
             gltf.cameras; // Array<THREE.Camera>
             gltf.asset; // Object
 
+            var helper = new THREE.BoxHelper(gltf.scene, 0x00ff00)
+            scene.add(helper)
             callback(gltf, params)
           },
           function (xhr) {
@@ -471,10 +483,12 @@
                 child.castShadow = true
                 child.receiveShadow = true
 
-                callback(object, params, action)
               }
             });
+            var helper = new THREE.BoxHelper(object, 0xff0000)
             scene.add(object)
+            scene.add(helper)
+            callback(object, params, action)
         })
       }
 
@@ -487,14 +501,14 @@
             mouse.x = (event.clientX / renderer.domElement.clientWidth) * 2 - 1
             mouse.y = -(event.clientY / renderer.domElement.clientHeight) * 2 + 1
             raycaster.setFromCamera(mouse, camera)
-            //console.log('CLKx', event.clientX, event.clientY, mouse.x, mouse.y)
+            // console.log('CLKx', event.clientX, event.clientY, mouse.x, mouse.y)
 
             var intersects = raycaster.intersectObjects(scene.children, true)
             if (intersects.length >= 1) {
               if (noClickObjects.indexOf(intersects[0].object.name) === -1) {
-                console.log('Clicked object type: ' + intersects[0].object.geometry.name, intersects[0])
+                // console.log('Clicked object type: ', intersects[0].object.geometry.name || intersects[0].object.name)
                 // $('#objttip').css('left', event.x + 50).css('top', event.y).removeClass('hide')
-                //$('.obj-panel').removeClass('hide')
+                // $('.obj-panel').removeClass('hide')
                 $('.obj-panel .obj-dist').text(intersects[0].distance)
                 $('.obj-panel .obj-type').text(intersects[0].object.parent.userData.type)
                 $('.obj-panel .obj-uuid').text(intersects[0].object.uuid)
@@ -798,8 +812,8 @@
       }
 
       function setInspector(srcModel, destScene) {
-        console.log('Model:', srcModel.type, srcModel)
         if (srcModel.type === 'Scene') { return false }
+        console.log('Model:', srcModel.type, srcModel)
 
         var rmObj = destScene.getObjectByName('selected')
         destScene.remove(rmObj)
@@ -838,6 +852,7 @@
       }
 
       function addModel(scene, model, logoModel, sqOffset) {
+        console.log('AMx -->', model, sqOffset)
         if (modelsMap[model].model) {
           var mdl = modelsMap[model].model.clone()
           modelsMap[model].map.push(mdl.id)
@@ -847,8 +862,8 @@
             oX = -1000 + sqSize * sqOffset.x
             oZ = -1000 + sqSize * sqOffset.z
           }
-          mdl.position.x = oX // + modelsMap[model].oX
-          mdl.position.z = oZ // + modelsMap[model].oZ
+          mdl.position.x = oX + modelsMap[model].oX
+          mdl.position.z = oZ + modelsMap[model].oZ
           modelsMap[model].count++
 
           var group = new THREE.Group();
@@ -869,12 +884,17 @@
           if (logo) {
             logoMap[tlgo[trl]].map.push(logo.id)
             var box = new THREE.Box3().setFromObject(mdl)
-            logo.position.x = mdl.position.x + ((box.max.x - box.min.x) / 2)
-            logo.position.y = box.max.y + 15
-            logo.position.z = mdl.position.z + ((box.max.z - box.min.z) / 2)
+            logo.position.x = mdl.position.x + ((box.max.x - box.min.x) / 2) + logoObj.oX + modelsMap[model].lX
+            logo.position.y = box.max.y + 15 + modelsMap[model].lY
+            logo.position.z = mdl.position.z + ((box.max.z - box.min.z) / 2) + logoObj.oZ + modelsMap[model].lZ
             group.add(logo)
           }
           group.add(mdl)
+
+          var helper = new THREE.BoxHelper(mdl, 0x0000ff)
+          helper.visible = false
+          group.add(helper)
+
           scene.add(group)
         } else {
           createObject(scene, model, sqOffset, function(obj, sqOffset) {
@@ -885,9 +905,14 @@
               oX = -1000 + sqSize * sqOffset.x
               oZ = -1000 + sqSize * sqOffset.z
             }
-            obj.position.x = oX // + modelsMap[model].oX
-            obj.position.z = oZ // + modelsMap[model].oZ
+            obj.position.x = oX + modelsMap[model].oX
+            obj.position.z = oZ + modelsMap[model].oZ
+
             obj.userData.type = model
+            obj.userData.model = 'model'
+            obj.userData.name = modelsMap[model].name
+            obj.userData.theme = modelsMap[model].theme
+
             modelsMap[model].count = 1
             modelsMap[model].model = obj
             modelsMap[model].map.push(obj.id)
@@ -915,17 +940,21 @@
             if (logo) {
               logoMap[tlgo[trl]].map.push(logo.id)
               var box = new THREE.Box3().setFromObject(obj)
-              logo.position.x = obj.position.x + ((box.max.x - box.min.x) / 2)
-              logo.position.y = box.max.y + 15
-              logo.position.z = obj.position.z + ((box.max.z - box.min.z) / 2)
+              logo.position.x = obj.position.x + ((box.max.x - box.min.x) / 2) + logoObj.oX + modelsMap[model].lX
+              logo.position.y = box.max.y + 15 + modelsMap[model].lY
+              logo.position.z = obj.position.z + ((box.max.z - box.min.z) / 2) + logoObj.oZ + modelsMap[model].lZ
               //logo.position.x = obj.position.x + modelsMap[model].lX + logoObj.oX
               //logo.position.y = modelsMap[model].lY + 15
               //logo.position.z = obj.position.z + modelsMap[model].lZ + logoObj.oZ
               group.add(logo)
             }
             group.add(obj)
+
+            var helper = new THREE.BoxHelper(obj, 0x00ffff)
+            helper.visible = false
+            group.add(helper)
+
             scene.add(group);
-            // console.log('XE', obj, logo)
           })
         }
       }
@@ -973,7 +1002,7 @@
       }
 
       function initLogos() {
-        Object.getOwnPropertyNames(logoMap).forEach(function(logo) {
+        logos.forEach(function(logo) {
           var sqOffset = {}
           var logoObj = logoMap[logo]
           createObject(scene, 'logos/' + logo, sqOffset, function(obj, sqOffset) {
@@ -986,28 +1015,49 @@
             obj.rotateX(Math.PI / 2);
             logoObj.count = 0
             logoObj.model = obj
-            scene.add(obj);
+            scene.add(obj)
+          })
+        })
+      }
+      function initModels() {
+        models.forEach(function(model) {
+          var sqOffset = {}
+          var modelObj = modelsMap[model]
+          createObject(scene, model, sqOffset, function(obj, sqOffset) {
+            console.log('Mx', model, modelObj)
+            obj.scale.set(modelObj.scale, modelObj.scale, modelObj.scale)
+            obj.position.x = 12000
+            obj.position.y = 12000
+            obj.position.z = 12000
+            obj.userData.model = 'model'
+            obj.userData.type = model
+            obj.userData.name = modelObj.name
+            obj.userData.theme = modelObj.theme
+            modelObj.count = 0
+            modelObj.model = obj
+            scene.add(obj)
           })
         })
       }
 
       function init() {
         setupWorld()
-        initLogos()
         setupView(document.getElementById('scene'))
+        //initModels()
+        initLogos()
 
         setTimeout(function() {
           setConns()
-        }, 1000)
+        }, 5000)
 
         setTimeout(function() {
-          createGltfObj(scene, 'testgtlf', {}, function(object, params) {
+          createGltfObj(scene, 'testgtlf_2', {}, function(object, params) {
             console.log('glTF loaded: [%d]', object.scene.id, object)
           })
           createFbxObj(scene, 'logos/Zepelin', {}, function(model, params) {
             console.log('FBX loaded [%d]:', model.id, model)
           })
-        }, 1000)
+        }, 5000)
 
         /*
         dirLights[0] = addDirLight(scene, {
@@ -1103,7 +1153,9 @@
           if (logoMap[logo].map.length > 0) {
             logoMap[logo].map.forEach(function(logoId) {
               var obj = scene.getObjectById(logoId)
-              obj.rotation.z = Math.atan2((camera.position.x - obj.position.x), (camera.position.z - obj.position.z))
+              //obj.rotation.z = Math.atan2((camera.position.x - obj.position.x), (camera.position.z - obj.position.z))
+              obj.lookAt(camera.position)
+              obj.rotateX(Math.PI / 2)
             })
           }
         })
@@ -1274,41 +1326,55 @@
       })
 
     </script>
-    <script src='./js/helpers/userAdapter.js'></script>
+    <script src="./js/helpers/userAdapter.js"></script>
 
-
-
-    <div class='holder side side-left info-panel'>
-      <div class='container type-form mb-4'>
+    <div class="holder side side-left info-panel">
+      <div class="container type-form mb-4">
         <h5>New object</h5>
         <form>
-          <div class='form-group'>
-            <label for='typeSelect'>Model type</label>
-            <select class='form-control' id='typeSelect'>
+          <div class="form-group">
+            <label for="themeSelect">Theme</label>
+            <select class="form-control" id="themeSelect">
+              <option value="alien">Alien</option>
+              <option value="city">City</option>
+              <option value="simple">Simple</option>
             </select>
           </div>
-          <button id='addBtn' type='button' class='btn btn-primary'>Add</button>
-          <button id='addBtnMulti' type='button' class='btn btn-outline-light mx-2'>Add multiple</button>
-          <button id='buildBtn' type='button' class='btn btn-outline-success js-btn-build' data-toggle='modal' data-target='.builder-modal-lg'>Build</button>
-          <br>
-          <button id='loadBtn' type='button' class='btn btn-info mt-2 js-btn-load'>Fetch JSON</button>
+          <div class="form-group">
+            <label for="typeSelect">Model type</label>
+            <select class="form-control" id="typeSelect">
+            </select>
+          </div>
+          <div class="btn-group">
+            <button id="addBtn" type="button" class="btn btn-primary">Add</button>
+            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" id="addBtnMulti" href="#">Add multiple</a>
+              <a class="dropdown-item" id="addBtnRnd" href="#">Add random</a>
+              <a class="dropdown-item" id="addBtnAll" href="#">Add all</a>
+            </div>
+          </div>
+          <button id="buildBtn" type="button" class="btn btn-success js-btn-build" data-toggle="modal" data-target=".builder-modal-lg">Build</button>
+          <button id="loadBtn" type="button" class="btn btn-info js-btn-load">Fetch JSON</button>
           <br>
         </form>
       </div>
 
-      <div class='container type-scene my-4'>
+      <div class="container type-scene my-4">
         <h5>Model</h5>
-        <div id='scene'></div>
-        <aside class='my-3 hide js-ctl'>
-          <button id='shInfo' type='button' class='btn btn-outline-light btn-sm mx-1'>Info</button>
-          <button id='shConsole' type='button' class='btn btn-outline-light btn-sm mx-1'>Console</button>
-          <button id='shGraph' type='button' class='btn btn-outline-light btn-sm mx-1'>Graph</button>
+        <div id="scene"></div>
+        <aside class="my-3 hide js-ctl">
+          <button id="shInfo" type="button" class="btn btn-outline-light btn-sm mx-1">Info</button>
+          <button id="shConsole" type="button" class="btn btn-outline-light btn-sm mx-1">Console</button>
+          <button id="shGraph" type="button" class="btn btn-outline-light btn-sm mx-1">Graph</button>
         </aside>
       </div>
 
-      <div class='container type-table my-4'>
+      <div class="container type-table my-4">
         <h5>Objects count</h5>
-        <table class='table mw90 w90 w-overflow js-object-list'>
+        <table class="table mw90 w90 w-overflow js-object-list">
           <thead>
             <tr>
               <th>Object</th>
@@ -1321,61 +1387,61 @@
       </div>
     </div>
 
-    <div class='holder side side-right info-panel obj-panel hide'>
-      <div class='container type-list mb-4'>
+    <div class="holder side side-right info-panel obj-panel hide">
+      <div class="container type-list mb-4">
         <h5>Object info</h5>
-        <dl class='card-text'>
+        <dl class="card-text">
           <dt>Type</dt>
-          <dd class='obj-type'>&middot;</dd>
+          <dd class="obj-type">&middot;</dd>
           <dt>UUID</dt>
-          <dd class='obj-uuid'>&middot;</dd>
+          <dd class="obj-uuid">&middot;</dd>
           <dt>Distance</dt>
-          <dd class='obj-dist'>&middot;</dd>
+          <dd class="obj-dist">&middot;</dd>
         </dl>
       </div>
-      <div class='container type-console my-4'>
+      <div class="container type-console my-4">
         <h5>Console</h5>
-        <textarea name='console' id='console' cols='40' rows='10' class='console w100 w-overflow'></textarea>
+        <textarea name="console" id="console" cols="40" rows="10" class="console w100 w-overflow"></textarea>
       </div>
-      <div class='container type-graph my-4'>
+      <div class="container type-graph my-4">
         <h5>Graph</h5>
-        <canvas id='graph'></canvas>
+        <canvas id="graph"></canvas>
       </div>
     </div>
 
-    <aside id='objttip' class='info-panel ttp-panel hide'>
-      <div class='container'>
+    <aside id="objttip" class="info-panel ttp-panel hide">
+      <div class="container">
         Lorem ipsum dolor sit amet, nunc integer.
       </div>
     </aside>
 
-    <aside class='modal fade builder-modal-lg' tabindex='-1' role='dialog' aria-labelledby='builder' aria-hidden='true'>
-      <div class='modal-dialog modal-lg'>
-        <div class='modal-content'>
-          <form id='buildForm'>
-            <div class='form-group row'>
-              <label for='inputLoc' class='col-sm-2 col-form-label'>Location</label>
-              <div class='col-sm-10'>
-                <input type='text' class='form-control' id='inputLoc' placeholder='e.g. 3,7' required>
+    <aside class="modal fade builder-modal-lg" tabindex="-1" role="dialog" aria-labelledby="builder" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <form id="buildForm">
+            <div class="form-group row">
+              <label for="inputLoc" class="col-sm-2 col-form-label">Location</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputLoc" placeholder="e.g. 3,7" required>
               </div>
             </div>
-            <div class='form-group row'>
-              <label for='typeSelectM' class='col-sm-2 col-form-label'>Type</label>
-              <div class='col-sm-10'>
-                <select class='form-control' id='typeSelectM'>
+            <div class="form-group row">
+              <label for="typeSelectM" class="col-sm-2 col-form-label">Type</label>
+              <div class="col-sm-10">
+                <select class="form-control" id="typeSelectM">
                 </select>
               </div>
             </div>
-            <div class='form-group row'>
-              <label for='logoSelectM' class='col-sm-2 col-form-label'>Logo</label>
-              <div class='col-sm-10'>
-                <select class='form-control' id='logoSelectM'>
+            <div class="form-group row">
+              <label for="logoSelectM" class="col-sm-2 col-form-label">Logo</label>
+              <div class="col-sm-10">
+                <select class="form-control" id="logoSelectM">
                 </select>
               </div>
             </div>
-            <div class='form-group row'>
-              <div class='col-sm-10'>
-                <button type='submit' class='btn btn-primary'>Place</button>
+            <div class="form-group row">
+              <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary">Place</button>
               </div>
             </div>
           </form>
