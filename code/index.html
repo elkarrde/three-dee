@@ -43,6 +43,7 @@
     <script src='./js/loaders/OBJLoader.js'></script>
     <script src='./js/loaders/FBXLoader.js'></script>
     <script src='./js/loaders/GLTFLoader.js'></script>
+    <script src='./js/libs/inflate.min.js'></script>
     <script src='./js/WebGL.js'></script>
     <script src='./js/libs/stats.min.js'></script>
     <script src='./js/libs/dat.gui.min.js'></script>
@@ -75,7 +76,7 @@
       var stepX = 1
       var stepZ = 2
       var count = 0
-      var rotation, earthMesh, link, traffic
+      var rotation, earthMesh, link, traffic, mixer
       var logos = [], models = []
       var clock = new THREE.Clock(), tick = 0
 
@@ -428,6 +429,53 @@
             )
           }
         )
+      }
+
+      function createGltfObj(scene, objName, params, callback) {
+        var loader = new THREE.GLTFLoader()
+
+        var objPath = './res/obj/'
+        loader.load(
+          objPath + objName + '.gltf',
+          function (gltf) {
+            scene.add(gltf.scene);
+
+            gltf.animations; // Array<THREE.AnimationClip>
+            gltf.scene; // THREE.Scene
+            gltf.scenes; // Array<THREE.Scene>
+            gltf.cameras; // Array<THREE.Camera>
+            gltf.asset; // Object
+
+            callback(gltf, params)
+          },
+          function (xhr) {
+            // do nothing
+          },
+          function (err) {
+            console.log('An error happened while loading glTF object.', err);
+          }
+        )
+      }
+      function createFbxObj(scene, objName, params, callback) {
+        var loader = new THREE.FBXLoader()
+
+        var objPath = './res/obj/'
+        loader.load(
+          objPath + objName + '.fbx',
+          function (object) {
+            mixer = new THREE.AnimationMixer(object)
+            var action = mixer.clipAction(object.animations[0])
+            action.play()
+            object.traverse(function (child) {
+              if (child.isMesh) {
+                child.castShadow = true
+                child.receiveShadow = true
+
+                callback(object, params, action)
+              }
+            });
+            scene.add(object)
+        })
       }
 
       function onDocumentMouseUp(event) {
@@ -952,6 +1000,15 @@
           setConns()
         }, 1000)
 
+        setTimeout(function() {
+          createGltfObj(scene, 'testgtlf', {}, function(object, params) {
+            console.log('glTF loaded: [%d]', object.scene.id, object)
+          })
+          createFbxObj(scene, 'logos/Zepelin', {}, function(model, params) {
+            console.log('FBX loaded [%d]:', model.id, model)
+          })
+        }, 1000)
+
         /*
         dirLights[0] = addDirLight(scene, {
           color: 0xffffff,
@@ -1050,6 +1107,9 @@
             })
           }
         })
+
+        var mdelta = clock.getDelta();
+        if (mixer) { mixer.update(mdelta) }
 
         stats.end()
         requestAnimationFrame(animate);
