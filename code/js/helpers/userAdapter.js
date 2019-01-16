@@ -1,3 +1,5 @@
+/* export userAdapter */
+
 var userAdapter = {
   doLogin: function() {
     var username = prompt('Enter your username:')
@@ -24,7 +26,6 @@ var userAdapter = {
     }
   },
   init: function() {
-    console.log('DIS', this)
     if (localStorage.getItem('user') !== null) {
       var tmpUser = JSON.parse(localStorage.getItem('user'))
       this.data.name = tmpUser.name
