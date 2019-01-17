@@ -113,27 +113,6 @@ function setupWorld() {
   });
   scene.add(particleSystem);
 
-  var linkShp = new THREE.Shape()
-  linkShp.moveTo(500 - 2, 500)
-  linkShp.lineTo(500 - 2, 620)
-  linkShp.lineTo(500 + 2, 620)
-  linkShp.lineTo(500 + 2, 500)
-  linkShp.lineTo(500 - 2, 500)
-
-  var exs = {
-    steps: 1,
-    depth: 2,
-    bevelEnabled: false
-  }
-
-  var lGeo = new THREE.ExtrudeGeometry(linkShp, exs)
-  var lMat = new THREE.MeshBasicMaterial({ color: 0x1bf7f9 }) //1bf7f9
-  link = new THREE.Mesh(lGeo, lMat)
-  link.position.x = 0
-  link.position.y = 1
-  link.position.z = 0
-  link.rotation.x = Math.PI / 2
-
   var trafGeo = new THREE.BoxGeometry(5, 5, 5)
   var trafMat = new THREE.MeshBasicMaterial({ color: 0xffff00 })
   var trafMesh = new THREE.Mesh(trafGeo, trafMat)
@@ -154,7 +133,7 @@ function setupWorld() {
 
   scene.add(traffic)
 
-  //SKY
+  // SKY
   var skyGeometry = new THREE.SphereBufferGeometry(6000, 100, 100);
   var skyMaterial = new THREE.MeshPhongMaterial({
     map: sky,

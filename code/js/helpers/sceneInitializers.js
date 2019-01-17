@@ -5,10 +5,10 @@ function setConns() {
   addModel(scene, 'Cube_a',  'elastic', { x: 36, z: 29 })
 
   setTimeout(function() {
-    var mt = modelsMap.lighttower.model
-    var ms = modelsMap.silos.model
-    link.position.x = -1000 + 23.5 * sqSize //-1260
-    link.position.z = -1000 + 13.5 * sqSize //-1260
+    var mt = modelsMap.Tower_a.model
+    var ms = modelsMap.Cube_a.model
+    link.position.x = sqPos(36)
+    link.position.z = sqPos(26)
 
     scene.add(link)
   }, 2000)
@@ -17,12 +17,12 @@ function setConns() {
   addModel(scene, 'Round_a', 'git',    { x: 39, z: 29 })
 
   setTimeout(function() {
-    var mwx = modelsMap.moderntower.model
-    var mcx = modelsMap.cube_trans.model
+    var mwx = modelsMap.Silos_a.model
+    var mcx = modelsMap.Round_a.model
 
     var link2 = link.clone()
-    link2.position.x = -1000 + 26.5 * sqSize //-1140
-    link2.position.z = -1000 + 13.5 * sqSize //-1260
+    link2.position.x = sqPos(39)
+    link2.position.z = sqPos(26)
 
     traffic.position.x = 560
     traffic.position.z = 640

@@ -38,3 +38,7 @@ function getPosCoords(sqOffset) {
 
   return { x: oX, z: oZ }
 }
+
+function sqPos(sq) {
+  return -1000 + sq * sqSize
+}
