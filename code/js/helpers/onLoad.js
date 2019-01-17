@@ -118,6 +118,7 @@ $(function() {
     var loc = $('#inputLoc').val().trim().match(/(\d{1,}),(\d{1,})/i)
     var obj = $('#typeSelectM').val()
     var logo = $('#logoSelectM').val()
+    var theme = $('#themeSelectM').val()
 
     var outloc = [0, 0]
     if (loc instanceof Array) {

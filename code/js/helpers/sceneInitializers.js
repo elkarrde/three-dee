@@ -1,31 +1,31 @@
 // sceneInitializers.js
 
 function setConns() {
-  addModel(scene, 'lighttower', 'ubuntu',  { x: 6, z: 6 })
-  addModel(scene, 'silos',      'elastic', { x: 6, z: 9 })
+  addModel(scene, 'Tower_a', 'ubuntu',  { x: 36, z: 26 })
+  addModel(scene, 'Cube_a',  'elastic', { x: 36, z: 29 })
 
   setTimeout(function() {
     var mt = modelsMap.lighttower.model
     var ms = modelsMap.silos.model
-    link.position.x = -1260
-    link.position.z = -1260
+    link.position.x = -1000 + 23.5 * sqSize //-1260
+    link.position.z = -1000 + 13.5 * sqSize //-1260
 
     scene.add(link)
   }, 2000)
 
-  addModel(scene, 'moderntower', 'centos', { x: 9, z: 6 })
-  addModel(scene, 'cube_trans',  'git',    { x: 9, z: 9 })
+  addModel(scene, 'Silos_a', 'centos', { x: 39, z: 26 })
+  addModel(scene, 'Round_a', 'git',    { x: 39, z: 29 })
 
   setTimeout(function() {
     var mwx = modelsMap.moderntower.model
     var mcx = modelsMap.cube_trans.model
 
     var link2 = link.clone()
-    link2.position.x = -1140
-    link2.position.z = -1260
+    link2.position.x = -1000 + 26.5 * sqSize //-1140
+    link2.position.z = -1000 + 13.5 * sqSize //-1260
 
-    traffic.position.x = -640
-    traffic.position.z = -640
+    traffic.position.x = 560
+    traffic.position.z = 640
     traffic.visible = true
     scene.add(link2)
   }, 2000)
