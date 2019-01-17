@@ -116,14 +116,6 @@
         dirLights[2].position.set(-500, 1000, -500)
         */
 
-        /*
-        spotLight = addSpotLight(scene, {
-          color: 0xffffff,
-          intensity: 3,
-          coords: { x: -450, y: 1000, z: -450 }
-        })
-        */
-
         renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(window.innerWidth, window.innerHeight - 34);
@@ -149,7 +141,7 @@
         window.addEventListener('resize', onWindowResize, false);
       }
 
-      ptxOptions.position.z = -720
+      ptxOptions.position.z = 440
       ptxOptions.position.y = 5
       var dir = 1
       var speed = 12
@@ -165,8 +157,8 @@
         tick += delta;
         if (tick < 0) { tick = 0 }
         if (delta > 0) {
-          ptxOptions.position.x = -760
-          if (ptxOptions.position.z >= -640) { ptxOptions.position.z = -760 }
+          ptxOptions.position.x = 440
+          if (ptxOptions.position.z >= 160) { ptxOptions.position.z = 40 }
           ptxOptions.position.z += (dir * speed)
           for (var x = 0; x < spawnerOptions.spawnRate * delta; x ++) {
             // Yep, that's really it. Spawning particles is super cheap, and once you spawn them, the rest of
@@ -176,7 +168,7 @@
         }
         particleSystem.update(tick);
 
-        if (traffic.position.z >= -640) { traffic.position.z = -760 }
+        if (traffic.position.z >= 160) { traffic.position.z = 40 }
         traffic.position.z += (dir * speed)
 
         logos.forEach(function(logo) {
@@ -302,9 +294,13 @@
         <div class="modal-content">
           <form id="buildForm">
             <div class="form-group row">
-              <label for="inputLoc" class="col-sm-2 col-form-label">Location</label>
+              <label for="themeSelectM" class="col-sm-2 col-form-label">Theme</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputLoc" placeholder="e.g. 3,7" required>
+                <select class="form-control" id="themeSelectM" disabled>
+                  <option value="alien">Alien</option>
+                  <option value="city">City</option>
+                  <option value="simple">Simple</option>
+                </select>
               </div>
             </div>
             <div class="form-group row">
@@ -322,8 +318,15 @@
               </div>
             </div>
             <div class="form-group row">
+              <label for="inputLoc" class="col-sm-2 col-form-label">Location</label>
               <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputLoc" placeholder="e.g. 3,7" required>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <div class="col-sm-12">
                 <button type="submit" class="btn btn-primary">Place</button>
+                <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button>
               </div>
             </div>
           </form>
