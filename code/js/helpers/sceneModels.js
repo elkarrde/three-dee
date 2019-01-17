@@ -6,7 +6,7 @@ var updateModels = function() {
   themesMap = {
     'alien':  '_a',
     'city':   '_c',
-    'simple': '_s' 
+    'simple': '_s'
   }
 
   console.log('Switch to theme:', activeTheme, themesMap[activeTheme])
@@ -31,7 +31,7 @@ var updateModels = function() {
     var mdl = scene.getObjectById(modelId)
     var lgo = scene.getObjectById(mdl.userData.logoId)
     var newModel = mdl.userData.name + themesMap[activeTheme]
-    
+
     console.log('XO-%d:', modelId, newModel, mdl)
 
     mdl.visible = false
@@ -41,16 +41,19 @@ var updateModels = function() {
 }
 
 function placeModels(scene, cellData) {
+  console.log('PMx', cellData)
   var location = cellData.LocationIn3d
   var objArray = cellData.Services
   var cell = new THREE.Group()
 
-  var posX = -1000 + parseInt(location[0], 10) * sqSize
-  var posZ = -1000 + parseInt(location[1], 10) * sqSize
+  //var posX = -1000 + (parseInt(location[0], 10) * gridBox)
+  //var posZ = -1000 + (parseInt(location[1], 10) * gridBox)
+  var posX = (parseInt(location[0], 10))
+  var posZ = (parseInt(location[1], 10))
 
   var sqOffset = {
-    x: -1000 + sqSize * parseInt(location[0], 10),
-    z: -1000 + sqSize * parseInt(location[1], 10)
+    x: posX,
+    z: posZ
   }
 
   var ic = 0
@@ -60,8 +63,12 @@ function placeModels(scene, cellData) {
     if (obj.Model) {
       objModel = obj.Model
     }
-    var logoModel = obj.Logo
-    console.log('OBJx', obj)
+    var logoModel = logoMap[obj.Logo]
+
+    // console.log('OBJx', obj)
+    //sqOffset.x += (obj.LocationIn3dTile[0] * sqSize)
+    //sqOffset.z += (obj.LocationIn3dTile[1] * sqSize)
+
     addModel(cell, objModel, logoModel, sqOffset)
     ic++
   })
@@ -108,8 +115,8 @@ function createGltfObj(scene, objName, params, callback) {
       gltf.cameras; // Array<THREE.Camera>
       gltf.asset; // Object
 
-      var helper = new THREE.BoxHelper(gltf.scene, 0x00ff00)
-      scene.add(helper)
+      // var helper = new THREE.BoxHelper(gltf.scene, 0x00ff00)
+      // scene.add(helper)
       callback(gltf, params)
     },
     function (xhr) {
@@ -137,9 +144,9 @@ function createFbxObj(scene, objName, params, callback) {
 
         }
       });
-      var helper = new THREE.BoxHelper(object, 0xff0000)
       scene.add(object)
-      scene.add(helper)
+      // var helper = new THREE.BoxHelper(object, 0xff0000)
+      // scene.add(helper)
       callback(object, params, action)
   })
 }

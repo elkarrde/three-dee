@@ -1,6 +1,6 @@
 // globals.js
 
-var scene, camera, renderer, mesh, groundMirror, grid, mrrFadeout, spotLight, gndTexture, plnTexture, sky, particleSystem, controls, plane;
+var scene, camera, renderer, mesh, groundMirror, grid, mrrFadeout, spotLight, gndTexture, plnTexture, sky, particleSystem, controls, plane, arrow
 var vport, vpcam, vprend, vpobj
 var sqSize = 40
 

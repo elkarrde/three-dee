@@ -54,6 +54,9 @@ $(function() {
   $('.js-btn-load').click(function() {
     dataAdapter.load()
   })
+  $('#loadBtnReal').click(function() {
+    alert('Failed to load remote resource due to CORS headers.')
+  })
 
   userAdapter.init()
   $('.js-btn-login').click(function() {
@@ -71,6 +74,10 @@ $(function() {
   })
   $('#shGraph').click(function() {
     $('.obj-panel').removeClass('hide')
+  })
+
+  $('#buildConnBtn').click(function() {
+    $('.connection-modal-lg').modal('show')
   })
 
   cTi = setInterval(function() {

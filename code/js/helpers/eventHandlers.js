@@ -11,6 +11,12 @@ function onDocumentMouseUp(event) {
       raycaster.setFromCamera(mouse, camera)
       // console.log('CLKx', event.clientX, event.clientY, mouse.x, mouse.y)
 
+      /*
+      scene.remove(arrow)
+      arrow = new THREE.ArrowHelper(camera.getWorldDirection(), camera.getWorldPosition(), 100, Math.random() * 0xffffff);
+      scene.add(arrow);
+      */
+
       var intersects = raycaster.intersectObjects(scene.children, true)
       if (intersects.length >= 1) {
         if (noClickObjects.indexOf(intersects[0].object.name) === -1) {

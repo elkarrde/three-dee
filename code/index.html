@@ -220,18 +220,38 @@
             </select>
           </div>
           <div class="btn-group">
-            <button id="addBtn" type="button" class="btn btn-primary">Add</button>
+            <button id="addBtn" type="button" class="btn btn-primary btn-sm">Add</button>
             <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="sr-only">Toggle Dropdown</span>
             </button>
             <div class="dropdown-menu">
               <a class="dropdown-item" id="addBtnMulti" href="#">Add multiple</a>
-              <a class="dropdown-item" id="addBtnRnd" href="#">Add random</a>
-              <a class="dropdown-item" id="addBtnAll" href="#">Add all</a>
+              <!--a class="dropdown-item" id="addBtnRnd" href="#">Add random</a-->
+              <!--a class="dropdown-item" id="addBtnAll" href="#">Add all</a-->
             </div>
           </div>
-          <button id="buildBtn" type="button" class="btn btn-success js-btn-build" data-toggle="modal" data-target=".builder-modal-lg">Build</button>
-          <button id="loadBtn" type="button" class="btn btn-info js-btn-load">Fetch JSON</button>
+          <div class="btn-group">
+            <button id="buildBtn" type="button" class="btn btn-success btn-sm js-btn-build" data-toggle="modal" data-target=".builder-modal-lg">Build</button>
+            <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" id="buildConnBtn" href="#" data-target=".connection-modal-lg">Build connection</a>
+            </div>
+          </div>
+
+          <div class="btn-group">
+            <button id="loadBtn" type="button" class="btn btn-info btn-sm js-btn-load">Fetch JSON</button>
+            <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu">
+              <!--a class="dropdown-item" id="loadBtn2" href="#">Fetch JSON #2</a-->
+              <!--a class="dropdown-item" id="loadBtn3" href="#">Fetch JSON #3</a-->
+              <!--div class="dropdown-divider"></div-->
+              <a class="dropdown-item" id="loadBtnReal" href="#">Fetch remote JSON</a>
+            </div>
+          </div>
           <br>
         </form>
       </div>
@@ -320,9 +340,17 @@
             <div class="form-group row">
               <label for="inputLoc" class="col-sm-2 col-form-label">Location</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputLoc" placeholder="e.g. 3,7" required>
+                <input type="text" class="form-control" id="inputLoc" placeholder="e.g. 2,3; min. 0, max. 50" required>
               </div>
             </div>
+            <!--
+            <div class="form-group row">
+              <label for="inputLoc" class="col-sm-2 col-form-label">Sublocation</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputSubLoc" placeholder="e.g. 1,4; max. 6" required>
+              </div>
+            </div>
+            -->
             <div class="modal-footer">
               <div class="col-sm-12">
                 <button type="submit" class="btn btn-primary">Place</button>
@@ -334,6 +362,32 @@
       </div>
     </aside>
 
+    <aside class="modal fade connection-modal-lg" tabindex="-2" role="dialog" aria-labelledby="builderc" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <form id="buildConn">
+            <div class="form-group row">
+              <label for="inputLoc" class="col-sm-2 col-form-label">Location start</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputLoc" placeholder="e.g. 2,3; min. 0, max. 50" required>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputLoc" class="col-sm-2 col-form-label">Location end</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputSubLoc" placeholder="e.g. 1,4; min. 0, max. 50" required>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <div class="col-sm-12">
+                <button type="submit" class="btn btn-primary">Connect</button>
+                <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </aside>
 
   </body>
 </html>
