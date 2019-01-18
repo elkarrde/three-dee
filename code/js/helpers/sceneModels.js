@@ -210,11 +210,14 @@ function addModel(scene, model, logoModel, sqOffset) {
   } else {
     //console.log('Create!', model, logoModel, sqOffset)
     createObject(scene, model, sqOffset, function(objx, sqOffset) {
+      obj = objx
+      /*
       if (objx.scene.children) {
         obj = objx.scene.children[0]
       } else {
         obj = objx
       }
+      */
 
       obj.scale.set(modelsMap[model].scale, modelsMap[model].scale, modelsMap[model].scale)
       var oX = 0
