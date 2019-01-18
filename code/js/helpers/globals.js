@@ -25,6 +25,13 @@ var rotation, earthMesh, link, traffic, mixer
 var logos = [], models = [], links = []
 var clock = new THREE.Clock(), tick = 0
 
+var themesMap = {
+  'alien':  '_a',
+  'city':   '_c',
+  'simple': '_s'
+}
+
+
 var ptxOptions = {
   position: new THREE.Vector3(637, 1, 373),
   positionRandomness: 0.5, //0.44,

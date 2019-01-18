@@ -25,7 +25,8 @@ $(function() {
     var tlgo = logos
     var trl = rnd(0, tlgo.length - 1)
     var lgo = logoMap[tlgo[trl]]
-    addModel(scene, mdl, lgo, sqOffset)
+    var mdlx = mdl + themesMap[activeTheme]
+    addModel(scene, mdlx, lgo, sqOffset)
 
     if (modelsMap[mdl].count) {
       $('.js-object-list tbody').find('.js-count-' + mdl).find('.js-num').html(modelsMap[mdl].count)

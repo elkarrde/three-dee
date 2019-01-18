@@ -3,11 +3,6 @@
 var updateModels = function() {
   activeTheme = $('#themeSelect').val()
   $('#themeSelectM').val(activeTheme)
-  themesMap = {
-    'alien':  '_a',
-    'city':   '_c',
-    'simple': '_s'
-  }
 
   console.log('Switch to theme:', activeTheme, themesMap[activeTheme])
   $('#typeSelect option').remove()
@@ -74,11 +69,11 @@ function placeModels(scene, cellData) {
 }
 
 function createObject(scene, objName, params, callback) {
-  //if (objName.indexOf('logos/') === 0) {
+  if (objName.indexOf('logos/') === 0) {
     createMtlObject(scene, objName, params, callback)
-  //} else if (modelType === 'mtl') {
-  //  createGltfObject(scene, objName, params, callback)
-  //}
+  } else if (modelType === 'mtl') {
+    createGltfObject(scene, objName, params, callback)
+  }
 }
 
 function createMtlObject(scene, objName, params, callback) {
@@ -159,7 +154,7 @@ function createFbxObj(scene, objName, params, callback) {
 function addModel(scene, model, logoModel, sqOffset) {
   console.log('AMx-->', model, logoModel, sqOffset)
   if (modelsMap[model].model) {
-    // console.log('Clone!', model, logoModel, sqOffset)
+    console.log('Clone!', model, logoModel, sqOffset)
     var mdl = modelsMap[model].model.clone()
     modelsMap[model].map.push(mdl.id)
     var oX = 0
@@ -208,18 +203,17 @@ function addModel(scene, model, logoModel, sqOffset) {
 
     scene.add(group)
   } else {
-    //console.log('Create!', model, logoModel, sqOffset)
+    console.log('Create!', model, logoModel, sqOffset)
     createObject(scene, model, sqOffset, function(objx, sqOffset) {
       obj = objx
-      /*
-      if (objx.scene.children) {
-        obj = objx.scene.children[0]
-      } else {
-        obj = objx
-      }
-      */
+      var fixed = false
 
-      obj.scale.set(modelsMap[model].scale, modelsMap[model].scale, modelsMap[model].scale)
+      if ('scene' in objx) {
+        obj = objx.scene.children[0]
+        fixed = true
+      }
+
+      if (!fixed) { obj.scale.set(modelsMap[model].scale, modelsMap[model].scale, modelsMap[model].scale) }
       var oX = 0
       var oZ = 0
       if (sqOffset && typeof sqOffset === 'object') {

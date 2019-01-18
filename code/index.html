@@ -92,8 +92,9 @@
           createGltfObject(scene, 'Cube_s',   {x: 3, z: 1}, function(object, params) {})
           createGltfObject(scene, 'Round_s',  {x: 5, z: 1}, function(object, params) {})
           createGltfObject(scene, 'Silos_s',  {x: 7, z: 1}, function(object, params) {})
-          createGltfObject(scene, 'Tower_s',  {x: 9, z: 1}, function(object, params) {})
           */
+
+          createFbxObj(scene, 'logos/Zepelin', {x: 9, z: 1}, function(object, params) { console.info('FBX')})
           console.log('Loading done?')
         }, 5000)
 
