@@ -18,8 +18,8 @@ var updateModels = function() {
     var modelTheme = modelsMap[model].theme
     if (activeTheme === modelTheme) {
       var name = modelsMap[model].name
-      $('#typeSelect').append('<option value="' + model + '">' + name + '</option>')
-      $('#typeSelectM').append('<option value="' + model + '">' + name + '</option>')
+      $('#typeSelect').append('<option value="' + name + '">' + name + '</option>')
+      $('#typeSelectM').append('<option value="' + name + '">' + name + '</option>')
     }
     if (modelsMap[model].map.length > 0) {
       allModelsIds.push(...modelsMap[model].map)
@@ -41,15 +41,13 @@ var updateModels = function() {
 }
 
 function placeModels(scene, cellData) {
-  console.log('PMx', cellData)
+  //console.log('PMx', cellData)
   var location = cellData.LocationIn3d
   var objArray = cellData.Services
   var cell = new THREE.Group()
 
-  //var posX = -1000 + (parseInt(location[0], 10) * gridBox)
-  //var posZ = -1000 + (parseInt(location[1], 10) * gridBox)
-  var posX = (parseInt(location[0], 10))
-  var posZ = (parseInt(location[1], 10))
+  var posX = parseInt(location[0], 10) * gridBoxLine
+  var posZ = parseInt(location[1], 10) * gridBoxLine
 
   var sqOffset = {
     x: posX,
@@ -58,18 +56,17 @@ function placeModels(scene, cellData) {
 
   var ic = 0
   objArray.forEach(function(obj) {
-    var mdlArr = Object.getOwnPropertyNames(modelsMap)
-    var objModel = mdlArr[rnd(0, mdlArr.length - 1)]
-    if (obj.Model) {
-      objModel = obj.Model
-    }
+    console.log('SERVICE', obj)
+    var objModel = models.find(function(itm) {
+      return modelsMap[itm].name === obj.Model && modelsMap[itm].theme === activeTheme
+    })
     var logoModel = logoMap[obj.Logo]
 
-    // console.log('OBJx', obj)
-    //sqOffset.x += (obj.LocationIn3dTile[0] * sqSize)
-    //sqOffset.z += (obj.LocationIn3dTile[1] * sqSize)
+    sqOffset.x += parseInt(obj.LocationIn3dTile[0], 10)
+    sqOffset.z += parseInt(obj.LocationIn3dTile[1], 10)
+    //console.log('OBJx', objModel, obj.Logo, sqOffset)
 
-    addModel(cell, objModel, logoModel, sqOffset)
+    addModel(cell, objModel, obj.Logo, sqOffset)
     ic++
   })
 
@@ -77,6 +74,14 @@ function placeModels(scene, cellData) {
 }
 
 function createObject(scene, objName, params, callback) {
+  //if (objName.indexOf('logos/') === 0) {
+    createMtlObject(scene, objName, params, callback)
+  //} else if (modelType === 'mtl') {
+  //  createGltfObject(scene, objName, params, callback)
+  //}
+}
+
+function createMtlObject(scene, objName, params, callback) {
   var loader = new THREE.MTLLoader()
 
   var objPath = './res/obj/'
@@ -100,10 +105,10 @@ function createObject(scene, objName, params, callback) {
   )
 }
 
-function createGltfObj(scene, objName, params, callback) {
+function createGltfObject(scene, objName, params, callback) {
   var loader = new THREE.GLTFLoader()
 
-  var objPath = './res/obj/'
+  var objPath = './res/obj/gltf/'
   loader.load(
     objPath + objName + '.gltf',
     function (gltf) {
@@ -152,8 +157,9 @@ function createFbxObj(scene, objName, params, callback) {
 }
 
 function addModel(scene, model, logoModel, sqOffset) {
+  console.log('AMx-->', model, logoModel, sqOffset)
   if (modelsMap[model].model) {
-    console.log('Clone!', model, logoModel, sqOffset)
+    // console.log('Clone!', model, logoModel, sqOffset)
     var mdl = modelsMap[model].model.clone()
     modelsMap[model].map.push(mdl.id)
     var oX = 0
@@ -202,8 +208,14 @@ function addModel(scene, model, logoModel, sqOffset) {
 
     scene.add(group)
   } else {
-    console.log('Create!', model, logoModel, sqOffset)
-    createObject(scene, model, sqOffset, function(obj, sqOffset) {
+    //console.log('Create!', model, logoModel, sqOffset)
+    createObject(scene, model, sqOffset, function(objx, sqOffset) {
+      if (objx.scene.children) {
+        obj = objx.scene.children[0]
+      } else {
+        obj = objx
+      }
+
       obj.scale.set(modelsMap[model].scale, modelsMap[model].scale, modelsMap[model].scale)
       var oX = 0
       var oZ = 0

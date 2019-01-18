@@ -1,17 +1,17 @@
 // modelsData.js
 
 var logoMap = {
-  'Apache_kafka': { scale: 2,  oX: 0,  oZ: 0, model: null, map: [], count: 0},
+  'apache_kafka': { scale: 2,  oX: 0,  oZ: 0, model: null, map: [], count: 0},
   'centos':       { scale: 6,  oX: 0,  oZ: 0, model: null, map: [], count: 0},
   'clickhouse':   { scale: 10, oX: 0,  oZ: 0, model: null, map: [], count: 0},
   'elastic':      { scale: 3,  oX: 0,  oZ: 0, model: null, map: [], count: 0},
   'flink':        { scale: 5,  oX: 0,  oZ: 0, model: null, map: [], count: 0},
   'git':          { scale: 5,  oX: 0,  oZ: 0, model: null, map: [], count: 0},
-  'Prometheus':   { scale: 12, oX: 0,  oZ: 0, model: null, map: [], count: 0},
+  'prometheus':   { scale: 12, oX: 0,  oZ: 0, model: null, map: [], count: 0},
   'spark':        { scale: 5,  oX: 0,  oZ: 0, model: null, map: [], count: 0},
   'ubuntu':       { scale: 4,  oX: 0,  oZ: 0, model: null, map: [], count: 0},
   'zepelin':      { scale: 6,  oX: 0,  oZ: 0, model: null, map: [], count: 0},
-  'Zoo':          { scale: 9,  oX: 0,  oZ: 0, model: null, map: [], count: 0}
+  'zoo':          { scale: 9,  oX: 0,  oZ: 0, model: null, map: [], count: 0}
 }
 
 var modelsMap = {

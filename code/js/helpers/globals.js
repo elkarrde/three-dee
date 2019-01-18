@@ -3,9 +3,11 @@
 var scene, camera, renderer, mesh, groundMirror, grid, mrrFadeout, spotLight, gndTexture, plnTexture, sky, particleSystem, controls, plane, arrow
 var vport, vpcam, vprend, vpobj
 var sqSize = 40
+var modelType = 'mtl' // 'gltf' | 'fbx' | 'mtl'
 
 var gridDist = 40
 var gridBox = 200
+var gridBoxLine = 5
 
 var globalObjects = []
 var noClickObjects = ['Ground', 'Grid', 'FadeoutMrr', 'GndMirror', 'GndMrr']

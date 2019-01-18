@@ -122,15 +122,24 @@ $(function() {
 
   $('#buildForm').submit(function(e) {
     e.preventDefault()
-    var loc = $('#inputLoc').val().trim().match(/(\d{1,}),(\d{1,})/i)
+    var loc = $('#inputSubLoc').val().trim().match(/(\d{1,}),(\d{1,})/i)
+    var outloc = $('#inputLoc').val().trim().match(/(\d{1,}),(\d{1,})/i)
     var obj = $('#typeSelectM').val()
     var logo = $('#logoSelectM').val()
     var theme = $('#themeSelectM').val()
 
-    var outloc = [0, 0]
     if (loc instanceof Array) {
-      outloc = [loc[1], loc[2]]
+      loc = [parseInt(loc[1], 10), parseInt(loc[2], 10)]
+    } else {
+      loc = [1, 1]
     }
+
+    if (outloc instanceof Array) {
+      outloc = [parseInt(outloc[1], 10), parseInt(outloc[2], 10)]
+    } else {
+      outloc = [1, 1]
+    }
+    console.log('XX---->', loc, outloc)
 
     var data = {
       LocationIn3d: outloc,
@@ -139,7 +148,7 @@ $(function() {
           Name: 'Builder object',
           Logo: logo,
           Model: obj,
-          LocationIn3dTile: [1, 1]
+          LocationIn3dTile: loc
         }
       ]
     }
