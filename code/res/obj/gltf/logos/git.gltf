@@ -1,0 +1,168 @@
+{
+    "accessors" : [
+        {
+            "bufferView" : 0,
+            "componentType" : 5123,
+            "count" : 1236,
+            "max" : [
+                623
+            ],
+            "min" : [
+                0
+            ],
+            "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 1,
+            "componentType" : 5126,
+            "count" : 624,
+            "max" : [
+                3.1829400062561035,
+                3.1968624591827393,
+                0.3265957832336426
+            ],
+            "min" : [
+                -3.209415912628174,
+                -3.195493698120117,
+                -0.326596200466156
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 2,
+            "componentType" : 5126,
+            "count" : 624,
+            "max" : [
+                1.0,
+                0.9951781034469604,
+                1.0
+            ],
+            "min" : [
+                -1.0,
+                -0.9951781034469604,
+                -1.0
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 3,
+            "componentType" : 5126,
+            "count" : 624,
+            "max" : [
+                0.9915390014648438,
+                0.9927179999649525
+            ],
+            "min" : [
+                0.0084610003978014,
+                0.0072820186614990234
+            ],
+            "type" : "VEC2"
+        }
+    ],
+    "asset" : {
+        "generator" : "Khronos Blender glTF 2.0 exporter",
+        "version" : "2.0"
+    },
+    "bufferViews" : [
+        {
+            "buffer" : 0,
+            "byteLength" : 2472,
+            "byteOffset" : 0,
+            "target" : 34963
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 7488,
+            "byteOffset" : 2472,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 7488,
+            "byteOffset" : 9960,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 4992,
+            "byteOffset" : 17448,
+            "target" : 34962
+        }
+    ],
+    "buffers" : [
+        {
+            "byteLength" : 22440,
+            "uri" : "git.bin"
+        }
+    ],
+    "images" : [
+        {
+            "name" : "Git",
+            "uri" : "Git.jpg"
+        }
+    ],
+    "materials" : [
+        {
+            "alphaMode" : "BLEND",
+            "name" : "Material.002",
+            "pbrMetallicRoughness" : {
+                "baseColorTexture" : {
+                    "index" : 0
+                },
+                "metallicFactor" : 0.0,
+                "roughnessFactor" : 0.0
+            }
+        }
+    ],
+    "meshes" : [
+        {
+            "name" : "Plane.005",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "NORMAL" : 2,
+                        "POSITION" : 1,
+                        "TEXCOORD_0" : 3
+                    },
+                    "indices" : 0,
+                    "material" : 0
+                }
+            ]
+        }
+    ],
+    "nodes" : [
+        {
+            "mesh" : 0,
+            "name" : "Plane.005",
+            "rotation" : [
+                0.9238795638084412,
+                0.3826834559440613,
+                -4.2155011925615327e-08,
+                -1.4215527244232362e-07
+            ],
+            "scale" : [
+                5.000000476837158,
+                5.000000476837158,
+                5.0
+            ]
+        }
+    ],
+    "samplers" : [
+        {}
+    ],
+    "scene" : 0,
+    "scenes" : [
+        {
+            "name" : "Scene",
+            "nodes" : [
+                0
+            ]
+        }
+    ],
+    "textures" : [
+        {
+            "sampler" : 0,
+            "source" : 0
+        }
+    ]
+}

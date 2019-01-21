@@ -35,17 +35,28 @@ function initLogos() {
   logos.forEach(function(logo) {
     var sqOffset = {}
     var logoObj = logoMap[logo]
-    createObject(scene, 'logos/' + logo, sqOffset, function(obj, sqOffset) {
-      obj.scale.set(logoObj.scale, logoObj.scale, logoObj.scale)
-      obj.position.x = 10000
-      obj.position.z = 10000
-      obj.position.y = 10000
-      obj.userData.mode = 'logo'
-      obj.userData.type = logoObj.name
-      obj.rotateX(Math.PI / 2);
+    createObject(scene, 'logos/' + logo, sqOffset, function(obj, sqOffset, type) {
+      var xobj
+      if (type && type === 'gltf') {
+        obj.animations; // Array<THREE.AnimationClip>
+        obj.scene; // THREE.Scene
+        obj.scenes; // Array<THREE.Scene>
+        obj.cameras; // Array<THREE.Camera>
+        obj.asset; // Object
+        xobj = obj.scene
+      } else {
+        obj.scale.set(logoObj.scale, logoObj.scale, logoObj.scale)
+        obj.position.x = 10000
+        obj.position.z = 10000
+        obj.position.y = 10000
+        obj.userData.mode = 'logo'
+        obj.userData.type = logoObj.name
+        obj.rotateX(Math.PI / 2);
+        xobj = obj
+      }
       logoObj.count = 0
-      logoObj.model = obj
-      scene.add(obj)
+      logoObj.model = xobj
+      scene.add(xobj)
     })
   })
 }
@@ -54,7 +65,7 @@ function initModels() {
   models.forEach(function(model) {
     var sqOffset = {}
     var modelObj = modelsMap[model]
-    createObject(scene, model, sqOffset, function(obj, sqOffset) {
+    createObject(scene, model, sqOffset, function(obj, sqOffset, type) {
       console.log('Mx', model, modelObj)
       obj.scale.set(modelObj.scale, modelObj.scale, modelObj.scale)
       obj.position.x = 12000

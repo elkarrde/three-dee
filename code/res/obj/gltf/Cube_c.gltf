@@ -1,0 +1,277 @@
+{
+    "accessors" : [
+        {
+            "bufferView" : 0,
+            "componentType" : 5125,
+            "count" : 1248,
+            "max" : [
+                831
+            ],
+            "min" : [
+                0
+            ],
+            "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 1,
+            "componentType" : 5126,
+            "count" : 832,
+            "max" : [
+                0.9774150848388672,
+                3.083406448364258,
+                0.9561401009559631
+            ],
+            "min" : [
+                -0.9874392747879028,
+                0.34847891330718994,
+                -0.9553654193878174
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 2,
+            "componentType" : 5126,
+            "count" : 832,
+            "max" : [
+                1.0,
+                -0.0,
+                1.0
+            ],
+            "min" : [
+                -1.0,
+                -0.0,
+                -1.0
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 3,
+            "componentType" : 5126,
+            "count" : 832,
+            "max" : [
+                0.8774855136871338,
+                0.9833829049021006
+            ],
+            "min" : [
+                0.0028809052892029285,
+                0.122353196144104
+            ],
+            "type" : "VEC2"
+        },
+        {
+            "bufferView" : 4,
+            "componentType" : 5125,
+            "count" : 14988,
+            "max" : [
+                7413
+            ],
+            "min" : [
+                0
+            ],
+            "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 5,
+            "componentType" : 5126,
+            "count" : 7414,
+            "max" : [
+                1.0358835458755493,
+                3.6122546195983887,
+                1.0816670656204224
+            ],
+            "min" : [
+                -1.042521595954895,
+                -0.019208073616027832,
+                -1.0816668272018433
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 6,
+            "componentType" : 5126,
+            "count" : 7414,
+            "max" : [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "min" : [
+                -1.0,
+                -1.0,
+                -1.0
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 7,
+            "componentType" : 5126,
+            "count" : 7414,
+            "max" : [
+                0.997119128704071,
+                1.0
+            ],
+            "min" : [
+                0.0,
+                0.002885580062866211
+            ],
+            "type" : "VEC2"
+        }
+    ],
+    "asset" : {
+        "generator" : "Khronos Blender glTF 2.0 exporter",
+        "version" : "2.0"
+    },
+    "bufferViews" : [
+        {
+            "buffer" : 0,
+            "byteLength" : 4992,
+            "byteOffset" : 0,
+            "target" : 34963
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 9984,
+            "byteOffset" : 4992,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 9984,
+            "byteOffset" : 14976,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 6656,
+            "byteOffset" : 24960,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 59952,
+            "byteOffset" : 31616,
+            "target" : 34963
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 88968,
+            "byteOffset" : 91568,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 88968,
+            "byteOffset" : 180536,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 59312,
+            "byteOffset" : 269504,
+            "target" : 34962
+        }
+    ],
+    "buffers" : [
+        {
+            "byteLength" : 328816,
+            "uri" : "Cube_c.bin"
+        }
+    ],
+    "images" : [
+        {
+            "name" : "Cube_c",
+            "uri" : "Cube_c.jpg"
+        }
+    ],
+    "materials" : [
+        {
+            "alphaMode" : "BLEND",
+            "extras" : {
+                "ms3d" : {}
+            },
+            "name" : "wall.003",
+            "pbrMetallicRoughness" : {
+                "baseColorTexture" : {
+                    "index" : 0
+                },
+                "metallicFactor" : 0.0,
+                "roughnessFactor" : 0.5
+            }
+        },
+        {
+            "alphaMode" : "BLEND",
+            "extras" : {
+                "ms3d" : {}
+            },
+            "name" : "windows.003",
+            "pbrMetallicRoughness" : {
+                "baseColorTexture" : {
+                    "index" : 0
+                },
+                "metallicFactor" : 0.0,
+                "roughnessFactor" : 0.0
+            }
+        }
+    ],
+    "meshes" : [
+        {
+            "name" : "Cube.067",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "NORMAL" : 2,
+                        "POSITION" : 1,
+                        "TEXCOORD_0" : 3
+                    },
+                    "indices" : 0,
+                    "material" : 1
+                },
+                {
+                    "attributes" : {
+                        "NORMAL" : 6,
+                        "POSITION" : 5,
+                        "TEXCOORD_0" : 7
+                    },
+                    "indices" : 4,
+                    "material" : 0
+                }
+            ]
+        }
+    ],
+    "nodes" : [
+        {
+            "extras" : {
+                "s_curve" : {}
+            },
+            "mesh" : 0,
+            "name" : "Cube.006",
+            "scale" : [
+                41.5730094909668,
+                9.672629356384277,
+                12.92060375213623
+            ]
+        }
+    ],
+    "samplers" : [
+        {}
+    ],
+    "scene" : 0,
+    "scenes" : [
+        {
+            "name" : "Scene",
+            "nodes" : [
+                0
+            ]
+        }
+    ],
+    "textures" : [
+        {
+            "sampler" : 0,
+            "source" : 0
+        },
+        {
+            "sampler" : 0,
+            "source" : 0
+        }
+    ]
+}

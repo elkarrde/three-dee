@@ -9,10 +9,12 @@ var dataAdapter = {
       dataType: 'json'
     }).done(function(res) {
       var hits = res.hits.hits
-      $('#loadBtn').addClass('hide')
       hits.forEach(function(itm) {
         placeModels(scene, itm._source)
       })
     })
+  },
+  clear: function() {
+    // do nothing for now
   }
 }

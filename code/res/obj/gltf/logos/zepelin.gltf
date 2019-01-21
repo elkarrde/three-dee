@@ -1,0 +1,200 @@
+{
+    "accessors" : [
+        {
+            "bufferView" : 0,
+            "componentType" : 5123,
+            "count" : 14646,
+            "max" : [
+                9835
+            ],
+            "min" : [
+                0
+            ],
+            "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 1,
+            "componentType" : 5126,
+            "count" : 9836,
+            "max" : [
+                0.05514402315020561,
+                0.004006578121334314,
+                0.02129092812538147
+            ],
+            "min" : [
+                -0.059290483593940735,
+                -0.0039934213273227215,
+                -0.04782015085220337
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 2,
+            "componentType" : 5126,
+            "count" : 9836,
+            "max" : [
+                0.8629719018936157,
+                1.0,
+                0.7428510189056396
+            ],
+            "min" : [
+                -0.7706839442253113,
+                -1.0,
+                -0.8409375548362732
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 3,
+            "componentType" : 5126,
+            "count" : 9836,
+            "max" : [
+                0.9992294311523438,
+                0.8374518156051636,
+                0.9999950528144836,
+                1.0
+            ],
+            "min" : [
+                -0.9997281432151794,
+                -1.0,
+                -0.9932740926742554,
+                -1.0
+            ],
+            "type" : "VEC4"
+        },
+        {
+            "bufferView" : 4,
+            "componentType" : 5126,
+            "count" : 9836,
+            "max" : [
+                0.9654569625854492,
+                0.9654213786125183
+            ],
+            "min" : [
+                0.03454301506280899,
+                0.03457862138748169
+            ],
+            "type" : "VEC2"
+        }
+    ],
+    "asset" : {
+        "generator" : "Khronos Blender glTF 2.0 exporter",
+        "version" : "2.0"
+    },
+    "bufferViews" : [
+        {
+            "buffer" : 0,
+            "byteLength" : 29292,
+            "byteOffset" : 0,
+            "target" : 34963
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 118032,
+            "byteOffset" : 29292,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 118032,
+            "byteOffset" : 147324,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 157376,
+            "byteOffset" : 265356,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 78688,
+            "byteOffset" : 422732,
+            "target" : 34962
+        }
+    ],
+    "buffers" : [
+        {
+            "byteLength" : 501420,
+            "uri" : "zepelin.bin"
+        }
+    ],
+    "images" : [
+        {
+            "name" : "Zepelin",
+            "uri" : "Zepelin.jpg"
+        }
+    ],
+    "materials" : [
+        {
+            "alphaMode" : "BLEND",
+            "extras" : {
+                "v3d" : {}
+            },
+            "name" : "Zepelin",
+            "pbrMetallicRoughness" : {
+                "baseColorTexture" : {
+                    "index" : 0
+                },
+                "metallicFactor" : 0.0,
+                "roughnessFactor" : 0.0
+            }
+        }
+    ],
+    "meshes" : [
+        {
+            "name" : "CUpath3051",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "NORMAL" : 2,
+                        "POSITION" : 1,
+                        "TANGENT" : 3,
+                        "TEXCOORD_0" : 4
+                    },
+                    "indices" : 0,
+                    "material" : 0
+                }
+            ]
+        }
+    ],
+    "nodes" : [
+        {
+            "extras" : {
+                "s_curve" : {},
+                "v3d" : {}
+            },
+            "mesh" : 0,
+            "name" : "Curve",
+            "rotation" : [
+                0.7071078419685364,
+                0.0,
+                -0.0,
+                0.7071057558059692
+            ],
+            "scale" : [
+                4552.25537109375,
+                4552.25537109375,
+                4552.25537109375
+            ]
+        }
+    ],
+    "samplers" : [
+        {}
+    ],
+    "scene" : 0,
+    "scenes" : [
+        {
+            "name" : "Scene",
+            "nodes" : [
+                0
+            ]
+        }
+    ],
+    "textures" : [
+        {
+            "sampler" : 0,
+            "source" : 0
+        }
+    ]
+}

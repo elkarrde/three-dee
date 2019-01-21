@@ -1,0 +1,172 @@
+{
+    "accessors" : [
+        {
+            "bufferView" : 0,
+            "componentType" : 5123,
+            "count" : 6234,
+            "max" : [
+                2455
+            ],
+            "min" : [
+                0
+            ],
+            "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 1,
+            "componentType" : 5126,
+            "count" : 2456,
+            "max" : [
+                0.05608810484409332,
+                0.009000000543892384,
+                0.05608810484409332
+            ],
+            "min" : [
+                -0.05608810484409332,
+                -0.015020052902400494,
+                -0.05608810484409332
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 2,
+            "componentType" : 5126,
+            "count" : 2456,
+            "max" : [
+                0.9987954497337341,
+                1.0,
+                0.9987955689430237
+            ],
+            "min" : [
+                -0.9987955093383789,
+                -1.0,
+                -0.9987954497337341
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 3,
+            "componentType" : 5126,
+            "count" : 2456,
+            "max" : [
+                0.9662175178527832,
+                1.0
+            ],
+            "min" : [
+                0.0,
+                0.03418779373168945
+            ],
+            "type" : "VEC2"
+        }
+    ],
+    "asset" : {
+        "generator" : "Khronos Blender glTF 2.0 exporter",
+        "version" : "2.0"
+    },
+    "bufferViews" : [
+        {
+            "buffer" : 0,
+            "byteLength" : 12468,
+            "byteOffset" : 0,
+            "target" : 34963
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 29472,
+            "byteOffset" : 12468,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 29472,
+            "byteOffset" : 41940,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 19648,
+            "byteOffset" : 71412,
+            "target" : 34962
+        }
+    ],
+    "buffers" : [
+        {
+            "byteLength" : 91060,
+            "uri" : "ubuntu.bin"
+        }
+    ],
+    "images" : [
+        {
+            "name" : "Ubuntu_t",
+            "uri" : "Ubuntu_t.jpg"
+        }
+    ],
+    "materials" : [
+        {
+            "alphaMode" : "BLEND",
+            "extras" : {
+                "v3d" : {}
+            },
+            "name" : "Ubuntu",
+            "pbrMetallicRoughness" : {
+                "baseColorTexture" : {
+                    "index" : 0
+                }
+            }
+        }
+    ],
+    "meshes" : [
+        {
+            "name" : "CUCurve.001",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "NORMAL" : 2,
+                        "POSITION" : 1,
+                        "TEXCOORD_0" : 3
+                    },
+                    "indices" : 0,
+                    "material" : 0
+                }
+            ]
+        }
+    ],
+    "nodes" : [
+        {
+            "extras" : {
+                "s_curve" : {}
+            },
+            "mesh" : 0,
+            "name" : "Curve.001",
+            "rotation" : [
+                0.7071068286895752,
+                0.0,
+                -0.0,
+                0.7071068286895752
+            ],
+            "scale" : [
+                237.7140655517578,
+                159.97711181640625,
+                237.7140655517578
+            ]
+        }
+    ],
+    "samplers" : [
+        {}
+    ],
+    "scene" : 0,
+    "scenes" : [
+        {
+            "name" : "Scene",
+            "nodes" : [
+                0
+            ]
+        }
+    ],
+    "textures" : [
+        {
+            "sampler" : 0,
+            "source" : 0
+        }
+    ]
+}

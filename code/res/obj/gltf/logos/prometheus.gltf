@@ -1,0 +1,202 @@
+{
+    "accessors" : [
+        {
+            "bufferView" : 0,
+            "componentType" : 5123,
+            "count" : 1344,
+            "max" : [
+                795
+            ],
+            "min" : [
+                0
+            ],
+            "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 1,
+            "componentType" : 5126,
+            "count" : 796,
+            "max" : [
+                2.2258198261260986,
+                0.290513813495636,
+                3.3628146648406982
+            ],
+            "min" : [
+                -2.1850340366363525,
+                -0.290513813495636,
+                -3.9870076179504395
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 2,
+            "componentType" : 5126,
+            "count" : 796,
+            "max" : [
+                0.7793206572532654,
+                1.0,
+                0.7278664708137512
+            ],
+            "min" : [
+                -0.7376934289932251,
+                -1.0,
+                -0.7988525032997131
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 3,
+            "componentType" : 5126,
+            "count" : 796,
+            "max" : [
+                0.9935855269432068,
+                0.8339151740074158,
+                0.9978668093681335,
+                1.0
+            ],
+            "min" : [
+                -0.9486338496208191,
+                -0.8339152932167053,
+                -1.0,
+                1.0
+            ],
+            "type" : "VEC4"
+        },
+        {
+            "bufferView" : 4,
+            "componentType" : 5126,
+            "count" : 796,
+            "max" : [
+                0.9966787695884705,
+                0.9965965740848333
+            ],
+            "min" : [
+                0.003321240656077862,
+                0.0034033656120300293
+            ],
+            "type" : "VEC2"
+        }
+    ],
+    "asset" : {
+        "generator" : "Khronos Blender glTF 2.0 exporter",
+        "version" : "2.0"
+    },
+    "bufferViews" : [
+        {
+            "buffer" : 0,
+            "byteLength" : 2688,
+            "byteOffset" : 0,
+            "target" : 34963
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 9552,
+            "byteOffset" : 2688,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 9552,
+            "byteOffset" : 12240,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 12736,
+            "byteOffset" : 21792,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 6368,
+            "byteOffset" : 34528,
+            "target" : 34962
+        }
+    ],
+    "buffers" : [
+        {
+            "byteLength" : 40896,
+            "uri" : "Prometheus.bin"
+        }
+    ],
+    "images" : [
+        {
+            "name" : "Prometheus",
+            "uri" : "Prometheus.jpg"
+        }
+    ],
+    "materials" : [
+        {
+            "alphaMode" : "BLEND",
+            "extras" : {
+                "v3d" : {}
+            },
+            "name" : "Material.001",
+            "pbrMetallicRoughness" : {
+                "baseColorTexture" : {
+                    "index" : 0
+                }
+            }
+        }
+    ],
+    "meshes" : [
+        {
+            "name" : "Circle",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "NORMAL" : 2,
+                        "POSITION" : 1,
+                        "TANGENT" : 3,
+                        "TEXCOORD_0" : 4
+                    },
+                    "indices" : 0,
+                    "material" : 0
+                }
+            ]
+        }
+    ],
+    "nodes" : [
+        {
+            "extras" : {
+                "v3d" : {}
+            },
+            "mesh" : 0,
+            "name" : "Circle",
+            "rotation" : [
+                0.7071068286895752,
+                0.0,
+                -0.0,
+                0.7071068286895752
+            ],
+            "scale" : [
+                4.642019271850586,
+                4.642019271850586,
+                3.937833786010742
+            ],
+            "translation" : [
+                -0.09466483443975449,
+                13.19176197052002,
+                6.237158913791063e-07
+            ]
+        }
+    ],
+    "samplers" : [
+        {}
+    ],
+    "scene" : 0,
+    "scenes" : [
+        {
+            "name" : "Scene",
+            "nodes" : [
+                0
+            ]
+        }
+    ],
+    "textures" : [
+        {
+            "sampler" : 0,
+            "source" : 0
+        }
+    ]
+}

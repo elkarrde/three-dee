@@ -1,0 +1,173 @@
+{
+    "accessors" : [
+        {
+            "bufferView" : 0,
+            "componentType" : 5123,
+            "count" : 1020,
+            "max" : [
+                359
+            ],
+            "min" : [
+                0
+            ],
+            "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 1,
+            "componentType" : 5126,
+            "count" : 360,
+            "max" : [
+                3.5991477966308594,
+                0.35102787613868713,
+                3.5206892490386963
+            ],
+            "min" : [
+                -3.4504451751708984,
+                -0.3551100194454193,
+                -3.465585708618164
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 2,
+            "componentType" : 5126,
+            "count" : 360,
+            "max" : [
+                0.7278664708137512,
+                1.0,
+                0.7278664708137512
+            ],
+            "min" : [
+                -0.7278664708137512,
+                -1.0,
+                -0.7278664708137512
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 3,
+            "componentType" : 5126,
+            "count" : 360,
+            "max" : [
+                0.990320086479187,
+                0.9853223264217377
+            ],
+            "min" : [
+                0.017492443323135376,
+                0.01694786548614502
+            ],
+            "type" : "VEC2"
+        }
+    ],
+    "asset" : {
+        "generator" : "Khronos Blender glTF 2.0 exporter",
+        "version" : "2.0"
+    },
+    "bufferViews" : [
+        {
+            "buffer" : 0,
+            "byteLength" : 2040,
+            "byteOffset" : 0,
+            "target" : 34963
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 4320,
+            "byteOffset" : 2040,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 4320,
+            "byteOffset" : 6360,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 2880,
+            "byteOffset" : 10680,
+            "target" : 34962
+        }
+    ],
+    "buffers" : [
+        {
+            "byteLength" : 13560,
+            "uri" : "Elastic.bin"
+        }
+    ],
+    "images" : [
+        {
+            "name" : "Elastic_t",
+            "uri" : "Elastic_t.jpg"
+        }
+    ],
+    "materials" : [
+        {
+            "alphaMode" : "BLEND",
+            "extras" : {
+                "v3d" : {}
+            },
+            "name" : "face",
+            "pbrMetallicRoughness" : {
+                "baseColorTexture" : {
+                    "index" : 0
+                }
+            }
+        }
+    ],
+    "meshes" : [
+        {
+            "name" : "Circle.007",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "NORMAL" : 2,
+                        "POSITION" : 1,
+                        "TEXCOORD_0" : 3
+                    },
+                    "indices" : 0,
+                    "material" : 0
+                }
+            ]
+        }
+    ],
+    "nodes" : [
+        {
+            "extras" : {
+                "s_curve" : {},
+                "v3d" : {}
+            },
+            "mesh" : 0,
+            "name" : "Circle.005",
+            "rotation" : [
+                0.7071068286895752,
+                0.0,
+                -0.0,
+                0.7071068286895752
+            ],
+            "scale" : [
+                4.248462677001953,
+                4.248462677001953,
+                4.248462677001953
+            ]
+        }
+    ],
+    "samplers" : [
+        {}
+    ],
+    "scene" : 0,
+    "scenes" : [
+        {
+            "name" : "Scene",
+            "nodes" : [
+                0
+            ]
+        }
+    ],
+    "textures" : [
+        {
+            "sampler" : 0,
+            "source" : 0
+        }
+    ]
+}

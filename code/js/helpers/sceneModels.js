@@ -61,7 +61,11 @@ function placeModels(scene, cellData) {
     sqOffset.z += parseInt(obj.LocationIn3dTile[1], 10)
     //console.log('OBJx', objModel, obj.Logo, sqOffset)
 
-    addModel(cell, objModel, obj.Logo, sqOffset)
+    var metadata = {
+      source: 'JSON',
+      name: 'FJ-' + ic
+    }
+    addModel(cell, objModel, obj.Logo, sqOffset, metadata)
     ic++
   })
 
@@ -107,17 +111,16 @@ function createGltfObject(scene, objName, params, callback) {
   loader.load(
     objPath + objName + '.gltf',
     function (gltf) {
+      /*
       scene.add(gltf.scene);
-
       gltf.animations; // Array<THREE.AnimationClip>
       gltf.scene; // THREE.Scene
       gltf.scenes; // Array<THREE.Scene>
       gltf.cameras; // Array<THREE.Camera>
       gltf.asset; // Object
-
-      // var helper = new THREE.BoxHelper(gltf.scene, 0x00ff00)
-      // scene.add(helper)
-      callback(gltf, params)
+      */
+      //console.log('GLTF', gltf)
+      callback(gltf, params, 'gltf')
     },
     function (xhr) {
       // do nothing
@@ -145,14 +148,12 @@ function createFbxObj(scene, objName, params, callback) {
         }
       });
       scene.add(object)
-      // var helper = new THREE.BoxHelper(object, 0xff0000)
-      // scene.add(helper)
       callback(object, params, action)
   })
 }
 
-function addModel(scene, model, logoModel, sqOffset) {
-  console.log('AMx-->', model, logoModel, sqOffset)
+function addModel(scene, model, logoModel, sqOffset, metadata) {
+  console.log('AMx-->', model, logoModel, sqOffset, metadata)
   if (modelsMap[model].model) {
     console.log('Clone!', model, logoModel, sqOffset)
     var mdl = modelsMap[model].model.clone()
@@ -194,22 +195,18 @@ function addModel(scene, model, logoModel, sqOffset) {
       group.add(logo)
     }
     group.add(mdl)
-
-    var helper = new THREE.BoxHelper(mdl, 0x0000ff)
-    helper.visible = false
-    group.add(helper)
-    group.visible = true
-    mdl.visible = true
+    if (metadata.source) { group.userData.source = metadata.source }
+    if (metadata.name) { group.userData.name = metadata.name }
 
     scene.add(group)
   } else {
-    console.log('Create!', model, logoModel, sqOffset)
-    createObject(scene, model, sqOffset, function(objx, sqOffset) {
+    console.log('Create!', model, logoModel, sqOffset, metadata)
+    createObject(scene, model, sqOffset, function(objx, sqOffset, type) {
       obj = objx
       var fixed = false
 
-      if ('scene' in objx) {
-        obj = objx.scene.children[0]
+      if (type && type === 'gltf') {
+        obj = objx.scene
         fixed = true
       }
 
@@ -223,18 +220,21 @@ function addModel(scene, model, logoModel, sqOffset) {
       obj.position.x = oX + modelsMap[model].oX
       obj.position.z = oZ + modelsMap[model].oZ
 
-      obj.userData.type = model
-      obj.userData.model = 'model'
-      obj.userData.name = modelsMap[model].name
-      obj.userData.theme = modelsMap[model].theme
-      obj.userData.sqOffset = sqOffset
-      obj.userData.logo = logoModel
+      var group = new THREE.Group()
+
+      group.userData.type = model
+      group.userData.model = 'model'
+      group.userData.name = modelsMap[model].name
+      group.userData.theme = modelsMap[model].theme
+      group.userData.sqOffset = sqOffset
+
+      if (metadata && metadata.source) { group.userData.source = metadata.source }
+      if (metadata && metadata.name) { group.userData.name = metadata.name }
 
       modelsMap[model].count = 1
       modelsMap[model].model = obj
       modelsMap[model].map.push(obj.id)
 
-      var group = new THREE.Group();
       var tmpLogoObj = logoMap[logoModel]
 
       var tlgo = Object.getOwnPropertyNames(logoMap)
@@ -252,7 +252,8 @@ function addModel(scene, model, logoModel, sqOffset) {
       }
       if (logo) {
         logoMap[tlgo[trl]].map.push(logo.id)
-        obj.userData.logoId = logo.id
+        group.userData.logoId = logo.id
+        group.userData.logo = logoModel
         var box = new THREE.Box3().setFromObject(obj)
         logo.position.x = obj.position.x + logoObj.oX
         logo.position.y = box.max.y + 15 + modelsMap[model].lY
@@ -263,9 +264,14 @@ function addModel(scene, model, logoModel, sqOffset) {
       obj.visible = true
       group.add(obj)
 
-      var helper = new THREE.BoxHelper(obj, 0x00ffff)
-      helper.visible = false
-      group.add(helper)
+      if (type && type === 'gltf') {
+        //scene.add(gltf.scene);
+        obj.animations; // Array<THREE.AnimationClip>
+        obj.scene; // THREE.Scene
+        obj.scenes; // Array<THREE.Scene>
+        obj.cameras; // Array<THREE.Camera>
+        obj.asset; // Object
+      }
 
       scene.add(group);
     })

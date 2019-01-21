@@ -1,0 +1,169 @@
+{
+    "accessors" : [
+        {
+            "bufferView" : 0,
+            "componentType" : 5123,
+            "count" : 1656,
+            "max" : [
+                833
+            ],
+            "min" : [
+                0
+            ],
+            "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 1,
+            "componentType" : 5126,
+            "count" : 834,
+            "max" : [
+                3.111267566680908,
+                0.6242538690567017,
+                3.0522890090942383
+            ],
+            "min" : [
+                -3.1768054962158203,
+                0.0,
+                -3.239572525024414
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 2,
+            "componentType" : 5126,
+            "count" : 834,
+            "max" : [
+                1.0,
+                0.9999999403953552,
+                0.9999879002571106
+            ],
+            "min" : [
+                -1.0,
+                -1.0,
+                -0.9995120167732239
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 3,
+            "componentType" : 5126,
+            "count" : 834,
+            "max" : [
+                0.985895574092865,
+                0.9751386642456055
+            ],
+            "min" : [
+                4.39772593381349e-05,
+                0.023157238960266113
+            ],
+            "type" : "VEC2"
+        }
+    ],
+    "asset" : {
+        "generator" : "Khronos Blender glTF 2.0 exporter",
+        "version" : "2.0"
+    },
+    "bufferViews" : [
+        {
+            "buffer" : 0,
+            "byteLength" : 3312,
+            "byteOffset" : 0,
+            "target" : 34963
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 10008,
+            "byteOffset" : 3312,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 10008,
+            "byteOffset" : 13320,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 6672,
+            "byteOffset" : 23328,
+            "target" : 34962
+        }
+    ],
+    "buffers" : [
+        {
+            "byteLength" : 30000,
+            "uri" : "Flink.bin"
+        }
+    ],
+    "images" : [
+        {
+            "name" : "flink",
+            "uri" : "flink.jpg"
+        }
+    ],
+    "materials" : [
+        {
+            "alphaMode" : "BLEND",
+            "extras" : {
+                "v3d" : {}
+            },
+            "name" : "facce",
+            "pbrMetallicRoughness" : {
+                "baseColorTexture" : {
+                    "index" : 0
+                }
+            }
+        }
+    ],
+    "meshes" : [
+        {
+            "name" : "Vert",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "NORMAL" : 2,
+                        "POSITION" : 1,
+                        "TEXCOORD_0" : 3
+                    },
+                    "indices" : 0,
+                    "material" : 0
+                }
+            ]
+        }
+    ],
+    "nodes" : [
+        {
+            "mesh" : 0,
+            "name" : "Vert",
+            "rotation" : [
+                0.7071068286895752,
+                0.0,
+                -0.0,
+                0.7071068286895752
+            ],
+            "scale" : [
+                5.0,
+                5.0,
+                5.0
+            ]
+        }
+    ],
+    "samplers" : [
+        {}
+    ],
+    "scene" : 0,
+    "scenes" : [
+        {
+            "name" : "Scene",
+            "nodes" : [
+                0
+            ]
+        }
+    ],
+    "textures" : [
+        {
+            "sampler" : 0,
+            "source" : 0
+        }
+    ]
+}

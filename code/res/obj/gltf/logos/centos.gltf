@@ -1,0 +1,202 @@
+{
+    "accessors" : [
+        {
+            "bufferView" : 0,
+            "componentType" : 5123,
+            "count" : 1248,
+            "max" : [
+                863
+            ],
+            "min" : [
+                0
+            ],
+            "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 1,
+            "componentType" : 5126,
+            "count" : 864,
+            "max" : [
+                2.217515230178833,
+                0.41065794229507446,
+                2.217515468597412
+            ],
+            "min" : [
+                -2.217515230178833,
+                0.0,
+                -2.217514991760254
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 2,
+            "componentType" : 5126,
+            "count" : 864,
+            "max" : [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "min" : [
+                -1.0,
+                -1.0,
+                -1.0
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 3,
+            "componentType" : 5126,
+            "count" : 864,
+            "max" : [
+                0.9999063611030579,
+                1.0,
+                0.9999064207077026,
+                1.0
+            ],
+            "min" : [
+                -0.9999064207077026,
+                -1.0,
+                -0.9999063611030579,
+                1.0
+            ],
+            "type" : "VEC4"
+        },
+        {
+            "bufferView" : 4,
+            "componentType" : 5126,
+            "count" : 864,
+            "max" : [
+                0.996651828289032,
+                0.9967026321683079
+            ],
+            "min" : [
+                0.0033481232821941376,
+                0.0032973885536193848
+            ],
+            "type" : "VEC2"
+        }
+    ],
+    "asset" : {
+        "generator" : "Khronos Blender glTF 2.0 exporter",
+        "version" : "2.0"
+    },
+    "bufferViews" : [
+        {
+            "buffer" : 0,
+            "byteLength" : 2496,
+            "byteOffset" : 0,
+            "target" : 34963
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 10368,
+            "byteOffset" : 2496,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 10368,
+            "byteOffset" : 12864,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 13824,
+            "byteOffset" : 23232,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 6912,
+            "byteOffset" : 37056,
+            "target" : 34962
+        }
+    ],
+    "buffers" : [
+        {
+            "byteLength" : 43968,
+            "uri" : "Centos.bin"
+        }
+    ],
+    "images" : [
+        {
+            "name" : "Centos",
+            "uri" : "Centos.jpg"
+        }
+    ],
+    "materials" : [
+        {
+            "alphaMode" : "BLEND",
+            "extras" : {
+                "v3d" : {}
+            },
+            "name" : "blue",
+            "pbrMetallicRoughness" : {
+                "baseColorTexture" : {
+                    "index" : 0
+                }
+            }
+        }
+    ],
+    "meshes" : [
+        {
+            "name" : "Plane.004",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "NORMAL" : 2,
+                        "POSITION" : 1,
+                        "TANGENT" : 3,
+                        "TEXCOORD_0" : 4
+                    },
+                    "indices" : 0,
+                    "material" : 0
+                }
+            ]
+        }
+    ],
+    "nodes" : [
+        {
+            "extras" : {
+                "v3d" : {}
+            },
+            "mesh" : 0,
+            "name" : "Plane",
+            "rotation" : [
+                -0.27059805393218994,
+                -0.27059805393218994,
+                -0.6532815098762512,
+                0.6532815098762512
+            ],
+            "scale" : [
+                6.000000476837158,
+                4.280202865600586,
+                6.000000476837158
+            ],
+            "translation" : [
+                0.001246139407157898,
+                0.0,
+                -1.0175745487213135
+            ]
+        }
+    ],
+    "samplers" : [
+        {}
+    ],
+    "scene" : 0,
+    "scenes" : [
+        {
+            "name" : "Scene",
+            "nodes" : [
+                0
+            ]
+        }
+    ],
+    "textures" : [
+        {
+            "sampler" : 0,
+            "source" : 0
+        }
+    ]
+}
