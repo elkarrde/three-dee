@@ -10,7 +10,7 @@ var logoMap = {
   'prometheus':   { scale: 12, oX: 0,  oZ: 0, model: null, map: [], count: 0},
   'spark':        { scale: 5,  oX: 0,  oZ: 0, model: null, map: [], count: 0},
   'ubuntu':       { scale: 4,  oX: 0,  oZ: 0, model: null, map: [], count: 0},
-  'zepelin':      { scale: 6,  oX: 0,  oZ: 0, model: null, map: [], count: 0},
+  'zepelin':      { scale: 1,  oX: 0,  oZ: 0, model: null, map: [], count: 0},
   'zoo':          { scale: 9,  oX: 0,  oZ: 0, model: null, map: [], count: 0}
 }
 

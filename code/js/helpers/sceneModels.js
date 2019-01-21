@@ -24,14 +24,20 @@ var updateModels = function() {
   console.log('All models IDs:', allModelsIds)
   allModelsIds.forEach(function(modelId) {
     var mdl = scene.getObjectById(modelId)
-    var lgo = scene.getObjectById(mdl.userData.logoId)
-    var newModel = mdl.userData.name + themesMap[activeTheme]
+    var meta
+    if (Object.getOwnPropertyNames(mdl.userData).length < 2) {
+      meta = mdl.parent.userData
+    } else {
+      meta = mdl.userData
+    }
+    var lgo = scene.getObjectById(meta.logoId)
+    var newModel = meta.name + themesMap[activeTheme]
 
     console.log('XO-%d:', modelId, newModel, mdl)
 
     mdl.visible = false
     lgo.visible = false
-    addModel(scene, newModel, mdl.userData.logo, mdl.userData.sqOffset)
+    addModel(scene, newModel, meta.logo, meta.sqOffset)
   })
 }
 
@@ -111,15 +117,6 @@ function createGltfObject(scene, objName, params, callback) {
   loader.load(
     objPath + objName + '.gltf',
     function (gltf) {
-      /*
-      scene.add(gltf.scene);
-      gltf.animations; // Array<THREE.AnimationClip>
-      gltf.scene; // THREE.Scene
-      gltf.scenes; // Array<THREE.Scene>
-      gltf.cameras; // Array<THREE.Camera>
-      gltf.asset; // Object
-      */
-      //console.log('GLTF', gltf)
       callback(gltf, params, 'gltf')
     },
     function (xhr) {
@@ -168,6 +165,10 @@ function addModel(scene, model, logoModel, sqOffset, metadata) {
     mdl.position.z = oZ + modelsMap[model].oZ
     mdl.userData.sqOffset = sqOffset
     mdl.userData.logo = logoModel
+    mdl.userData.type = model
+    mdl.userData.theme = 1
+    mdl.userData.name = model.substr(0, model.indexOf('_'))
+    mdl.userData.model = 'model'
     modelsMap[model].count++
 
     var group = new THREE.Group();
@@ -194,21 +195,17 @@ function addModel(scene, model, logoModel, sqOffset, metadata) {
       logo.visible = true
       group.add(logo)
     }
+    mdl.visible = true
     group.add(mdl)
-    if (metadata.source) { group.userData.source = metadata.source }
-    if (metadata.name) { group.userData.name = metadata.name }
+    if (metadata && metadata.source) { group.userData.source = metadata.source }
+    if (metadata && metadata.name) { group.userData.name = metadata.name }
 
     scene.add(group)
   } else {
     console.log('Create!', model, logoModel, sqOffset, metadata)
     createObject(scene, model, sqOffset, function(objx, sqOffset, type) {
       obj = objx
-      var fixed = false
-
-      if (type && type === 'gltf') {
-        obj = objx.scene
-        fixed = true
-      }
+      if (type && type === 'gltf') { obj = objx.scene }
 
       obj.scale.set(modelsMap[model].scale, modelsMap[model].scale, modelsMap[model].scale)
       var oX = 0

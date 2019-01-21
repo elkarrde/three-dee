@@ -40,20 +40,19 @@ function initLogos() {
       if (type && type === 'gltf') {
         obj.animations; // Array<THREE.AnimationClip>
         obj.scene; // THREE.Scene
-        obj.scenes; // Array<THREE.Scene>
-        obj.cameras; // Array<THREE.Camera>
         obj.asset; // Object
         xobj = obj.scene
       } else {
-        obj.scale.set(logoObj.scale, logoObj.scale, logoObj.scale)
-        obj.position.x = 10000
-        obj.position.z = 10000
-        obj.position.y = 10000
-        obj.userData.mode = 'logo'
-        obj.userData.type = logoObj.name
-        obj.rotateX(Math.PI / 2);
         xobj = obj
       }
+      xobj.scale.set(logoObj.scale, logoObj.scale, logoObj.scale)
+      xobj.position.x = 10000
+      xobj.position.z = 10000
+      xobj.position.y = 10000
+      xobj.userData.mode = 'logo'
+      xobj.userData.type = logoObj.name
+      //xobj.rotateX(Math.PI / 2);
+
       logoObj.count = 0
       logoObj.model = xobj
       scene.add(xobj)
