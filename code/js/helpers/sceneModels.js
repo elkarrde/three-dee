@@ -210,7 +210,7 @@ function addModel(scene, model, logoModel, sqOffset, metadata) {
         fixed = true
       }
 
-      if (!fixed) { obj.scale.set(modelsMap[model].scale, modelsMap[model].scale, modelsMap[model].scale) }
+      obj.scale.set(modelsMap[model].scale, modelsMap[model].scale, modelsMap[model].scale)
       var oX = 0
       var oZ = 0
       if (sqOffset && typeof sqOffset === 'object') {

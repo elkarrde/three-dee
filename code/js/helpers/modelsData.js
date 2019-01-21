@@ -18,7 +18,7 @@ var modelsMap = {
   'Castle_a': { theme: 'alien', name: 'Castle', scale: 1.3, oX: 0,   oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },
   'Cube_a':   { theme: 'alien', name: 'Cube',   scale: 1.3, oX: 0,   oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },
   'Round_a':  { theme: 'alien', name: 'Round',  scale: 0.5, oX: -10, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },
-  'Silos_a':  { theme: 'alien', name: 'Silos',  scale: 0.5, oX: 0,   oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },
+  'Silos_a':  { theme: 'alien', name: 'Silos',  scale: 0.7, oX: 0,   oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },
   'Tower_a':  { theme: 'alien', name: 'Tower',  scale: 0.8, oX: 0,   oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },
 
   'Castle_c': { theme: 'city', name: 'Castle', scale: 1.2, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },
