@@ -80,3 +80,44 @@ function initModels() {
     })
   })
 }
+
+var labels = {}
+function initLabels() {
+  var loader = new THREE.FontLoader();
+  loader.load('res/fonts/helvetiker_regular.typeface.json', function(font) {
+    var txtParams = {
+      font: font,
+      size: 20,
+      height: 5,
+      curveSegments: 12,
+      bevelEnabled: false,
+      bevelThickness: 1,
+      bevelSize: 1,
+      bevelSegments: 1
+    }
+    var lMat = new THREE.MeshBasicMaterial({ color: 0x1bf7f9 }) //1bf7f9
+
+    for (var ti = 0; ti <= 9; ti++) {
+      var textGeo = new THREE.TextGeometry(ti.toString(), txtParams);
+      var textX = new THREE.Mesh(textGeo, lMat)
+      var textZ = new THREE.Mesh(textGeo, lMat)
+      textX.position.x = -905 + (ti * 200)
+      textX.position.y = 1
+      textX.position.z = -1030
+      textX.rotation.x = Math.PI * 1.5
+
+      textZ.position.x = -1050
+      textZ.position.y = 1
+      textZ.position.z = -890 + (ti * 200)
+      textZ.rotation.x = Math.PI * 1.5
+
+      labels[ti] = {
+        'x': { map: textX },
+        'z': { map: textZ }
+      }
+
+      scene.add(textX)
+      scene.add(textZ)
+    }
+  });
+}

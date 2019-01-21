@@ -28,10 +28,10 @@ $(function() {
     var mdlx = mdl + themesMap[activeTheme]
     addModel(scene, mdlx, lgo, sqOffset)
 
-    if (modelsMap[mdl].count) {
-      $('.js-object-list tbody').find('.js-count-' + mdl).find('.js-num').html(modelsMap[mdl].count)
+    if (modelsMap[mdlx].count) {
+      $('.js-object-list tbody').find('.js-count-' + mdlx).find('.js-num').html(modelsMap[mdlx].count)
     } else {
-      $('.js-object-list tbody').append('<tr class="js-count-' + mdl + '"><td>' + mdl + '</td><td class="js-num">1</td></tr>')
+      $('.js-object-list tbody').append('<tr class="js-count-' + mdlx + '"><td>' + mdlx + '</td><td class="js-num">1</td></tr>')
     }
     count++
   })

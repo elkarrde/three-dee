@@ -63,15 +63,11 @@ function placeModels(scene, cellData) {
     })
     var logoModel = logoMap[obj.Logo]
 
-    sqOffset.x += parseInt(obj.LocationIn3dTile[0], 10)
-    sqOffset.z += parseInt(obj.LocationIn3dTile[1], 10)
-    //console.log('OBJx', objModel, obj.Logo, sqOffset)
+    var sqOff = iterationCopy(sqOffset)
+    sqOff.x += parseInt(obj.LocationIn3dTile[0], 10)
+    sqOff.z += parseInt(obj.LocationIn3dTile[1], 10)
 
-    var metadata = {
-      source: 'JSON',
-      name: 'FJ-' + ic
-    }
-    addModel(cell, objModel, obj.Logo, sqOffset, metadata)
+    addModel(cell, objModel, obj.Logo, sqOff)
     ic++
   })
 
@@ -149,8 +145,8 @@ function createFbxObj(scene, objName, params, callback) {
   })
 }
 
-function addModel(scene, model, logoModel, sqOffset, metadata) {
-  console.log('AMx-->', model, logoModel, sqOffset, metadata)
+function addModel(scene, model, logoModel, sqOffset) {
+  console.log('AMx-->', model, logoModel, sqOffset)
   if (modelsMap[model].model) {
     console.log('Clone!', model, logoModel, sqOffset)
     var mdl = modelsMap[model].model.clone()
@@ -197,12 +193,10 @@ function addModel(scene, model, logoModel, sqOffset, metadata) {
     }
     mdl.visible = true
     group.add(mdl)
-    if (metadata && metadata.source) { group.userData.source = metadata.source }
-    if (metadata && metadata.name) { group.userData.name = metadata.name }
 
     scene.add(group)
   } else {
-    console.log('Create!', model, logoModel, sqOffset, metadata)
+    console.log('Create!', model, logoModel, sqOffset)
     createObject(scene, model, sqOffset, function(objx, sqOffset, type) {
       obj = objx
       if (type && type === 'gltf') { obj = objx.scene }
@@ -225,9 +219,6 @@ function addModel(scene, model, logoModel, sqOffset, metadata) {
       group.userData.theme = modelsMap[model].theme
       group.userData.sqOffset = sqOffset
 
-      if (metadata && metadata.source) { group.userData.source = metadata.source }
-      if (metadata && metadata.name) { group.userData.name = metadata.name }
-
       modelsMap[model].count = 1
       modelsMap[model].model = obj
       modelsMap[model].map.push(obj.id)
@@ -239,7 +230,6 @@ function addModel(scene, model, logoModel, sqOffset, metadata) {
       var lgo = logoMap[tlgo[trl]]
 
       var logoObj = tmpLogoObj? tmpLogoObj : lgo
-      //console.log('LOz', tlgo[trl], logoObj)
 
       var logo = null
       try {
@@ -262,7 +252,6 @@ function addModel(scene, model, logoModel, sqOffset, metadata) {
       group.add(obj)
 
       if (type && type === 'gltf') {
-        //scene.add(gltf.scene);
         obj.animations; // Array<THREE.AnimationClip>
         obj.scene; // THREE.Scene
         obj.scenes; // Array<THREE.Scene>

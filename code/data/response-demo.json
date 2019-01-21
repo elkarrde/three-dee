@@ -80,7 +80,7 @@
               "Model": "Tower",
               "LocationIn3dTile": [
                 1,
-                1
+                3
               ]
             },
             {
@@ -88,7 +88,7 @@
               "Logo": "apache_kafka",
               "Model": "Silos",
               "LocationIn3dTile": [
-                1,
+                4,
                 3
               ]
             }
@@ -154,7 +154,7 @@
               "Logo": "flink",
               "Model": "Cube",
               "LocationIn3dTile": [
-                1,
+                4,
                 1
               ]
             },
@@ -163,8 +163,8 @@
               "Logo": "apache_kafka",
               "Model": "Silos",
               "LocationIn3dTile": [
-                1,
-                3
+                4,
+                4
               ]
             }
           ]
@@ -206,7 +206,7 @@
               "Model": "Castle",
               "LocationIn3dTile": [
                 1,
-                2
+                4
               ]
             }
           ]
@@ -239,7 +239,7 @@
               "Model": "Cube",
               "LocationIn3dTile": [
                 2,
-                1
+                2
               ]
             },
             {
@@ -247,8 +247,8 @@
               "Logo": "apache_kafka",
               "Model": "Silos",
               "LocationIn3dTile": [
-                1,
-                3
+                2,
+                4
               ]
             }
           ]
@@ -276,12 +276,12 @@
           ],
           "Services": [
             {
-              "Name": "Flink",
-              "Logo": "flink",
-              "Model": "Cube",
+              "Name": "Zepelin",
+              "Logo": "zepelin",
+              "Model": "Castle",
               "LocationIn3dTile": [
-                1,
-                1
+                4,
+                4
               ]
             }
           ]

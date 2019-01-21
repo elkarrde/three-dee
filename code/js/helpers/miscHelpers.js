@@ -42,3 +42,13 @@ function getPosCoords(sqOffset) {
 function sqPos(sq) {
   return -1000 + sq * sqSize
 }
+
+function iterationCopy(src) {
+  let target = {};
+  for (let prop in src) {
+    if (src.hasOwnProperty(prop)) {
+      target[prop] = src[prop];
+    }
+  }
+  return target;
+}
