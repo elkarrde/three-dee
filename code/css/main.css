@@ -98,5 +98,10 @@ header .navbar h5 { color: #eee; }
   height: 26px;
 }
 
+#stats canvas {
+  margin-right: 0.5rem;
+  margin-bottom: 0.33rem;
+}
+
 .builder-modal-lg .modal-content { padding: 2rem 2rem 0.5rem; }
 .connection-modal-lg .modal-content { padding: 2rem 2rem 0.5rem; }

@@ -3,32 +3,27 @@
 function setConns() {
   addModel(scene, 'Tower_a', 'ubuntu',  { x: 36, z: 26 })
   addModel(scene, 'Cube_a',  'elastic', { x: 36, z: 29 })
+  var lnk1 = createLink({
+    start: { x: 36, z: 26 },
+    end:   { x: 36, z: 29 }
+  })
+  scene.add(lnk1)
+  links.push(lnk1)
 
-  setTimeout(function() {
-    var mt = modelsMap.Tower_a.model
-    var ms = modelsMap.Cube_a.model
-    link.position.x = sqPos(36)
-    link.position.z = sqPos(26)
+  addModel(scene, 'Silos_a', 'centos', { x: 41, z: 28 })
+  addModel(scene, 'Round_a', 'git',    { x: 44, z: 28 })
+  var lnk2 = createLink({
+    start: { x: 41, z: 28 },
+    end:   { x: 44, z: 28 }
+  })
+  scene.add(lnk2)
+  links.push(lnk2)
 
-    scene.add(link)
-  }, 2000)
-
-  addModel(scene, 'Silos_a', 'centos', { x: 39, z: 26 })
-  addModel(scene, 'Round_a', 'git',    { x: 39, z: 29 })
-
-  setTimeout(function() {
-    var mwx = modelsMap.Silos_a.model
-    var mcx = modelsMap.Round_a.model
-
-    var link2 = link.clone()
-    link2.position.x = sqPos(39)
-    link2.position.z = sqPos(26)
-
-    traffic.position.x = 560
-    traffic.position.z = 640
-    traffic.visible = true
-    scene.add(link2)
-  }, 2000)
+  /*
+  traffic.position.x = 560
+  traffic.position.z = 640
+  traffic.visible = true
+  */
 }
 
 function initLogos() {

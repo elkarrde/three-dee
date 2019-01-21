@@ -6,6 +6,7 @@ $(function() {
 
   activeTheme = $('#themeSelect').val()
   updateModels()
+
   logos.forEach(function(logo) {
     $('#logoSelectM').append('<option value="' + logo + '">' + logo + '</option>')
   })
@@ -49,7 +50,7 @@ $(function() {
   })
 
   $('.js-btn-stats').click(function() {
-    $(stats.domElement).toggleClass('hide')
+    $(stats1.domElement).toggleClass('hide')
   })
 
   $('.js-btn-load').click(function() {
@@ -158,5 +159,70 @@ $(function() {
     return false;
   });
 
+  $('#buildConn').submit(function(e) {
+    e.preventDefault()
+    var locS = $('#inputSqS').val().trim().match(/(\d{1,}),(\d{1,})/i)
+    var outlocS = $('#inputLocS').val().trim().match(/(\d{1,}),(\d{1,})/i)
+    var locE = $('#inputSqE').val().trim().match(/(\d{1,}),(\d{1,})/i)
+    var outlocE = $('#inputLocE').val().trim().match(/(\d{1,}),(\d{1,})/i)
+
+    if (locS instanceof Array) {
+      locS = [parseInt(locS[1], 10), parseInt(locS[2], 10)]
+    } else {
+      locS = [1, 1]
+    }
+    if (outlocS instanceof Array) {
+      outlocS = [parseInt(outlocS[1], 10), parseInt(outlocS[2], 10)]
+    } else {
+      outlocS = [1, 1]
+    }
+
+    if (locE instanceof Array) {
+      locE = [parseInt(locE[1], 10), parseInt(locE[2], 10)]
+    } else {
+      locE = [1, 1]
+    }
+    if (outlocE instanceof Array) {
+      outlocE = [parseInt(outlocE[1], 10), parseInt(outlocE[2], 10)]
+    } else {
+      outlocE = [1, 1]
+    }
+
+    console.log('CXS--->', locS, outlocS)
+    console.log('CXE--->', locE, outlocE)
+
+    /*
+    var data = {
+      LocationIn3d: outloc,
+      Services: [
+        {
+          Name: 'Builder object',
+          Logo: logo,
+          Model: obj,
+          LocationIn3dTile: loc
+        }
+      ]
+    }
+    placeModels(scene, data)
+    */
+
+    var objX = {
+      start: { 
+        x: gridBoxLine * locS[0] + outlocS[0], 
+        z: gridBoxLine * locS[1] + outlocS[1] 
+      },
+      end: { 
+        x: gridBoxLine * locE[0] + outlocE[0], 
+        z: gridBoxLine * locE[1] + outlocE[1] 
+      }
+    }
+    var lnkB = createLink(objX)
+    scene.add(lnkB)
+    links.push(lnkB)
+
+    $('.connection-modal-lg').modal('hide')
+    return false;
+  });
+
   $('#scene').append(vprend.domElement);
-})
+}) 
