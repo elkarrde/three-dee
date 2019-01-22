@@ -29,6 +29,11 @@ var createLink = function(lnkData) {
   if (lenX > lenZ) { link.rotation.z = -Math.PI * 0.5 }
   link.visible = true
 
+  link.userData.start = lnkData.start
+  link.userData.end = lnkData.end
+  link.userData.length = Math.max(lenX, lenZ) * sqSize
+  link.userData.orientation = (lenX > lenZ)? 1 : 0
+
   //console.log('LNKM', link)
   return link
 }
