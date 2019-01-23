@@ -78,6 +78,9 @@ $(function() {
     $('.obj-panel').removeClass('hide')
   })
 
+  $('#buildBtn').click(function() {
+    $('.builder-modal-lg').modal('show')
+  })
   $('#buildConnBtn').click(function() {
     $('.connection-modal-lg').modal('show')
   })
@@ -159,6 +162,13 @@ $(function() {
     return false;
   });
 
+  $('#inputLoc,#inputSqS,#inputSqE').focus(function() {
+    labels.visible = true
+  })
+  $('#inputLoc,#inputSqS,#inputSqE').blur(function() {
+    labels.visible = false
+  })
+
   $('#buildConn').submit(function(e) {
     e.preventDefault()
     var locS = $('#inputSqS').val().trim().match(/(\d{1,}),(\d{1,})/i)
@@ -187,9 +197,6 @@ $(function() {
     } else {
       outlocE = [1, 1]
     }
-
-    console.log('CXS--->', locS, outlocS)
-    console.log('CXE--->', locE, outlocE)
 
     /*
     var data = {

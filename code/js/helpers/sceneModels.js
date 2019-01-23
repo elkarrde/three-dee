@@ -42,7 +42,6 @@ var updateModels = function() {
 }
 
 function placeModels(scene, cellData) {
-  //console.log('PMx', cellData)
   var location = cellData.LocationIn3d
   var objArray = cellData.Services
   var cell = new THREE.Group()

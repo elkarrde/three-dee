@@ -31,12 +31,12 @@ var themesMap = {
   'simple': '_s'
 }
 
-
+var particles = []
 var ptxOptions = {
-  position: new THREE.Vector3(637, 1, 373),
+  position: new THREE.Vector3(0, 1, 0),
   positionRandomness: 0.5, //0.44,
   velocity: new THREE.Vector3(),
-  velocityRandomness: 0.5, //0.18,
+  velocityRandomness: 2, //0.18,
   color: 0x1bf7f9,
   colorRandomness: 0.5,
   turbulence: 1, //0.01,

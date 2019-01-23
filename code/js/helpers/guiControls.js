@@ -35,7 +35,7 @@ var gOptions = {
     endOpacity: 0,
   },
   particle: {
-    speed: 12,
+    speed: 4,
     posY: 5
   },
   mkGrad: function() {
@@ -131,9 +131,11 @@ ghParticle.add(spawnerOptions, 'timeScale', -1, 10);
 ghParticle.add(gOptions.particle, 'speed', 1, 100).onChange(function() {
   speed = gOptions.particle.speed
 })
+/*
 ghParticle.add(gOptions.particle, 'posY', 1, 200).name('Position Y').onChange(function() {
   ptxOptions.position.y = gOptions.particle.posY
 })
+*/
 
 var gSbars = gui.addFolder('Sidebars')
 gSbars.add(gOptions.sidebars, 'width', 10, 30).onChange(function() {

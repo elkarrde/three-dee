@@ -18,12 +18,6 @@ function setConns() {
   })
   scene.add(lnk2)
   links.push(lnk2)
-
-  /*
-  traffic.position.x = 560
-  traffic.position.z = 640
-  traffic.visible = true
-  */
 }
 
 function initLogos() {
@@ -33,9 +27,9 @@ function initLogos() {
     createObject(scene, 'logos/' + logo, sqOffset, function(obj, sqOffset, type) {
       var xobj
       if (type && type === 'gltf') {
-        obj.animations; // Array<THREE.AnimationClip>
-        obj.scene; // THREE.Scene
-        obj.asset; // Object
+        obj.animations
+        obj.scene
+        obj.asset
         xobj = obj.scene
       } else {
         xobj = obj
@@ -46,7 +40,6 @@ function initLogos() {
       xobj.position.y = 10000
       xobj.userData.mode = 'logo'
       xobj.userData.type = logoObj.name
-      //xobj.rotateX(Math.PI / 2);
 
       logoObj.count = 0
       logoObj.model = xobj
@@ -76,7 +69,7 @@ function initModels() {
   })
 }
 
-var labels = {}
+labels = {}
 function initLabels() {
   var loader = new THREE.FontLoader();
   loader.load('res/fonts/helvetiker_regular.typeface.json', function(font) {
@@ -92,6 +85,7 @@ function initLabels() {
     }
     var lMat = new THREE.MeshBasicMaterial({ color: 0x1bf7f9 }) //1bf7f9
 
+    labels = new THREE.Group()
     for (var ti = 0; ti <= 9; ti++) {
       var textGeo = new THREE.TextGeometry(ti.toString(), txtParams);
       var textX = new THREE.Mesh(textGeo, lMat)
@@ -111,8 +105,11 @@ function initLabels() {
         'z': { map: textZ }
       }
 
-      scene.add(textX)
-      scene.add(textZ)
+      labels.add(textX)
+      labels.add(textZ)
     }
+
+    labels.visible = false
+    scene.add(labels)
   });
 }

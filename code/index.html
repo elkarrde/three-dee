@@ -76,7 +76,6 @@
       function init() {
         setupWorld()
         setupView(document.getElementById('scene'))
-        //initModels()
         initLogos()
         initLabels()
 
@@ -149,10 +148,11 @@
         window.addEventListener('resize', onWindowResize, false);
       }
 
-      ptxOptions.position.z = 440
+      ptxOptions.position.z = particles[0]? particles[0].z : 0
       ptxOptions.position.y = 5
+
       var dir = 1
-      var speed = 12
+      var speed = 4
 
       function animate() {
         stats1.begin()
@@ -165,14 +165,23 @@
         tick += delta;
         if (tick < 0) { tick = 0 }
         if (delta > 0) {
-          ptxOptions.position.x = 440
-          if (ptxOptions.position.z >= 160) { ptxOptions.position.z = 40 }
-          ptxOptions.position.z += (dir * speed)
-          for (var x = 0; x < spawnerOptions.spawnRate * delta; x ++) {
-            // Yep, that's really it. Spawning particles is super cheap, and once you spawn them, the rest of
-            // their lifecycle is handled entirely on the GPU, driven by a time uniform updated below
-            particleSystem.spawnParticle(ptxOptions)
-          }
+          // 0: z, 1: x
+          var cX, cZ
+          links.forEach(function(lnk) {
+            var pto = iterationCopy(ptxOptions)
+            if (lnk.userData.orientation === 0) {
+              pto.position.x = sqPos(lnk.userData.start.x)
+              if (pto.position.z >= sqPos(lnk.userData.start.z) + lnk.userData.length) { pto.position.z = sqPos(lnk.userData.start.z) }
+              pto.position.z += (dir * speed)
+            } else {
+              pto.position.z = sqPos(lnk.userData.start.z)
+              if (pto.position.x >= sqPos(lnk.userData.start.x) + lnk.userData.length) { pto.position.x = sqPos(lnk.userData.start.x) }
+              pto.position.x += (dir * speed)
+            }
+            for (var x = 0; x < spawnerOptions.spawnRate * delta; x++) {
+              particleSystem.spawnParticle(pto)
+            }
+          })
         }
         particleSystem.update(tick);
 
@@ -235,11 +244,12 @@
             </div>
           </div>
           <div class="btn-group">
-            <button id="buildBtn" type="button" class="btn btn-success btn-sm js-btn-build" data-toggle="modal" data-target=".builder-modal-lg">Build</button>
-            <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Build
               <span class="sr-only">Toggle Dropdown</span>
             </button>
             <div class="dropdown-menu">
+              <a class="dropdown-item" id="buildBtn" href="#" data-target=".builder-modal-lg">Build building</a>
               <a class="dropdown-item" id="buildConnBtn" href="#" data-target=".connection-modal-lg">Build connection</a>
             </div>
           </div>
