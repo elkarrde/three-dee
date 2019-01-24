@@ -41,6 +41,10 @@ function initLogos() {
       xobj.userData.mode = 'logo'
       xobj.userData.type = logoObj.name
 
+      xobj.children.forEach(function(mesh) {
+        mesh.material.color.set(0x444444)
+      })
+
       logoObj.count = 0
       logoObj.model = xobj
       scene.add(xobj)

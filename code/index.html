@@ -161,29 +161,41 @@
           vpobj.rotation.y += 0.01
         }
 
+        /*
         var delta = clock.getDelta() * spawnerOptions.timeScale;
         tick += delta;
         if (tick < 0) { tick = 0 }
         if (delta > 0) {
           // 0: z, 1: x
-          var cX, cZ
-          links.forEach(function(lnk) {
-            var pto = iterationCopy(ptxOptions)
+          var cX, cZ, li = 0, pto = []
+          //links.forEach(function(lnk) {
+          if (links[0]) {
+            lnk = links[0]
+            li = 0
+            pto[li] = iterationCopy(ptxOptions)
             if (lnk.userData.orientation === 0) {
-              pto.position.x = sqPos(lnk.userData.start.x)
-              if (pto.position.z >= sqPos(lnk.userData.start.z) + lnk.userData.length) { pto.position.z = sqPos(lnk.userData.start.z) }
-              pto.position.z += (dir * speed)
+              pto[li].position.x = sqPos(lnk.userData.start.x)
+              if (pto[li].position.z >= sqPos(lnk.userData.end.z) + lnk.userData.length) { pto.position.z = sqPos(lnk.userData.start.z) }
+              pto[li].position.z += (dir * speed)
             } else {
-              pto.position.z = sqPos(lnk.userData.start.z)
-              if (pto.position.x >= sqPos(lnk.userData.start.x) + lnk.userData.length) { pto.position.x = sqPos(lnk.userData.start.x) }
-              pto.position.x += (dir * speed)
+              pto[li].position.z = sqPos(lnk.userData.start.z)
+              if (pto[li].position.x >= sqPos(lnk.userData.end.x) + lnk.userData.length) { pto.position.x = sqPos(lnk.userData.start.x) }
+              pto[li].position.x += (dir * speed)
             }
-            for (var x = 0; x < spawnerOptions.spawnRate * delta; x++) {
-              particleSystem.spawnParticle(pto)
-            }
-          })
+            //console.log('X', lnk.userData.orientation, li, pto[li].position)
+            //li++
+          }
+          //})
+          //console.log('->', pto[0], pto[1])
+          for (var x = 0; x < spawnerOptions.spawnRate * delta; x++) {
+            particleSystem.spawnParticle(pto[0])
+          }
+          //for (var x = 0; x < spawnerOptions.spawnRate * delta; x++) {
+          //  particleSystem.spawnParticle(pto[1])
+          //}
         }
         particleSystem.update(tick);
+        */
 
         logos.forEach(function(logo) {
           if (logoMap[logo].map.length > 0) {

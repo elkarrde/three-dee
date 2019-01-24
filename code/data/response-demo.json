@@ -27,28 +27,35 @@
           "OS_name": "Linux",
           "OS_flavor": "Centos",
           "OS_version": "7",
-          "LocationIn3d": [
-            2,
-            6
-          ],
+          "LocationIn3d": [ 2, 6 ],
           "Services": [
             {
               "Name": "Flink",
               "Logo": "flink",
               "Model": "Cube",
-              "LocationIn3dTile": [
-                1,
-                1
-              ]
+              "LocationIn3dTile": [ 1, 1 ]
             },
             {
               "Name": "Kafka",
               "Logo": "apache_kafka",
               "Model": "Silos",
-              "LocationIn3dTile": [
-                1,
-                3
-              ]
+              "LocationIn3dTile": [ 1, 3 ]
+            },
+            {
+              "Name": "Git",
+              "Logo": "git",
+              "Model": "Cube",
+              "LocationIn3dTile": [ 3, 1 ]
+            }
+          ],
+          "Connections": [
+            {
+              "FromLocationIn3dTile": [ 1, 1 ],
+              "ToLocationIn3dTile": [ 1, 3 ]
+            },
+            {
+              "FromLocationIn3dTile": [ 1, 1 ],
+              "ToLocationIn3dTile": [ 3, 1 ]
             }
           ]
         }
@@ -69,30 +76,28 @@
           "OS_name": "Linux",
           "OS_flavor": "Centos",
           "OS_version": "7",
-          "LocationIn3d": [
-            2,
-            2
-          ],
+          "LocationIn3d": [ 2, 2 ],
           "Services": [
             {
               "Name": "Zookeeper",
               "Logo": "zoo",
               "Model": "Tower",
-              "LocationIn3dTile": [
-                1,
-                3
-              ]
+              "LocationIn3dTile": [ 1, 3 ]
             },
             {
               "Name": "Kafka",
               "Logo": "apache_kafka",
               "Model": "Silos",
-              "LocationIn3dTile": [
-                4,
-                3
-              ]
+              "LocationIn3dTile": [ 4, 3 ]
+            }
+          ],
+          "Connections": [
+            {
+              "FromLocationIn3dTile": [ 1, 3 ],
+              "ToLocationIn3dTile": [ 4, 3 ]
             }
           ]
+
         }
       },
       {
@@ -111,19 +116,23 @@
           "OS_name": "Linux",
           "OS_flavor": "Ubuntu",
           "OS_version": "16.04 LTS",
-          "LocationIn3d": [
-            2,
-            4
-          ],
+          "LocationIn3d": [ 2, 4 ],
           "Services": [
             {
-              "Name": "Flink",
-              "Logo": "flink",
+              "Name": "Ubuntu",
+              "Logo": "ubuntu",
               "Model": "Cube",
-              "LocationIn3dTile": [
-                1,
-                1
-              ]
+              "LocationIn3dTile": [ 2, 3 ]
+            }
+          ],
+          "Connections": [
+            {
+              "FromLocationIn3dTile": [ 2, 0 ],
+              "ToLocationIn3dTile": [ 2, 3 ]
+            },
+            {
+              "FromLocationIn3dTile": [ 2, 0 ],
+              "ToLocationIn3dTile": [ 4, 0 ]
             }
           ]
         }
@@ -144,30 +153,28 @@
           "OS_name": "Linux",
           "OS_flavor": "Centos",
           "OS_version": "7",
-          "LocationIn3d": [
-            4,
-            6
-          ],
+          "LocationIn3d": [ 4, 6 ],
           "Services": [
             {
               "Name": "Flink",
               "Logo": "flink",
               "Model": "Cube",
-              "LocationIn3dTile": [
-                4,
-                1
-              ]
+              "LocationIn3dTile": [ 4, 1 ]
             },
             {
               "Name": "Kafka",
               "Logo": "apache_kafka",
               "Model": "Silos",
-              "LocationIn3dTile": [
-                4,
-                4
-              ]
+              "LocationIn3dTile": [ 4, 4 ]
+            }
+          ],
+          "Connections": [
+            {
+              "FromLocationIn3dTile": [ 4, 1 ],
+              "ToLocationIn3dTile": [ 4, 4 ]
             }
           ]
+
         }
       },
       {
@@ -186,30 +193,28 @@
           "OS_name": "Linux",
           "OS_flavor": "Ubuntu",
           "OS_version": "18.04.01 LTE",
-          "LocationIn3d": [
-            8,
-            8
-          ],
+          "LocationIn3d": [ 8, 8 ],
           "Services": [
             {
               "Name": "Elastic",
               "Logo": "elastic",
               "Model": "Round",
-              "LocationIn3dTile": [
-                1,
-                1
-              ]
+              "LocationIn3dTile": [ 1, 1 ]
             },
             {
               "Name": "Spark",
               "Logo": "spark",
               "Model": "Castle",
-              "LocationIn3dTile": [
-                1,
-                4
-              ]
+              "LocationIn3dTile": [ 1, 4 ]
+            }
+          ],
+          "Connections": [
+            {
+              "FromLocationIn3dTile": [ 1, 1 ],
+              "ToLocationIn3dTile": [ 1, 4 ]
             }
           ]
+
         }
       },
       {
@@ -228,30 +233,28 @@
           "OS_name": "Linux",
           "OS_flavor": "Centos",
           "OS_version": "7",
-          "LocationIn3d": [
-            6,
-            4
-          ],
+          "LocationIn3d": [ 6, 4 ],
           "Services": [
             {
               "Name": "Flink",
               "Logo": "flink",
               "Model": "Cube",
-              "LocationIn3dTile": [
-                2,
-                2
-              ]
+              "LocationIn3dTile": [ 2, 2 ]
             },
             {
               "Name": "Kafka",
               "Logo": "apache_kafka",
               "Model": "Silos",
-              "LocationIn3dTile": [
-                2,
-                4
-              ]
+              "LocationIn3dTile": [ 2, 4 ]
+            }
+          ],
+          "Connections": [
+            {
+              "FromLocationIn3dTile": [ 2, 2 ],
+              "ToLocationIn3dTile": [ 2, 4 ]
             }
           ]
+
         }
       },
       {
@@ -270,21 +273,22 @@
           "OS_name": "Linux",
           "OS_flavor": "Ubuntu",
           "OS_version": "16.04 LTS",
-          "LocationIn3d": [
-            2,
-            3
-          ],
+          "LocationIn3d": [ 2, 3 ],
           "Services": [
             {
               "Name": "Zepelin",
               "Logo": "zepelin",
               "Model": "Castle",
-              "LocationIn3dTile": [
-                4,
-                4
-              ]
+              "LocationIn3dTile": [ 4, 2 ]
+            }
+          ],
+          "Connections": [
+            {
+              "FromLocationIn3dTile": [ 4, 2 ],
+              "ToLocationIn3dTile": [ 4, 5 ]
             }
           ]
+
         }
       }
     ]

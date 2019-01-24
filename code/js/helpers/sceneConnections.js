@@ -1,17 +1,18 @@
 // sceneConnections.js
 
 var linkShape = new THREE.Shape()
-var linkMaterial = new THREE.MeshBasicMaterial({ color: 0x1f6163 }) //1bf7f9
+var linkMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff }) //1bf7f9, 1f6163
 
 var createLink = function(lnkData) {
   var lenX = Math.abs(lnkData.start.x - lnkData.end.x)
   var lenZ = Math.abs(lnkData.start.z - lnkData.end.z)
 
-  linkShape.moveTo(0 - 1, 0)
-  linkShape.lineTo(0 - 1, Math.max(lenX, lenZ) * sqSize)
-  linkShape.lineTo(0 + 1, Math.max(lenX, lenZ) * sqSize)
-  linkShape.lineTo(0 + 1, 0)
-  linkShape.lineTo(0 - 1, 0)
+  var lWidth = 0.5
+  linkShape.moveTo(0 - lWidth, 0)
+  linkShape.lineTo(0 - lWidth, Math.max(lenX, lenZ) * sqSize)
+  linkShape.lineTo(0 + lWidth, Math.max(lenX, lenZ) * sqSize)
+  linkShape.lineTo(0 + lWidth, 0)
+  linkShape.lineTo(0 - lWidth, 0)
 
   var extrudeParams = {
     steps: 1,
@@ -51,4 +52,45 @@ var calcParticles = function(delta) {
   })
 
   return outArr
+}
+
+var placeConnections = function(scene, cellData) {
+  var location = cellData.LocationIn3d
+  var lnkArray = cellData.Connections
+  var cell = new THREE.Group()
+
+  var posX = parseInt(location[0], 10) * gridBoxLine
+  var posZ = parseInt(location[1], 10) * gridBoxLine
+
+  var sqOffset = {
+    x: posX,
+    z: posZ
+  }
+
+  var ic = 0
+  lnkArray.forEach(function(obj) {
+    console.log('CONNECTION', location, obj)
+
+    var sqOffS = iterationCopy(sqOffset)
+    sqOffS.x += parseInt(obj.FromLocationIn3dTile[0], 10)
+    sqOffS.z += parseInt(obj.FromLocationIn3dTile[1], 10)
+    
+    var sqOffE = iterationCopy(sqOffset)
+    sqOffE.x += parseInt(obj.ToLocationIn3dTile[0], 10)
+    sqOffE.z += parseInt(obj.ToLocationIn3dTile[1], 10)
+    
+    var lnk = createLink({
+      start: sqOffS,
+      end:   sqOffE
+    })
+
+    lnk.userData.origin = location
+
+    scene.add(lnk)
+    links.push(lnk)
+    ic++
+  })
+
+  scene.add(cell)
+
 }

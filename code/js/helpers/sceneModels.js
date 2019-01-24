@@ -21,7 +21,7 @@ var updateModels = function() {
     }
   })
 
-  console.log('All models IDs:', allModelsIds)
+  // console.log('All models IDs:', allModelsIds)
   allModelsIds.forEach(function(modelId) {
     var mdl = scene.getObjectById(modelId)
     var meta
@@ -33,8 +33,7 @@ var updateModels = function() {
     var lgo = scene.getObjectById(meta.logoId)
     var newModel = meta.name + themesMap[activeTheme]
 
-    console.log('XO-%d:', modelId, newModel, mdl)
-
+    // console.log('XO-%d:', modelId, newModel, mdl)
     mdl.visible = false
     lgo.visible = false
     addModel(scene, newModel, meta.logo, meta.sqOffset)
@@ -56,7 +55,6 @@ function placeModels(scene, cellData) {
 
   var ic = 0
   objArray.forEach(function(obj) {
-    console.log('SERVICE', obj)
     var objModel = models.find(function(itm) {
       return modelsMap[itm].name === obj.Model && modelsMap[itm].theme === activeTheme
     })
@@ -75,13 +73,13 @@ function placeModels(scene, cellData) {
 
 function createObject(scene, objName, params, callback) {
   if (objName.indexOf('logos/') === 0) {
-    createMtlObject(scene, objName, params, callback)
-  } else if (modelType === 'mtl') {
+    createObjObject(scene, objName, params, callback)
+  } else if (modelType === 'obj') {
     createGltfObject(scene, objName, params, callback)
   }
 }
 
-function createMtlObject(scene, objName, params, callback) {
+function createObjObject(scene, objName, params, callback) {
   var loader = new THREE.MTLLoader()
 
   var objPath = './res/obj/'
@@ -112,6 +110,18 @@ function createGltfObject(scene, objName, params, callback) {
   loader.load(
     objPath + objName + '.gltf',
     function (gltf) {
+      gltf.scene.children[0].children.forEach(function(mesh) {
+        var matParams = iterationCopy(mesh.material)
+        var matPhong = new THREE.MeshPhongMaterial({
+          color: matParams.color,
+          depthWrite: true,
+          name: matParams.name,
+          userData: matParams.userData,
+          map: matParams.map
+        })
+        mesh.material = matPhong
+      })
+
       callback(gltf, params, 'gltf')
     },
     function (xhr) {
@@ -145,9 +155,9 @@ function createFbxObj(scene, objName, params, callback) {
 }
 
 function addModel(scene, model, logoModel, sqOffset) {
-  console.log('AMx-->', model, logoModel, sqOffset)
+  // console.log('AMx-->', model, logoModel, sqOffset)
   if (modelsMap[model].model) {
-    console.log('Clone!', model, logoModel, sqOffset)
+    // console.log('Clone!', model, logoModel, sqOffset)
     var mdl = modelsMap[model].model.clone()
     modelsMap[model].map.push(mdl.id)
     var oX = 0
@@ -195,7 +205,7 @@ function addModel(scene, model, logoModel, sqOffset) {
 
     scene.add(group)
   } else {
-    console.log('Create!', model, logoModel, sqOffset)
+    // console.log('Create!', model, logoModel, sqOffset)
     createObject(scene, model, sqOffset, function(objx, sqOffset, type) {
       obj = objx
       if (type && type === 'gltf') { obj = objx.scene }

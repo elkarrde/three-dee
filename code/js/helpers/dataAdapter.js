@@ -11,6 +11,7 @@ var dataAdapter = {
       var hits = res.hits.hits
       hits.forEach(function(itm) {
         placeModels(scene, itm._source)
+        placeConnections(scene, itm._source)
       })
     })
   },

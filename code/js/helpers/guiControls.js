@@ -38,6 +38,9 @@ var gOptions = {
     speed: 4,
     posY: 5
   },
+  misc: {
+    labels: false
+  },
   mkGrad: function() {
     var sc = dec2hex(this.sidebars.startColor).substr(2)
     var scR = parseInt(sc.substr(0, 2), 16)
@@ -136,6 +139,11 @@ ghParticle.add(gOptions.particle, 'posY', 1, 200).name('Position Y').onChange(fu
   ptxOptions.position.y = gOptions.particle.posY
 })
 */
+
+var gMisc = gui.addFolder('Misc')
+gMisc.add(gOptions.misc, 'labels').name('Labels').onChange(function() {
+  labels.visible = gOptions.misc.labels
+})
 
 var gSbars = gui.addFolder('Sidebars')
 gSbars.add(gOptions.sidebars, 'width', 10, 30).onChange(function() {
