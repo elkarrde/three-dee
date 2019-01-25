@@ -41,18 +41,6 @@ function buildDataVizGeometries( linearData ){
 }
 
 function getVisualizedMesh( linearData, year, countries, exportCategories, importCategories ){
-  //  for comparison purposes, all caps the country names
-  for( var i in countries ){
-    countries[i] = countries[i].toUpperCase();
-  }
-
-  //  pick out the year first from the data
-  var indexFromYear = parseInt(year) - 1992;
-  if( indexFromYear >= timeBins.length )
-    indexFromYear = timeBins.length-1;
-
-  var affectedCountries = [];
-
   var bin = linearData[indexFromYear].data;
 
   var linesGeo = new THREE.Geometry();
@@ -217,7 +205,7 @@ function getVisualizedMesh( linearData, year, countries, exportCategories, impor
                             depthWrite: false, vertexColors: true,
                             sizeAttenuation: true } );
   particlesGeo.colors = particleColors;
-  var pSystem = new THREE.ParticleSystem( particlesGeo, shaderMaterial );
+  var pSystem = new THREE.Points( particlesGeo, shaderMaterial );
   pSystem.dynamic = true;
   splineOutline.add( pSystem );
 
@@ -265,44 +253,6 @@ function getVisualizedMesh( linearData, year, countries, exportCategories, impor
 }
 
 function selectVisualization( linearData, year, countries, exportCategories, importCategories ){
-  //  we're only doing one country for now so...
-  var cName = countries[0].toUpperCase();
-
-  $("#hudButtons .countryTextInput").val(cName);
-  previouslySelectedCountry = selectedCountry;
-  selectedCountry = countryData[countries[0].toUpperCase()];
-
-  selectedCountry.summary = {
-    imported: {
-      mil: 0,
-      civ: 0,
-      ammo: 0,
-      total: 0,
-    },
-    exported: {
-      mil: 0,
-      civ: 0,
-      ammo: 0,
-      total: 0,
-    },
-    total: 0,
-    historical: getHistoricalData(selectedCountry),
-  };
-
-  // console.log(selectedCountry);
-  //  clear off the country's internally held color data we used from last highlight
-  for( var i in countryData ){
-    var country = countryData[i];
-    country.exportedAmount = 0;
-    country.importedAmount = 0;
-    country.mapColor = 0;
-  }
-
-  //  clear markers
-  for( var i in selectableCountries ){
-    removeMarkerFromCountry( selectableCountries[i] );
-  }
-
   //  clear children
   while( visualizationMesh.children.length > 0 ){
     var c = visualizationMesh.children[0];
@@ -316,50 +266,4 @@ function selectVisualization( linearData, year, countries, exportCategories, imp
 
   //  add it to scene graph
   visualizationMesh.add( mesh );
-
-  //  alright we got no data but at least highlight the country we've selected
-  if( mesh.affectedCountries.length == 0 ){
-    mesh.affectedCountries.push( cName );
-  }
-
-  for( var i in mesh.affectedCountries ){
-    var countryName = mesh.affectedCountries[i];
-    var country = countryData[countryName];
-    attachMarkerToCountry( countryName, country.mapColor );
-  }
-
-  // console.log( mesh.affectedCountries );
-  highlightCountry( mesh.affectedCountries );
-
-  if( previouslySelectedCountry !== selectedCountry ){
-    if( selectedCountry ){
-      rotateTargetX = selectedCountry.lat * Math.PI/180;
-      var targetY0 = -(selectedCountry.lon - 9) * Math.PI / 180;
-            var piCounter = 0;
-      while(true) {
-                var targetY0Neg = targetY0 - Math.PI * 2 * piCounter;
-                var targetY0Pos = targetY0 + Math.PI * 2 * piCounter;
-                if(Math.abs(targetY0Neg - rotating.rotation.y) < Math.PI) {
-                    rotateTargetY = targetY0Neg;
-                    break;
-                } else if(Math.abs(targetY0Pos - rotating.rotation.y) < Math.PI) {
-                    rotateTargetY = targetY0Pos;
-                    break;
-                }
-                piCounter++;
-                rotateTargetY = wrap(targetY0, -Math.PI, Math.PI);
-      }
-            // console.log(rotateTargetY);
-            //lines commented below source of rotation error
-      //is there a more reliable way to ensure we don't rotate around the globe too much?
-      /*
-      if( Math.abs(rotateTargetY - rotating.rotation.y) > Math.PI )
-        rotateTargetY += Math.PI;
-      */
-      rotateVX *= 0.6;
-      rotateVY *= 0.6;
-    }
-  }
-
-    d3Graphs.initGraphs();
 }
