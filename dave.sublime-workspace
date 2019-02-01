@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"in",
+				"iterationCopy"
+			],
+			[
 				"mode",
 				"modelType"
 			],
@@ -119,7 +123,34 @@
 			"file": "code/index.html",
 			"settings":
 			{
-				"buffer_size": 16463,
+				"buffer_size": 19704,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "code/js/helpers/visualize_lines.js",
+			"settings":
+			{
+				"buffer_size": 2950,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "code/js/helpers/ShaderExtras.js",
+			"settings":
+			{
+				"buffer_size": 47822,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "code/js/helpers/visualize.js",
+			"settings":
+			{
+				"buffer_size": 8847,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -128,71 +159,7 @@
 			"file": "code/js/helpers/sceneModels.js",
 			"settings":
 			{
-				"buffer_size": 7995,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "code/js/helpers/globals.js",
-			"settings":
-			{
-				"buffer_size": 1371,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "code/js/helpers/onLoad.js",
-			"settings":
-			{
-				"buffer_size": 4081,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "code/data/response-demo.json",
-			"settings":
-			{
-				"buffer_size": 8179,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "code/js/helpers/modelsData.js",
-			"settings":
-			{
-				"buffer_size": 2871,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "Searching 25 files for \"logo/\"\n\n0 matches\n\nSearching 25 files for \"/logo\"\n\n0 matches\n\nSearching 25 files for \"logo'\"\n\nC:\\Users\\Neven\\Code\\DT-demo\\code\\js\\helpers\\sceneInitializers.js:\n   41        obj.position.z = 10000\n   42        obj.position.y = 10000\n   43:       obj.userData.mode = 'logo'\n   44        obj.userData.type = logoObj.name\n   45        obj.rotateX(Math.PI / 2);\n\nC:\\Users\\Neven\\Code\\DT-demo\\dist\\index.html:\n  814              obj.position.z = 10000\n  815              obj.position.y = 10000\n  816:             obj.userData.mode = 'logo'\n  817              obj.userData.type = logo.name\n  818              logo.count = 0\n\n2 matches across 2 files\n\n\nSearching 25 files for \"logos/\"\n\nC:\\Users\\Neven\\Code\\DT-demo\\code\\js\\helpers\\sceneInitializers.js:\n   36      var sqOffset = {}\n   37      var logoObj = logoMap[logo]\n   38:     createObject(scene, 'logos/' + logo, sqOffset, function(obj, sqOffset) {\n   39        obj.scale.set(logoObj.scale, logoObj.scale, logoObj.scale)\n   40        obj.position.x = 10000\n\nC:\\Users\\Neven\\Code\\DT-demo\\dist\\index.html:\n  809          logoMap.forEach(function(logo) {\n  810            var sqOffset = {}\n  811:           createObject(scene, 'logos/' + logo.name, sqOffset, function(obj, sqOffset) {\n  812              obj.scale.set(logo.scale, logo.scale, logo.scale)\n  813              obj.position.x = 10000\n\n2 matches across 2 files\n\n\nSearching 101 files for \"logos/\"\n\nC:\\Users\\Neven\\Code\\DT-demo\\code\\js\\helpers\\sceneInitializers.js:\n   36      var sqOffset = {}\n   37      var logoObj = logoMap[logo]\n   38:     createObject(scene, 'logos/' + logo, sqOffset, function(obj, sqOffset) {\n   39        obj.scale.set(logoObj.scale, logoObj.scale, logoObj.scale)\n   40        obj.position.x = 10000\n\nC:\\Users\\Neven\\Code\\DT-demo\\dist\\index.html:\n  809          logoMap.forEach(function(logo) {\n  810            var sqOffset = {}\n  811:           createObject(scene, 'logos/' + logo.name, sqOffset, function(obj, sqOffset) {\n  812              obj.scale.set(logo.scale, logo.scale, logo.scale)\n  813              obj.position.x = 10000\n\n2 matches across 2 files\n\n\nSearching 20 files for \"logo'\"\n\nC:\\Users\\Neven\\Code\\DT-demo\\code\\js\\helpers\\sceneInitializers.js:\n   41        obj.position.z = 10000\n   42        obj.position.y = 10000\n   43:       obj.userData.mode = 'logo'\n   44        obj.userData.type = logoObj.name\n   45        obj.rotateX(Math.PI / 2);\n\n1 match in 1 file\n\n\nSearching 20 files for \"createObject\"\n\nC:\\Users\\Neven\\Code\\DT-demo\\code\\js\\helpers\\sceneInitializers.js:\n   36      var sqOffset = {}\n   37      var logoObj = logoMap[logo]\n   38:     createObject(scene, 'logos/' + logo, sqOffset, function(obj, sqOffset) {\n   39        obj.scale.set(logoObj.scale, logoObj.scale, logoObj.scale)\n   40        obj.position.x = 10000\n   ..\n   55      var sqOffset = {}\n   56      var modelObj = modelsMap[model]\n   57:     createObject(scene, model, sqOffset, function(obj, sqOffset) {\n   58        console.log('Mx', model, modelObj)\n   59        obj.scale.set(modelObj.scale, modelObj.scale, modelObj.scale)\n\nC:\\Users\\Neven\\Code\\DT-demo\\code\\js\\helpers\\sceneModels.js:\n   76  }\n   77  \n   78: function createObject(scene, objName, params, callback) {\n   79    var loader = new THREE.MTLLoader()\n   80  \n   ..\n  204    } else {\n  205      // console.log('Create!', model, logoModel, sqOffset)\n  206:     createObject(scene, model, sqOffset, function(obj, sqOffset) {\n  207        obj.scale.set(modelsMap[model].scale, modelsMap[model].scale, modelsMap[model].scale)\n  208        var oX = 0\n\n4 matches across 2 files\n\n\nSearching 20 files for \"kafka\"\n\nC:\\Users\\Neven\\Code\\DT-demo\\code\\js\\helpers\\modelsData.js:\n    2  \n    3  var logoMap = {\n    4:   'apache_kafka':      { scale: 2,  oX: 0,  oZ: 0, model: null, map: [], count: 0},\n    5    'centos':     { scale: 6,  oX: 0,  oZ: 0, model: null, map: [], count: 0},\n    6    'clickhouse': { scale: 10, oX: 0,  oZ: 0, model: null, map: [], count: 0},\n\n1 match in 1 file\n\n\nSearching 20 files for \"LocationIn3dTile\" (case sensitive)\n\nC:\\Users\\Neven\\Code\\DT-demo\\code\\js\\helpers\\onLoad.js:\n  149            Logo: logo,\n  150            Model: obj,\n  151:           LocationIn3dTile: loc\n  152          }\n  153        ]\n\nC:\\Users\\Neven\\Code\\DT-demo\\code\\js\\helpers\\sceneModels.js:\n   65      var logoModel = logoMap[obj.Logo]\n   66  \n   67:     sqOffset.x += parseInt(obj.LocationIn3dTile[0], 10)\n   68:     sqOffset.z += parseInt(obj.LocationIn3dTile[1], 10)\n   69      console.log('OBJx', objModel, obj.Logo, sqOffset)\n   70  \n\n3 matches across 2 files\n\n\nSearching 20 files for \"OBJx\" (case sensitive)\n\nC:\\Users\\Neven\\Code\\DT-demo\\code\\js\\helpers\\sceneModels.js:\n   65      sqOffset.x += parseInt(obj.LocationIn3dTile[0], 10)\n   66      sqOffset.z += parseInt(obj.LocationIn3dTile[1], 10)\n   67:     console.log('OBJx', objModel, obj.Logo, sqOffset)\n   68  \n   69      addModel(cell, objModel, obj.Logo, sqOffset)\n\n1 match in 1 file\n\n\nSearching 20 files for \"gltf\" (case sensitive)\n\nC:\\Users\\Neven\\Code\\DT-demo\\code\\js\\helpers\\sceneModels.js:\n  103    var objPath = './res/obj/'\n  104    loader.load(\n  105:     objPath + objName + '.gltf',\n  106:     function (gltf) {\n  107:       scene.add(gltf.scene);\n  108  \n  109:       gltf.animations; // Array<THREE.AnimationClip>\n  110:       gltf.scene; // THREE.Scene\n  111:       gltf.scenes; // Array<THREE.Scene>\n  112:       gltf.cameras; // Array<THREE.Camera>\n  113:       gltf.asset; // Object\n  114  \n  115:       // var helper = new THREE.BoxHelper(gltf.scene, 0x00ff00)\n  116        // scene.add(helper)\n  117:       callback(gltf, params)\n  118      },\n  119      function (xhr) {\n\n10 matches in 1 file\n\n\nSearching 20 files for \"createObject\" (case sensitive)\n\nC:\\Users\\Neven\\Code\\DT-demo\\code\\js\\helpers\\sceneInitializers.js:\n   36      var sqOffset = {}\n   37      var logoObj = logoMap[logo]\n   38:     createObject(scene, 'logos/' + logo, sqOffset, function(obj, sqOffset) {\n   39        obj.scale.set(logoObj.scale, logoObj.scale, logoObj.scale)\n   40        obj.position.x = 10000\n   ..\n   55      var sqOffset = {}\n   56      var modelObj = modelsMap[model]\n   57:     createObject(scene, model, sqOffset, function(obj, sqOffset) {\n   58        console.log('Mx', model, modelObj)\n   59        obj.scale.set(modelObj.scale, modelObj.scale, modelObj.scale)\n\nC:\\Users\\Neven\\Code\\DT-demo\\code\\js\\helpers\\sceneModels.js:\n   74  }\n   75  \n   76: function createObject(scene, objName, params, callback) {\n   77    if (modelType === 'gltf') {\n   78      createGltfObject(scene, objName, params, callback)\n   ..\n  210    } else {\n  211      // console.log('Create!', model, logoModel, sqOffset)\n  212:     createObject(scene, model, sqOffset, function(obj, sqOffset) {\n  213        obj.scale.set(modelsMap[model].scale, modelsMap[model].scale, modelsMap[model].scale)\n  214        var oX = 0\n\n4 matches across 2 files\n\n\nSearching 20 files for \"Logosa\" (case sensitive)\n\n0 matches\n\nSearching 20 files for \"Logos\" (case sensitive)\n\nC:\\Users\\Neven\\Code\\DT-demo\\code\\index.html:\n   81          setupView(document.getElementById('scene'))\n   82          //initModels()\n   83:         initLogos()\n   84  \n   85          setTimeout(function() {\n\nC:\\Users\\Neven\\Code\\DT-demo\\code\\js\\helpers\\sceneInitializers.js:\n   32  }\n   33  \n   34: function initLogos() {\n   35    logos.forEach(function(logo) {\n   36      var sqOffset = {}\n\n2 matches across 2 files\n\n\nSearching 20 files for \"_c'\" (case sensitive)\n\nC:\\Users\\Neven\\Code\\DT-demo\\code\\js\\helpers\\modelsData.js:\n   22    'Tower_a':  { theme: 'alien', name: 'Tower',  scale: 0.8, oX: 0,   oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },\n   23  \n   24:   'Castle_c': { theme: 'city', name: 'Castle', scale: 1.2, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },\n   25:   'Cube_c':   { theme: 'city', name: 'Cube',   scale: 0.7, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },\n   26:   'Round_c':  { theme: 'city', name: 'Round',  scale: 0.7, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },\n   27:   'Silos_c':  { theme: 'city', name: 'Silos',  scale: 0.5, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },\n   28:   'Tower_c':  { theme: 'city', name: 'Tower',  scale: 0.7, oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },\n   29  \n   30    'Castle_s': { theme: 'simple', name: 'Castle', scale: 1,   oX: 0, oZ: 0, count: 0, model: null, map: [], lX: 0, lY: 0, lZ: 0 },\n\nC:\\Users\\Neven\\Code\\DT-demo\\code\\js\\helpers\\sceneModels.js:\n    6    themesMap = {\n    7      'alien':  '_a',\n    8:     'city':   '_c',\n    9      'simple': '_s'\n   10    }\n\n6 matches across 2 files\n\n\nSearching 20 files for \"fbx\" (case sensitive)\n\nC:\\Users\\Neven\\Code\\DT-demo\\code\\js\\helpers\\globals.js:\n    4  var vport, vpcam, vprend, vpobj\n    5  var sqSize = 40\n    6: var modelType = 'mtl' // 'gltf' | 'fbx' | 'mtl'\n    7  \n    8  var gridDist = 40\n\nC:\\Users\\Neven\\Code\\DT-demo\\code\\js\\helpers\\sceneModels.js:\n  133    var objPath = './res/obj/'\n  134    loader.load(\n  135:     objPath + objName + '.fbx',\n  136      function (object) {\n  137        mixer = new THREE.AnimationMixer(object)\n\n2 matches across 2 files\n",
-			"settings":
-			{
-				"buffer_size": 9207,
-				"line_ending": "Windows",
-				"name": "Find Results",
-				"scratch": true
-			}
-		},
-		{
-			"file": "code/js/helpers/sceneSetup.js",
-			"settings":
-			{
-				"buffer_size": 6371,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "code/js/helpers/sceneInitializers.js",
-			"settings":
-			{
-				"buffer_size": 1938,
+				"buffer_size": 8087,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -201,20 +168,18 @@
 			"file": "code/js/helpers/sceneConnections.js",
 			"settings":
 			{
-				"buffer_size": 711,
+				"buffer_size": 2521,
 				"encoding": "UTF-8",
-				"line_ending": "Windows",
-				"name": "sceneConnections.js"
+				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "todo-190117.md",
+			"file": "code/js/helpers/sceneInitializers.js",
 			"settings":
 			{
-				"buffer_size": 88,
+				"buffer_size": 3073,
 				"encoding": "UTF-8",
-				"line_ending": "Windows",
-				"name": "Todo 190117"
+				"line_ending": "Windows"
 			}
 		}
 	],
@@ -274,29 +239,32 @@
 	],
 	"file_history":
 	[
-		"/C/Users/Neven/Code/DT-demo/dist/index.html",
+		"/C/Users/Neven/Code/DT-demo/code/js/helpers/sceneSetup.js",
+		"/C/Users/Neven/Code/DT-demo/code/js/helpers/dataAdapter.js",
 		"/C/Users/Neven/Code/DT-demo/code/js/helpers/onLoad.js",
-		"/C/Users/Neven/Code/DT-demo/code/js/helpers/globals.js",
-		"/C/Users/Neven/Code/DT-demo/code/js/helpers/miscHelpers.js",
-		"/C/Users/Neven/Code/DT-demo/code/js/helpers/eventHandlers.js",
 		"/C/Users/Neven/Code/DT-demo/code/data/response-demo.json",
+		"/C/Users/Neven/Code/DT-demo/code/js/helpers/guiControls.js",
+		"/C/Users/Neven/Code/DT-demo/code/js/helpers/globals.js",
+		"/C/Users/Neven/Code/DT-demo/code/js/helpers/sceneInitializers.js",
+		"/C/Users/Neven/Code/DT-demo/code/js/helpers/miscHelpers.js",
+		"/C/Users/Neven/Code/DT-demo/code/js/GPUParticleSystem.js",
 		"/C/Users/Neven/Code/DT-demo/code/js/helpers/modelsData.js",
+		"/D/Users/Neven/Dropbox/code/netgen/frontend zadatak.txt",
+		"/C/Users/Neven/Code/DT-demo/code/js/helpers/sceneConnections.js",
+		"/C/Users/Neven/Code/DT-demo/todo-190117.md",
+		"/C/Users/Neven/Code/DT-demo/dist/index.html",
+		"/C/Users/Neven/Code/DT-demo/code/js/helpers/eventHandlers.js",
 		"/C/Users/Neven/Code/DT-demo/todo-190114.md",
 		"/C/Users/Neven/Code/DT-demo/code/css/main.css",
 		"/C/Users/Neven/Code/DT-demo/dist/js/helpers/sceneHelpers.js",
 		"/C/Users/Neven/Code/DT-demo/code/res/obj/logos/flink.mtl",
 		"/C/Users/Neven/Code/DT-demo/code/js/helpers/sceneLights.js",
-		"/C/Users/Neven/Code/DT-demo/code/js/helpers/sceneSetup.js",
 		"/C/Users/Neven/Code/DT-demo/code/js/helpers/inspector.js",
-		"/C/Users/Neven/Code/DT-demo/code/js/helpers/sceneInitializers.js",
 		"/C/Users/Neven/Code/DT-demo/code/js/helpers/sceneModels.js",
-		"/C/Users/Neven/Code/DT-demo/code/js/helpers/dataAdapter.js",
-		"/C/Users/Neven/Code/DT-demo/code/js/helpers/guiControls.js",
 		"/C/Users/Neven/Code/DT-demo/code/js/helpers/userAdapter.js",
 		"/C/Users/Neven/Code/DT-demo/src/js/main.js",
 		"/C/Users/Neven/Code/DT-demo/src/js/helpers/sceneHelpers.js",
 		"/C/Users/Neven/Code/DT-demo/src/js/helpers/globalHelpers.js",
-		"/C/Users/Neven/Code/DT-demo/code/js/GPUParticleSystem.js",
 		"/C/Users/Neven/Code/DT-demo/todo-190111.md",
 		"/C/Users/Neven/Code/DT-demo/todo_2019-01.md",
 		"/C/Users/Neven/Code/DT-demo/dist/js/helpers/userAdapter.module.js",
@@ -389,13 +357,15 @@
 	],
 	"find":
 	{
-		"height": 41.6
+		"height": 26.0
 	},
 	"find_in_files":
 	{
 		"height": 108.0,
 		"where_history":
 		[
+			"js/helpers/*.js,index.html,-dist/*",
+			"js/helpers/*.js,index.html,-dist/*,js/*",
 			"js/helpers/*.js,index.html,-dist/*",
 			"js/helpers/*.js,index.html,dist/*",
 			"js/helpers/*.js,index.html",
@@ -408,6 +378,43 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"createObject",
+			"makeConnectionLineGeometry",
+			"pSystem",
+			"getVisualizedMesh",
+			"AMx",
+			"links.",
+			"Id3d",
+			"placeModel",
+			"createLink",
+			"LocationIn3d",
+			"PhongMat",
+			"THREE.C",
+			"gltf",
+			"mtl",
+			"logos/",
+			"->'",
+			"particleSystem",
+			"spawnParticle",
+			"logos/",
+			"createLink",
+			"line",
+			"LocationIn3dTile",
+			"metadata",
+			"FJ",
+			"AddModel",
+			"META",
+			"logos/",
+			"lookAt",
+			".lookAt",
+			"logos/",
+			"'GLTF'",
+			"createObject",
+			"logos/",
+			"placeModels",
+			"loadBtn",
+			".remove(",
+			"'FBX'",
 			"fbx",
 			"_c'",
 			"Logos",
@@ -498,44 +505,15 @@
 			"gOx",
 			"gridX",
 			"mtx",
-			"createOb",
-			"particleSystem",
-			"pxtOptio",
-			"depthWrite",
-			"mtx",
-			"Randomness",
-			"'LO'",
-			"addModel",
-			"Inspector",
-			"traffic",
-			"mtx",
-			"Conn",
-			"initLo",
-			"logo",
-			"\"",
-			"positionRa",
-			"ptxO",
-			"init",
-			"rotate",
-			"traffic",
-			"velocityRandomness",
-			"controls",
-			"sqOffset",
-			"addSpotLight",
-			"ambiL",
-			"ambientlight",
-			"[md_text",
-			"[md text",
-			"Ljiljanka",
-			"grid.",
-			"objttip"
+			"createOb"
 		],
 		"highlight": true,
 		"in_selection": false,
 		"preserve_case": false,
-		"regex": false,
+		"regex": true,
 		"replace_history":
 		[
+			"In3d",
 			"\"apache_kafka\"",
 			"",
 			": scale",
@@ -551,7 +529,7 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 6,
 			"sheets":
 			[
 				{
@@ -560,15 +538,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 16463,
+						"buffer_size": 19704,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4498,
-								4498
+								5404,
+								5404
 							]
 						],
 						"settings":
@@ -577,145 +555,64 @@
 							"syntax": "Packages/HTML/HTML.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1249.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "code/js/helpers/sceneModels.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 7995,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3860,
-								3863
-							]
-						],
-						"settings":
-						{
-							"remove_trailing_whitespace_on_save": true,
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 1940.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "code/js/helpers/globals.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1371,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								688,
-								697
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 461.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "code/js/helpers/onLoad.js",
+					"buffer": 1,
+					"file": "code/js/helpers/visualize_lines.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4081,
+						"buffer_size": 2950,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								666,
-								666
+								469,
+								469
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+							"remove_trailing_whitespace_on_save": true,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 343.2,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "code/data/response-demo.json",
+					"buffer": 2,
+					"file": "code/js/helpers/ShaderExtras.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8179,
+						"buffer_size": 47822,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5876,
-								5892
+								47822,
+								47822
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JSON.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 3027.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "code/js/helpers/modelsData.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2871,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								838,
-								838
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+							"remove_trailing_whitespace_on_save": true,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -725,320 +622,120 @@
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 3,
+					"file": "code/js/helpers/visualize.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9207,
+						"buffer_size": 8847,
 						"regions":
 						{
-							"match":
-							{
-								"flags": 112,
-								"regions":
-								[
-									[
-										290,
-										295
-									],
-									[
-										551,
-										556
-									],
-									[
-										867,
-										873
-									],
-									[
-										1194,
-										1200
-									],
-									[
-										1590,
-										1596
-									],
-									[
-										1917,
-										1923
-									],
-									[
-										2317,
-										2322
-									],
-									[
-										2613,
-										2625
-									],
-									[
-										2883,
-										2895
-									],
-									[
-										3163,
-										3175
-									],
-									[
-										3364,
-										3376
-									],
-									[
-										3717,
-										3722
-									],
-									[
-										4170,
-										4186
-									],
-									[
-										4376,
-										4392
-									],
-									[
-										4439,
-										4455
-									],
-									[
-										4819,
-										4823
-									],
-									[
-										5140,
-										5144
-									],
-									[
-										5168,
-										5172
-									],
-									[
-										5199,
-										5203
-									],
-									[
-										5233,
-										5237
-									],
-									[
-										5293,
-										5297
-									],
-									[
-										5333,
-										5337
-									],
-									[
-										5381,
-										5385
-									],
-									[
-										5431,
-										5435
-									],
-									[
-										5510,
-										5514
-									],
-									[
-										5588,
-										5592
-									],
-									[
-										5869,
-										5881
-									],
-									[
-										6139,
-										6151
-									],
-									[
-										6419,
-										6431
-									],
-									[
-										6667,
-										6679
-									],
-									[
-										7144,
-										7149
-									],
-									[
-										7303,
-										7308
-									],
-									[
-										7678,
-										7681
-									],
-									[
-										7811,
-										7814
-									],
-									[
-										7947,
-										7950
-									],
-									[
-										8082,
-										8085
-									],
-									[
-										8217,
-										8220
-									],
-									[
-										8615,
-										8618
-									],
-									[
-										8892,
-										8895
-									],
-									[
-										9090,
-										9093
-									]
-								],
-								"scope": ""
-							}
 						},
 						"selection":
 						[
 							[
-								8685,
-								8685
+								1329,
+								1329
 							]
 						],
 						"settings":
 						{
-							"detect_indentation": false,
-							"line_numbers": false,
-							"output_tag": 16,
-							"result_base_dir": "",
-							"result_file_regex": "^([^ \t].*):$",
-							"result_line_regex": "^ +([0-9]+):",
-							"scroll_past_end": true,
-							"syntax": "Packages/Default/Find Results.hidden-tmLanguage",
-							"translate_tabs_to_spaces": false
+							"remove_trailing_whitespace_on_save": true,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 4284.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 7,
-					"file": "code/js/helpers/sceneSetup.js",
+					"buffer": 4,
+					"file": "code/js/helpers/sceneModels.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6371,
+						"buffer_size": 8087,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3871,
-								3871
+								2805,
+								2811
 							]
 						],
 						"settings":
 						{
+							"remove_trailing_whitespace_on_save": true,
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1020.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 8,
-					"file": "code/js/helpers/sceneInitializers.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1938,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								929,
-								934
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 94.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
+					"buffer": 5,
 					"file": "code/js/helpers/sceneConnections.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 711,
+						"buffer_size": 2521,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								699,
-								699
+								2445,
+								2445
 							]
 						],
 						"settings":
 						{
-							"auto_name": "sceneConnections.js",
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 10,
-					"file": "todo-190117.md",
+					"buffer": 6,
+					"file": "code/js/helpers/sceneInitializers.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 88,
+						"buffer_size": 3073,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								75,
-								75
+								2283,
+								2283
 							]
 						],
 						"settings":
 						{
-							"auto_name": "Todo 190117",
-							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1090.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]

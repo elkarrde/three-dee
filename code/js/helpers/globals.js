@@ -22,7 +22,7 @@ var stepX = 2
 var stepZ = 2
 var count = 0
 var rotation, earthMesh, link, traffic, mixer
-var logos = [], models = [], links = []
+var logos = [], models = [], links = [], ptxs = []
 var clock = new THREE.Clock(), tick = 0
 
 var themesMap = {
@@ -36,13 +36,13 @@ var ptxOptions = {
   position: new THREE.Vector3(0, 1, 0),
   positionRandomness: 0.5, //0.44,
   velocity: new THREE.Vector3(),
-  velocityRandomness: 2, //0.18,
+  velocityRandomness: 0.2, //0.18,
   color: 0x1bf7f9,
   colorRandomness: 0.5,
-  turbulence: 1, //0.01,
-  lifetime: 15, //10,
-  size: 3, //5,
-  sizeRandomness: 1 //4.3
+  turbulence: 0.01, //0.01,
+  lifetime: 10, //10,
+  size: 5, //5,
+  sizeRandomness: 4 //4.3
 };
 
 var spawnerOptions = {

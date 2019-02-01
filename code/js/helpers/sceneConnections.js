@@ -88,9 +88,11 @@ var placeConnections = function(scene, cellData) {
 
     scene.add(lnk)
     links.push(lnk)
+
+    initPtxs()
+
     ic++
   })
 
   scene.add(cell)
-
 }

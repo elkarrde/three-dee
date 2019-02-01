@@ -209,8 +209,27 @@
         window.addEventListener('resize', onWindowResize, false);
       }
 
-      ptxOptions.position.z = particles[0]? particles[0].z : 0
+      ptxOptions.position.x = 0
       ptxOptions.position.y = 5
+      ptxOptions.position.z = 0
+
+      function initPtxs() {
+        var li = 0
+        links.forEach(function(lnk) {
+          ptxs[li] = {}
+          Object.getOwnPropertyNames(ptxOptions).forEach(function(param) {
+            if (param !== 'position') {
+              ptxs[li][param] = ptxOptions[param]
+            } else {
+              ptxs[li].position = new THREE.Vector3(sqPos(lnk.userData.start.x), ptxOptions.position.y, sqPos(lnk.userData.start.z))
+            }
+          })
+          li++
+        })
+        ptxsInitd = true
+        console.log('Ptxs initialization done.')
+      }
+      var ptxsInitd = false
 
       var dir = 1
       var speed = 4
@@ -221,42 +240,42 @@
         if (!vportEmpty) {
           vpobj.rotation.y += 0.01
         }
+        if (links.length > 0 && ptxsInitd === false) {
+          initPtxs()
+        }
 
-        /*
         var delta = clock.getDelta() * spawnerOptions.timeScale;
         tick += delta;
         if (tick < 0) { tick = 0 }
         if (delta > 0) {
           // 0: z, 1: x
-          var cX, cZ, li = 0, pto = []
-          //links.forEach(function(lnk) {
-          if (links[0]) {
-            lnk = links[0]
-            li = 0
-            pto[li] = iterationCopy(ptxOptions)
+          var cX, cZ, li = 0
+          links.forEach(function(lnk) {
             if (lnk.userData.orientation === 0) {
-              pto[li].position.x = sqPos(lnk.userData.start.x)
-              if (pto[li].position.z >= sqPos(lnk.userData.end.z) + lnk.userData.length) { pto.position.z = sqPos(lnk.userData.start.z) }
-              pto[li].position.z += (dir * speed)
+              if (ptxs[li].position.z >= sqPos(lnk.userData.end.z)) { ptxs[li].position.z = sqPos(lnk.userData.start.z) }
+              ptxs[li].position.z += (dir * speed)
             } else {
-              pto[li].position.z = sqPos(lnk.userData.start.z)
-              if (pto[li].position.x >= sqPos(lnk.userData.end.x) + lnk.userData.length) { pto.position.x = sqPos(lnk.userData.start.x) }
-              pto[li].position.x += (dir * speed)
+              if (ptxs[li].position.x >= sqPos(lnk.userData.end.x)) { ptxs[li].position.x = sqPos(lnk.userData.start.x) }
+              ptxs[li].position.x += (dir * speed)
             }
-            //console.log('X', lnk.userData.orientation, li, pto[li].position)
-            //li++
+            li++
+          })
+
+          for(var pxi = 0; pxi < links.length; pxi++) {
+            for (var x = 0; x < spawnerOptions.spawnRate * delta; x++) {
+              particleSystem.spawnParticle(ptxs[pxi])
+            }
           }
-          //})
-          //console.log('->', pto[0], pto[1])
+          /*
           for (var x = 0; x < spawnerOptions.spawnRate * delta; x++) {
-            particleSystem.spawnParticle(pto[0])
+            particleSystem.spawnParticle(ptxs[0])
           }
-          //for (var x = 0; x < spawnerOptions.spawnRate * delta; x++) {
-          //  particleSystem.spawnParticle(pto[1])
-          //}
+          for (var x = 0; x < spawnerOptions.spawnRate * delta; x++) {
+            particleSystem.spawnParticle(ptxs[1])
+          }
+          */
         }
         particleSystem.update(tick);
-        */
 
         logos.forEach(function(logo) {
           if (logoMap[logo].map.length > 0) {

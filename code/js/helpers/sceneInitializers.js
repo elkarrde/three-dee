@@ -1,20 +1,20 @@
 // sceneInitializers.js
 
 function setConns() {
-  addModel(scene, 'Tower_a', 'ubuntu',  { x: 36, z: 26 })
-  addModel(scene, 'Cube_a',  'elastic', { x: 36, z: 29 })
+  addModel(scene, 'Tower_a', 'ubuntu', { x: 36, z: 26 })
+  addModel(scene, 'Cube_a', 'elastic', { x: 36, z: 29 })
   var lnk1 = createLink({
     start: { x: 36, z: 26 },
-    end:   { x: 36, z: 29 }
+    end: { x: 36, z: 29 }
   })
   scene.add(lnk1)
   links.push(lnk1)
 
   addModel(scene, 'Silos_a', 'centos', { x: 41, z: 28 })
-  addModel(scene, 'Round_a', 'git',    { x: 44, z: 28 })
+  addModel(scene, 'Round_a', 'git', { x: 44, z: 28 })
   var lnk2 = createLink({
     start: { x: 41, z: 28 },
-    end:   { x: 44, z: 28 }
+    end: { x: 44, z: 28 }
   })
   scene.add(lnk2)
   links.push(lnk2)
@@ -74,6 +74,7 @@ function initModels() {
 }
 
 labels = {}
+
 function initLabels() {
   var loader = new THREE.FontLoader();
   loader.load('res/fonts/helvetiker_regular.typeface.json', function(font) {
